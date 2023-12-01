@@ -13,7 +13,7 @@ Thank you for considering contributing to this repository! To maintain consisten
 
 ## Contribution Standards
 
-1. **Directory Structure:**
+### > Directory Structure
 
     - The directory structure should be as follows:
     ```bash
@@ -25,12 +25,13 @@ Thank you for considering contributing to this repository! To maintain consisten
         └── ...
     ```
 
-2. **Working Configuration:** 
+### > Launching
+  - Ensure that the Docker Compose file works with the command `docker-compose up -d`. 
+  - If a different command is required, clearly document it in the README within the subdirectory.
 
-    - Ensure that the Docker Compose file works with the command `docker-compose up -d`. 
-    - If a different command is required, clearly document it in the README within the subdirectory.
+### > Configuration
 
-3. **Environment Variables:**
+ - **Environment Variables:**
 
     - Ensure to include a meaningful `.env.template` file that serves as a template for users to configure their environment variables.
     - Clearly document all required variables and their default values in the `.env.template` file. 
@@ -41,6 +42,9 @@ Thank you for considering contributing to this repository! To maintain consisten
 
         # Base directory variable for local mapping
         DIRECTORY=/path/to/base/directory
+
+        # Service version
+        VERSION=latest
 
         # Service-specific environment variables with default values
         SOMEVAR=default_value
@@ -57,7 +61,23 @@ Thank you for considering contributing to this repository! To maintain consisten
 
     ```
 
-4. **Environment Variables:**
+ - **Additional Configuration Files:**
+
+   - If additional configuration files are needed for the service, include them in the directory.
+   - Document how these configuration files should be used in the service-specific README.
+
+### > Docker compose file
+
+ - **Service Version:**
+
+   - Include the service version in both the Docker Compose file and the .env.template file.
+     ```yaml
+     services:
+       example_service:
+         image: example-image:${SERVICE_VERSION:-latest}
+     ```
+
+ - **Environment Variables:**
    
    - Use the following syntax for required environment variables in the Docker Compose file:
      ```yaml
@@ -66,44 +86,41 @@ Thank you for considering contributing to this repository! To maintain consisten
          environment:
            - "${SOMEVAR:?Missing variable SOMEVAR}"
      ```
+   - Provide default version `latest`
    - [Learn more about Docker environment variables](https://docs.docker.com/compose/environment-variables/).
 
-5. **Volumes and Local Mappings:**
+ - **Volumes and Local Mappings:**
 
    - Specify volumes and local mappings on the host machine using environment variables in `.env.template`.
      ```yaml
      services:
        example_service:
          volumes:
-           - "${DIRECTORY:?Missing variable DIRECTORY}/${SERVICE_NAME?Missing variable DIRECTORY}/data:/data"
+           - "${DIRECTORY:?Missing variable DIRECTORY}/example_service/data:/data"
      ```
    - Specify volumes as "read-only" when the service doesn't need to edit data.
    - [Learn more about Docker volumes and bind mounts](https://docs.docker.com/storage/volumes/).
 
-6. **Port Mapping:**
+ - **Port Mapping:**
 
-   - Clearly specify opened ports with variable names in the corresponding `.env.template`. For example:
+   - Clearly specify opened ports with variable names in the corresponding `.env.template`.
      ```yaml
      services:
        example_service:
          ports:
-           - "${SERVICE_PORT:?Missing variable SERVICE_PORT}:80"
+           - "${SERVICE_PORT:-80}:80"
      ```
+   - Provide default ports values
    - [Learn more about Docker port mapping](https://docs.docker.com/compose/compose-file/compose-file-v3/#ports).
 
-7. **Restart Policy:**
+ - **Restart Policy:**
 
    - Specify a restart policy for each container, with "unless-stopped" as the default choice. 
    - Include comments to motivate other options if necessary. 
    - [Learn more about Docker restart policies](https://docs.docker.com/config/containers/start-containers-automatically/#restart-policy).
 
-8. **Container Naming:** 
+ - **Container Naming:** 
 
     - Provide a meaningful `container_name` for every container.
-
-9. **Additional Configuration Files:**
-
-   - If additional configuration files are needed for the service, include them in the directory.
-   - Document how these configuration files should be used in the service-specific README.
 
 
