@@ -1,4 +1,4 @@
-# My Docker Compose Files Repository
+# selfhosted-experiments
 
 Welcome to my **selfhosted-experiments**! This is a collection of Docker Compose files I've gathered for various self-hosted projects using Docker.
 
