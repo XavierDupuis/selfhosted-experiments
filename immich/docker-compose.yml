@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   immich-server:
-    image: ghcr.io/immich-app/immich-server:${VERSION:-release}
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     container_name: immich_server
     restart: unless-stopped
     entrypoint: ["/bin/sh", "./start-server.sh"]
@@ -24,7 +24,7 @@ services:
       - homepage.description=Self-hosted backup solution for photos and videos on mobile device
 
   immich-microservices:
-    image: ghcr.io/immich-app/immich-server:${VERSION:-release}
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     container_name: immich_microservices
     restart: unless-stopped
     entrypoint: ["/bin/sh", "./start-microservices.sh"]
@@ -38,7 +38,7 @@ services:
       - typesense
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:${VERSION:-release}
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
     container_name: immich_machine_learning
     restart: unless-stopped
     volumes:
