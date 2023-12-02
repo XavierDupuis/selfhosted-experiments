@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  onedev:
+    image: 1dev/server:${VERSION:-latest}
+    restart: unless-stopped
+    container_name: onedev
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DIRECTORY:?Missing variable DIRECTORY}/onedev:/opt/onedev 
+    ports:
+      - ${WEB_PORT:-6610}:6610
+      # - 6611:6611 
+    environment:
+      - initial_user=${USER:?Missing variable USER}
+      - initial_password=${PASS:?Missing variable PASS}
+      - initial_email=${EMAIL:?Missing variable EMAIL}
+      - initial_server_url=${HOST_URL:-http://localhost}:${WEB_PORT:-6610}
+    labels:
+      - homepage.group=Projects
+      - homepage.name=OneDev
+      - homepage.icon=onedev.png
+      - homepage.href="${HOST_URL:-http://localhost}:${WEB_PORT:-6610}"
+      - homepage.description=Self-hosted Git Server with CI/CD and Kanban
