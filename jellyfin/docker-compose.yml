@@ -15,9 +15,9 @@ services:
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/jellyfin/config:/config
       - ${DIRECTORY:?Missing variable DIRECTORY}/jellyfin/cache:/cache
-      - ${DIRECTORY:?Missing variable DIRECTORY}/library/movies:/movies
-      - ${DIRECTORY:?Missing variable DIRECTORY}/library/series:/series
-      - ${DIRECTORY:?Missing variable DIRECTORY}/library/music:/music
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/series
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
     labels:
       - homepage.group=Media
       - homepage.name=Jellyfin
