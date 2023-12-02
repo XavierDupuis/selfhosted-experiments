@@ -1,0 +1,27 @@
+version: "2.1"
+
+services:
+  kasm:
+    image: lscr.io/linuxserver/kasm:${VERSION:-latest}
+    container_name: kasm
+    restart: unless-stopped
+    privileged: true
+    environment:
+      - KASM_PORT=443
+      - TZ=${TZ:-UTC}
+      # - DOCKER_HUB_USERNAME=${DOCKER_HUB_USERNAME:-USER} #optional
+      # - DOCKER_HUB_PASSWORD=${DOCKER_HUB_PASSWORD:-PASS} #optional
+    volumes:
+      - ${DIRECTORY}/kasm/opt:/opt
+      - ${DIRECTORY}/kasm/profiles:/profiles #optional
+      # - /dev/input:/dev/input #optional
+      # - /run/udev/data:/run/udev/data #optional
+    ports:
+      - ${WEB_PORT}:443
+      # - 3000:3000
+    labels:
+      - homepage.group=Utilities
+      - homepage.name=KASM
+      - homepage.icon=linuxserver-io.png
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-443}
+      - homepage.description=Graphical-based containers
