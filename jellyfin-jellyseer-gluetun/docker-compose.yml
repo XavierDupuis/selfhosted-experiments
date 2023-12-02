@@ -1,0 +1,361 @@
+version: "3.9"
+
+networks:
+  media:
+    name: media
+    driver: bridge
+    # ipam:
+    #   driver: default
+    #   config:
+    #   - subnet: ${DOCKER_SUBNET:?Missing variable DOCKER_SUBNET}
+    #     gateway: ${DOCKER_GATEWAY:?Missing variable DOCKER_GATEWAY}
+
+services:
+  # https://github.com/qdm12/gluetun/wiki
+  gluetun:
+    image: qmcgaw/gluetun:${GLUETUN_VERSION:-latest}
+    container_name: gluetun
+    restart: unless-stopped
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    networks:
+      - media
+    volumes:
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/gluetun:/gluetun
+    cap_add:
+      - NET_ADMIN
+    ports:
+      # GLUETUN
+      - 8888:8888/tcp # HTTP proxy
+      - 8388:8388/tcp # Shadowsocks
+      - 8388:8388/udp # Shadowsocks
+      # JELLYFIN
+      - ${JELLYFIN_WEB_PORT:-8096}:8096 # WebUI Portal
+      # JELLYSEERR
+      - ${JELLYSEERR_WEB_PORT:-5055}:5055 # WebUI Portal
+      # QBITORRENT
+      - ${QBITTORRENT_WEB_PORT:-3000}:${QBITTORRENT_WEB_PORT:-3000} # WebUI Portal (! MAPPING MUST BE X:X)
+      - ${QBITTORRENT_TCP_PORT:-6881}:6881/tcp # Transmission Torrent Port TCP
+      - ${QBITTORRENT_UDP_PORT:-6881}:6881/udp # Transmission Torrent Port UDP
+      # PROWLARR
+      - ${PROWLARR_WEB_PORT:-9696}:9696 # WebUI Portal
+      # SONARR
+      - ${SONARR_WEB_PORT:-8989}:8989 # WebUI Portal
+      # RADARR
+      - ${RADARR_WEB_PORT:-7878}:7878 # WebUI Portal
+      # LIDARR
+      - ${LIDARR_WEB_PORT:-8686}:8686 # WebUI Portal
+      # READARR
+      - ${READARR_WEB_PORT:-8787}:8787 # WebUI Portal
+      # BAZARR
+      - ${BAZARR_WEB_PORT:-6767}:6767 # WebUI Portal
+    environment:
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER:?Missing variable VPN_SERVICE_PROVIDER} # Valid values:
+      - OPENVPN_USER=${VPN_USERNAME:?Missing variable VPN_USERNAME}
+      - OPENVPN_PASSWORD=${VPN_PASSWORD:?Missing variable VPN_PASSWORD}
+      - SERVER_COUNTRIES=${VPN_SERVER_COUNTRIES:?Missing variable VPN_SERVER_COUNTRIES}
+      - FREE_ONLY=${VPN_FREE_ONLY:?Missing variable VPN_FREE_ONLY}
+      ## If VPN_TYPE is openvpn
+      # - OPENVPN_CUSTOM_CONFIG=/gluetun/custom.conf
+      ### COMMON
+      - TZ=${TIMEZONE:-UTC}
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+    labels:
+      - homepage.group=Media
+      - homepage.name=Gluetun
+      - homepage.icon=gluetun.png
+      - homepage.description=Lightweight swiss-knife-like VPN client to multiple VPN service providers
+
+  jellyfin:
+    image: jellyfin/jellyfin:${JELLYFIN_VERSION:-latest}
+    container_name: jellyfin
+    restart: unless-stopped
+    ### WHEN VPN USED
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    ### WHEN VPN UNUSED
+    # networks:
+    #   - media
+    # ports:
+    #   - ${JELLYFIN_WEB_PORT:-8096}:8096
+    #   - 7359:7359/udp
+    #   - 8920:8920
+    #   - 1900:1900/udp
+    # Optional - may be necessary for docker healthcheck to pass if running in host network mode
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+    environment:
+      # - JELLYFIN_PublishedServerUrl=${HOST_URL:-http://localhost} # Optional - alternative address used for autodiscovery
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+    volumes:
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/jellyfin/config:/config
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/jellyfin/cache:/cache
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/movies:/movies
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/series:/series
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/music:/music
+    labels:
+      - homepage.group=Media
+      - homepage.name=Jellyfin
+      - homepage.icon=jellyfin.png
+      - homepage.href=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
+      - homepage.description=The Free Software Media System
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:${JELLYSEERR_VERSION:-latest}
+    container_name: jellyseerr
+    restart: unless-stopped
+    ### WHEN VPN USED
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    ### WHEN VPN UNUSED
+    # networks:
+    #   - media
+    # ports:
+    #   - ${JELLYSEERR_WEB_PORT:-5055}:5055
+    environment:
+      - LOG_LEVEL=debug
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+    volumes:
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/jellyseerr/config:/app/config
+    labels:
+      - homepage.group=Media
+      - homepage.name=Jellyseerr
+      - homepage.icon=jellyseerr.png
+      - homepage.href=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
+      - homepage.description=Request Management and Media Discovery Tool for the Jellyfin Ecosystem
+
+  qbittorrent:
+    container_name: qbittorrent
+    image: lscr.io/linuxserver/qbittorrent:${QBITTORRENT_VERSION:-latest}
+    restart: unless-stopped
+    ### WHEN VPN USED
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    ### WHEN VPN UNUSED
+    # networks:
+    #   - media
+    # ports:
+    #   - ${QBITTORRENT_WEB_PORT:-3000}:${QBITTORRENT_WEB_PORT:-3000} # MAPPING MUST BE X:X
+    #   - 6881:6881
+    #   - 6881:6881/udp
+    environment:
+      - WEBUI_PORT=${QBITTORRENT_WEB_PORT:-3000}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:qbittorrent
+      - TP_THEME=${TP_THEME:-nord}
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+    volumes:
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/qbittorrent/config:/config
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/qbittorrent/downloads:/downloads
+    labels:
+      - homepage.group=Media
+      - homepage.name=Qbittorrent
+      - homepage.icon=qbittorrent.png
+      - homepage.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
+      - homepage.description=Free and reliable P2P Bitorrent client
+
+  prowlarr:
+    container_name: prowlarr
+    image: linuxserver/prowlarr:${PROWLARR_VERSION:-latest}
+    restart: unless-stopped
+    ### WHEN VPN USED
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    ### WHEN VPN UNUSED
+    # networks:
+    #   - media
+    # ports:
+    #   - ${PROWLARR_WEB_PORT:-9696}:9696
+    environment:
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:prowlarr
+      - TP_THEME=${TP_THEME:-nord}
+    volumes:
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/prowlarr/config:/config
+    labels:
+      - homepage.group=Media
+      - homepage.name=Prowlarr
+      - homepage.icon=prowlarr.png
+      - homepage.href=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
+      - homepage.description=Ultimate Indexer Manager
+
+  sonarr:
+    image: linuxserver/sonarr:${SONARR_VERSION:-latest}
+    container_name: sonarr
+    restart: unless-stopped
+    ### WHEN VPN USED
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    ### WHEN VPN UNUSED
+    # networks:
+    #   - media
+    # ports:
+    #   - ${SONARR_WEB_PORT:-8989}:8989
+    environment:
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:sonarr
+      - TP_THEME=${TP_THEME:-nord}
+    volumes:
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/sonarr/config/:/config
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/series:/tv
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/downloads:/downloads
+    labels:
+      - homepage.group=Media
+      - homepage.name=Sonarr
+      - homepage.icon=sonarr.png
+      - homepage.href=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
+      - homepage.description=Internet PVR for Usenet and Torrents
+
+  radarr:
+    container_name: radarr
+    image: lscr.io/linuxserver/radarr:${RADARR_VERSION:-latest}
+    restart: unless-stopped
+    ### WHEN VPN USED
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    ### WHEN VPN UNUSED
+    # networks:
+    #   - media
+    # ports:
+    #   - ${RADARR_WEB_PORT:-7878}:7878
+    environment:
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:radarr
+      - TP_THEME=${TP_THEME:-nord}
+    volumes:
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/radarr/config:/config
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/movies:/movies
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/downloads:/downloads
+    labels:
+      - homepage.group=Media
+      - homepage.name=Radarr
+      - homepage.icon=radarr.png
+      - homepage.href=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
+      - homepage.description=Movie collection manager for Usenet and BitTorrent
+
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:${LIDARR_VERSION:-latest}
+    container_name: lidarr
+    restart: unless-stopped
+    ### WHEN VPN USED
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    ### WHEN VPN UNUSED
+    # networks:
+    #   - media
+    # ports:
+    #   - ${LIDARR_WEB_PORT:-8686}:8686
+    environment:
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:lidarr
+      - TP_THEME=${TP_THEME:-nord}
+    volumes:
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/lidarr/config:/config
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/music:/music
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/downloads:/downloads
+    labels:
+      - homepage.group=Media
+      - homepage.name=Lidarr
+      - homepage.icon=lidarr.png
+      - homepage.href=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
+      - homepage.description=Music collection manager for Usenet and BitTorrent
+
+  readarr:
+    image: lscr.io/linuxserver/readarr:${READARR_VERSION:-develop} # develop tag must be present
+    container_name: readarr
+    restart: unless-stopped
+    ### WHEN VPN USED
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    ### WHEN VPN UNUSED
+    # networks:
+    #   - media
+    # ports:
+    #   - ${READARR_WEB_PORT:-8787}:8787
+    environment:
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:readarr
+      - TP_THEME=${TP_THEME:-nord}
+    volumes:
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/readarr/config:/config
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/books:/books
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/downloads:/downloads
+    labels:
+      - homepage.group=Media
+      - homepage.name=Readarr
+      - homepage.icon=readarr.png
+      - homepage.href=${HOST_URL:-http://localhost}:${READARR_WEB_PORT:-8787}
+      - homepage.description=Book Manager and Automation
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr
+    container_name: bazarr
+    restart: unless-stopped
+    ### WHEN VPN USED
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    ### WHEN VPN UNUSED
+    # networks:
+    #   - media
+    # ports:
+    #   - ${BAZARR_WEB_PORT:-6767}:6767
+    environment:
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:bazarr
+      - TP_THEME=${TP_THEME:-nord}
+    volumes:
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/bazarr/config:/config
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/movies:/movies
+      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/downloads:/downloads
+    labels:
+      - homepage.group=Media
+      - homepage.name=Bazarr
+      - homepage.icon=bazarr.png
+      - homepage.href=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}
+      - homepage.description=Manages and downloads subtitles
