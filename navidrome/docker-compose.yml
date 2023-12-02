@@ -1,0 +1,22 @@
+version: "3"
+services:
+  navidrome:
+    image: deluan/navidrome:${VERSION:-latest}
+    container_name: navidrome
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-4533}:4533"
+    environment:
+      # Optional: put your config options customization here. Examples:
+      ND_SCANSCHEDULE: 1h
+      ND_LOGLEVEL: info
+      ND_BASEURL: ""
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/navidrome/data:/data
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music:ro
+    labels:
+      - homepage.group=Media
+      - homepage.name=Navidrome
+      - homepage.icon=navidrome.png
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-4533}
+      - homepage.description=Web-based music collection server and streamer
