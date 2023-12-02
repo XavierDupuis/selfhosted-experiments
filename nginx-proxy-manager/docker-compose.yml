@@ -1,0 +1,30 @@
+version: '3.8'
+
+# networks:
+#   reverse-proxy:
+#     name: reverse-proxy
+#     driver: bridge
+
+services:
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:${VERSION:-latest}
+    container_name: nginx-proxy-manager
+    restart: unless-stopped
+    # network_mode: host
+    ports:
+     - '80:80'
+     - '443:443'
+     - '${WEB_PORT:-81}:81'
+    # networks:
+    #   - reverse-proxy
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway" # Allow usage of host machine "172.17.0.1" resolution (see "docker network inspect bridge | grep Gateway")
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/nginx/data:/data
+      - /etc/letsencrypt:/etc/letsencrypt
+    labels:
+      - homepage.group=Utilities
+      - homepage.name=Nginx Proxy Manager
+      - homepage.icon=nginx-proxy-manager.png
+      - homepage.href="${HOST_URL:-http://localhost}:${WEB_PORT:-81}"
+      - homepage.description=Expose your services easily and securely 
