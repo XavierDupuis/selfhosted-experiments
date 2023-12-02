@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:${VERSION:-latest}
+    container_name: jellyfin
+    restart: unless-stopped
+    ports:
+      - ${WEB_PORT:-8096}:8096
+    # Optional - may be necessary for docker healthcheck to pass if running in host network mode
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+    environment:
+      - JELLYFIN_PublishedServerUrl=${HOST_URL:-http://localhost} # Optional - alternative address used for autodiscovery
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/jellyfin/config:/config
+      - ${DIRECTORY:?Missing variable DIRECTORY}/jellyfin/cache:/cache
+      - ${DIRECTORY:?Missing variable DIRECTORY}/library/movies:/movies
+      - ${DIRECTORY:?Missing variable DIRECTORY}/library/series:/series
+      - ${DIRECTORY:?Missing variable DIRECTORY}/library/music:/music
+    labels:
+      - homepage.group=Media
+      - homepage.name=Jellyfin
+      - homepage.icon=jellyfin.png
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8096}
+      - homepage.description=The Free Software Media System
