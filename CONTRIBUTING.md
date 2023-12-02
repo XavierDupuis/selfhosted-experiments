@@ -15,7 +15,7 @@ Thank you for considering contributing to this repository! To maintain consisten
 
 ### > Directory Structure
 
-    - The directory structure should be as follows:
+  - The directory structure should be as follows:
     ```bash
         example_service/
         ├── docker-compose.yml       
