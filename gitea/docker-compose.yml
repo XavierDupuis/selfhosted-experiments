@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  server:
+    image: gitea/gitea:{GITEA_VERSION:?-latest}
+    container_name: gitea
+    restart: unless-stopped
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__mailer__ENABLED=${GITEA__mailer__ENABLED:?Missing variable GITEA__mailer__ENABLED}
+      - GITEA__mailer__FROM=${GITEA__mailer__FROM:?Missing variable GITEA__mailer__FROM}
+      - GITEA__mailer__PROTOCOL=${GITEA__mailer__PROTOCOL:?Missing variable GITEA__mailer__PROTOCOL}
+      - GITEA__mailer__SMTP_ADDR=${GITEA__mailer__SMTP_ADDR:?Missing variable GITEA__mailer__SMTP_ADDR}
+      - GITEA__mailer__SMTP_PORT=${GITEA__mailer__SMTP_PORT:?Missing variable GITEA__mailer__SMTP_PORT}
+      - GITEA__mailer__USER=${GITEA__mailer__USER:?Missing variable GITEA__mailer__USER}
+      - GITEA__mailer__PASSWD=${GITEA__mailer__PASSWD:?Missing variable GITEA__mailer__PASSWD}
+      - GITEA__security__SECRET_KEY=${GITEA__security__SECRET_KEY:?Missing variable GITEA__security__SECRET_KEY}
+      - GITEA__security__INTERNAL_TOKEN=${GITEA__security__INTERNAL_TOKEN:?Missing variable GITEA__security__INTERNAL_TOKEN}
+    volumes:
+      - ${DIRECTORY}/gitea/data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - ${WEB_PORT:?-3000}:3000
+      - ${SSH_PORT:?-22}:22
+    labels:
+      - homepage.group=Projects
+      - homepage.name=Gitea
+      - homepage.icon=gitea.png
+      - homepage.href="${HOST_URL:-http://localhost}:${WEB_PORT:-3000}"
+      - homepage.description=Git with a cup of tea
