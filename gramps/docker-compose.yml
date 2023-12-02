@@ -1,0 +1,54 @@
+version: "3.7"
+
+services:
+  grampsweb: &grampsweb
+    image: ghcr.io/gramps-project/grampsweb:${VERSION:-latest}
+    restart: unless-stopped
+    container_name: grampsweb
+    ports:
+      - "${WEB_PORT:-5000}:5000"
+    environment:
+      GRAMPSWEB_TREE: "${TREE_NAME:-Gramps Web}"  # will create a new tree if not exists
+      GRAMPSWEB_CELERY_CONFIG__broker_url: "redis://grampsweb_redis:6379/0"
+      GRAMPSWEB_CELERY_CONFIG__result_backend: "redis://grampsweb_redis:6379/0"
+      GRAMPSWEB_RATELIMIT_STORAGE_URI: redis://grampsweb_redis:6379/1
+    depends_on:
+      - grampsweb_redis
+    volumes:
+      - gramps_users:/app/users  # persist user database
+      - gramps_index:/app/indexdir  # persist search index
+      - gramps_thumb_cache:/app/thumbnail_cache  # persist thumbnails
+      - gramps_cache:/app/cache  # persist export and report caches
+      - gramps_secret:/app/secret  # persist flask secret
+      - gramps_db:/root/.gramps/grampsdb  # persist Gramps database
+      - gramps_tmp:/tmp
+      - ${DIRECTORY}/gramps/media:/app/media  # persist media files
+    labels:
+      - homepage.group=Projects
+      - homepage.name=Gramps
+      - homepage.icon=gramps.png
+      - homepage.href="${HOST_URL:-http://localhost}:${WEB_PORT:-5000}"
+      - homepage.description=Collaborative genealogy
+
+  grampsweb_celery:
+    <<: *grampsweb  # YAML merge key copying the entire grampsweb service config
+    ports: []
+    container_name: grampsweb_celery
+    depends_on:
+      - grampsweb_redis
+    command: celery -A gramps_webapi.celery worker --loglevel=INFO
+
+  grampsweb_redis:
+    image: redis:alpine
+    container_name: grampsweb_redis
+    restart: unless-stopped
+
+volumes:
+  gramps_users:
+  gramps_index:
+  gramps_thumb_cache:
+  gramps_cache:
+  gramps_secret:
+  gramps_db:
+  gramps_media:
+  gramps_tmp:
