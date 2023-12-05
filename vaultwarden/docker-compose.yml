@@ -23,5 +23,5 @@ services:
       - homepage.group=Utilities
       - homepage.name=Vaultwarden
       - homepage.icon=vaultwarden.png
-      - homepage.href="${HOST_URL:-http://localhost}:${WEB_PORT:-80}"
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-80}
       - homepage.description=Community driven password manager

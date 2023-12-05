@@ -26,5 +26,5 @@ services:
       - homepage.group=Utilities
       - homepage.name=Nginx Proxy Manager
       - homepage.icon=nginx-proxy-manager.png
-      - homepage.href="${HOST_URL:-http://localhost}:${WEB_PORT:-81}"
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-81}
       - homepage.description=Expose your services easily and securely 

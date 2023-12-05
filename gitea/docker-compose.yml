@@ -28,5 +28,5 @@ services:
       - homepage.group=Projects
       - homepage.name=Gitea
       - homepage.icon=gitea.png
-      - homepage.href="${HOST_URL:-http://localhost}:${WEB_PORT:-3000}"
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3000}
       - homepage.description=Git with a cup of tea
