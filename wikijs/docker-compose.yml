@@ -1,0 +1,40 @@
+version: "3"
+
+volumes:
+  db-data:
+
+services:
+  wiki:
+    image: ghcr.io/requarks/wiki:${VERSION:-latest}
+    container_name: wikijs
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:?Missing variable DB_NAME}
+      DB_USER: ${DB_USER:?Missing variable DB_USER}
+      DB_PASS: ${DB_PASS:?Missing variable DB_PASS}
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    labels:
+      - homepage.group=Utilities
+      - homepage.name=Wikijs
+      - homepage.icon=wikijs.png
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3000}
+      - homepage.description=Powerful and extensible open source Wiki software
+
+  db:
+    image: postgres:15-alpine
+    container_name: wikijs-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:?Missing variable DB_NAME}
+      POSTGRES_PASSWORD: ${DB_PASS:?Missing variable DB_PASS}
+      POSTGRES_USER: ${DB_USER:?Missing variable DB_USER}
+    logging:
+      driver: "none"
+    volumes:
+      - db-data:/var/lib/postgresql/data
