@@ -13,8 +13,8 @@ services:
     environment:
       - JELLYFIN_PublishedServerUrl=${HOST_URL:-http://localhost} # Optional - alternative address used for autodiscovery
     volumes:
-      - ${DIRECTORY:?Missing variable DIRECTORY}/jellyfin/config:/config
-      - ${DIRECTORY:?Missing variable DIRECTORY}/jellyfin/cache:/cache
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/jellyfin/config:/config
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/jellyfin/cache:/cache
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/series
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music

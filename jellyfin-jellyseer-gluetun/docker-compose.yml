@@ -21,7 +21,7 @@ services:
     networks:
       - media
     volumes:
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/gluetun:/gluetun
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/gluetun:/gluetun
     cap_add:
       - NET_ADMIN
     ports:
@@ -95,11 +95,11 @@ services:
       - UMASK=${UMASK:-0002}
       - TZ=${TIMEZONE:-UTC}
     volumes:
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/jellyfin/config:/config
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/jellyfin/cache:/cache
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/movies:/movies
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/series:/series
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/music:/music
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/jellyfin/config:/config
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/jellyfin/cache:/cache
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/series
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
     labels:
       - homepage.group=Media
       - homepage.name=Jellyfin
@@ -128,7 +128,7 @@ services:
       - UMASK=${UMASK:-0002}
       - TZ=${TIMEZONE:-UTC}
     volumes:
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/jellyseerr/config:/app/config
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/jellyseerr/config:/app/config
     labels:
       - homepage.group=Media
       - homepage.name=Jellyseerr
@@ -161,8 +161,8 @@ services:
       - UMASK=${UMASK:-0002}
       - TZ=${TIMEZONE:-UTC}
     volumes:
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/qbittorrent/config:/config
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/qbittorrent/downloads:/downloads
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/qbittorrent/config:/config
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/qbittorrent/downloads:/downloads
     labels:
       - homepage.group=Media
       - homepage.name=Qbittorrent
@@ -192,7 +192,7 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:prowlarr
       - TP_THEME=${TP_THEME:-nord}
     volumes:
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/prowlarr/config:/config
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/prowlarr/config:/config
     labels:
       - homepage.group=Media
       - homepage.name=Prowlarr
@@ -222,9 +222,9 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:sonarr
       - TP_THEME=${TP_THEME:-nord}
     volumes:
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/sonarr/config/:/config
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/series:/tv
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/downloads:/downloads
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/sonarr/config/:/config
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/tv
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
       - homepage.group=Media
       - homepage.name=Sonarr
@@ -254,9 +254,9 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:radarr
       - TP_THEME=${TP_THEME:-nord}
     volumes:
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/radarr/config:/config
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/movies:/movies
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/downloads:/downloads
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/radarr/config:/config
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
       - homepage.group=Media
       - homepage.name=Radarr
@@ -286,9 +286,9 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:lidarr
       - TP_THEME=${TP_THEME:-nord}
     volumes:
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/lidarr/config:/config
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/music:/music
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/downloads:/downloads
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/lidarr/config:/config
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
       - homepage.group=Media
       - homepage.name=Lidarr
@@ -318,9 +318,9 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:readarr
       - TP_THEME=${TP_THEME:-nord}
     volumes:
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/readarr/config:/config
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/books:/books
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/downloads:/downloads
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/readarr/config:/config
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/books:/books
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
       - homepage.group=Media
       - homepage.name=Readarr
@@ -350,9 +350,9 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:bazarr
       - TP_THEME=${TP_THEME:-nord}
     volumes:
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/bazarr/config:/config
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/movies:/movies
-      - ${STACK_DIRECTORY:?Missing variable STACK_DIRECTORY}/library/downloads:/downloads
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/bazarr/config:/config
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
       - homepage.group=Media
       - homepage.name=Bazarr
