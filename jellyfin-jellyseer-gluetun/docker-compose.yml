@@ -98,6 +98,7 @@ services:
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/jellyfin/config:/config
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/jellyfin/cache:/cache
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/videos:/videos
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/series
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
     labels:
