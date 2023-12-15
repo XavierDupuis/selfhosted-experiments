@@ -1,19 +1,21 @@
 version: "3.8"
 
+name: immich
+
 services:
   immich-server:
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     container_name: immich_server
     restart: unless-stopped
-    entrypoint: ["/bin/sh", "./start-server.sh"]
+    command: [ "start.sh", "immich" ]
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - stack.env
     depends_on:
       - redis
       - database
-      - typesense
     ports:
       - ${WEB_PORT:-3001}:3001
     labels:
@@ -27,15 +29,15 @@ services:
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     container_name: immich_microservices
     restart: unless-stopped
-    entrypoint: ["/bin/sh", "./start-microservices.sh"]
+    command: [ "start.sh", "microservices" ]
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - stack.env
     depends_on:
       - redis
       - database
-      - typesense
 
   immich-machine-learning:
     image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
@@ -47,38 +49,24 @@ services:
     env_file:
       - stack.env
 
-
-  typesense:
-    image: typesense/typesense:0.24.0
-    container_name: immich_typesense
-    restart: unless-stopped
-    environment:
-      - TYPESENSE_API_KEY=${TYPESENSE_API_KEY}
-      - TYPESENSE_DATA_DIR=/data
-    logging:
-      driver: none
-    volumes:
-      - tsdata:/data
-
   redis:
     image: redis:6.2
     container_name: immich_redis
     restart: unless-stopped
 
   database:
-    image: postgres:14
+    image: tensorchord/pgvecto-rs:pg14-v0.1.11
     container_name: immich_postgres
     restart: unless-stopped
     env_file:
       - stack.env
     environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_DB: ${DB_DATABASE_NAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Missing variable DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME:?Missing variable DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME:?Missing variable DB_DATABASE_NAME}
     volumes:
       - pgdata:/var/lib/postgresql/data
 
 volumes:
   pgdata:
   model-cache:
-  tsdata:
