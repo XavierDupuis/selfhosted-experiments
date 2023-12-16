@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     command: [ "start.sh", "immich" ]
     volumes:
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ${UPLOAD_LOCATION:?Missing variable UPLOAD_LOCATION}:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - stack.env
@@ -29,7 +29,7 @@ services:
     restart: unless-stopped
     command: [ "start.sh", "microservices" ]
     volumes:
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ${UPLOAD_LOCATION:?Missing variable UPLOAD_LOCATION}:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - stack.env
@@ -42,7 +42,7 @@ services:
     container_name: immich_machine_learning
     restart: unless-stopped
     volumes:
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ${UPLOAD_LOCATION:?Missing variable UPLOAD_LOCATION}:/usr/src/app/upload
       - model-cache:/cache
     env_file:
       - stack.env
