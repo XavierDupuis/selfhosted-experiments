@@ -22,8 +22,8 @@ services:
       - OWNCLOUD_DB_TYPE=mysql
       - OWNCLOUD_DB_HOST=mariadb
       - OWNCLOUD_DB_NAME=${DB_NAME:?Missing variable DB_NAME} 
-      - OWNCLOUD_DB_USERNAME=${DB_USERNAME:?Missing variable DB_USER}
-      - OWNCLOUD_DB_PASSWORD=${DB_PASSWORD:?Missing variable DB_PASS}
+      - OWNCLOUD_DB_USERNAME=${DB_USER:?Missing variable DB_USER}
+      - OWNCLOUD_DB_PASSWORD=${DB_PASS:?Missing variable DB_PASS}
       - OWNCLOUD_ADMIN_USERNAME=${ADMIN_USER:?Missing variable ADMIN_USER}
       - OWNCLOUD_ADMIN_PASSWORD=${ADMIN_PASS:?Missing variable ADMIN_PASS}
       - OWNCLOUD_MYSQL_UTF8MB4=true
@@ -50,7 +50,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASS:?Missing variable DB_ROOT_PASS}
       - MYSQL_USER=${DB_USER:?Missing variable DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD:?Missing variable DB_PASSWORD}
+      - MYSQL_PASSWORD=${DB_PASS:?Missing variable DB_PASS}
       - MYSQL_DATABASE=${DB_NAME:?Missing variable DB_NAME}
     command: ["--max-allowed-packet=128M", "--innodb-log-file-size=64M"]
     healthcheck:
