@@ -10,7 +10,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - "${DIRECTORY:?Missing variable DIRECTORY}/portainer/data:/data"
+      - "${DIRECTORY:?Missing variable DIRECTORY}/portainer:/data"
     ports:
       - "${WEB_PORT:-9443}:9443"
     labels:
