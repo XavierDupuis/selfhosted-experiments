@@ -1,0 +1,15 @@
+# https://gethomepage.dev/main/configs/services/
+
+- Group A:
+    - Service A:
+        icon: sonarr.png
+        href: http://sonarr.host/
+        description: Series management
+        ping: sonarr.host
+
+- Group B:
+    - Service B:
+        icon: radarr.png
+        href: http://radarr.host/
+        description: Movie management
+        ping: some.other.host

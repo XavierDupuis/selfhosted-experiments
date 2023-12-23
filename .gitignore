@@ -1,1 +1,3 @@
 *.env
+homepage/services.yml
+homepage/settings.yml

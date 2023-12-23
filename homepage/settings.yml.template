@@ -1,0 +1,16 @@
+# https://gethomepage.dev/main/configs/settings/
+
+title: My Awesome Homepage
+startUrl: https://custom.url
+background:
+  image: /images/background.png
+  blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
+  saturate: 50 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+  brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+  opacity: 50 # 0-100
+cardBlur: sm # sm, "", md, etc... see https://tailwindcss.com/docs/backdrop-blur
+favicon: https://www.google.com/favicon.ico
+theme: dark # dark, light
+color: slate # slate, gray, zinc, neutral, stone, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, v>headerStyle: clean # underlined, boxed, clean, boxedWidgets
+target: _blank # _blank, _self, _top
+statusStyle: basic # dot, basic
