@@ -54,7 +54,7 @@ services:
       - MYSQL_DATABASE=${DB_NAME:?Missing variable DB_NAME}
     command: ["--max-allowed-packet=128M", "--innodb-log-file-size=64M"]
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-u", "root", "--password=owncloud"]
+      test: ["CMD", "mysqladmin", "ping", "-u", "${DB_USER:?Missing variable DB_USER}", "--password=${DB_PASS:?Missing variable DB_PASS}"]
       interval: 10s
       timeout: 5s
       retries: 5
