@@ -19,7 +19,7 @@ services:
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/minecraft:/data
     labels:
-      - homepage.group=Games
+      - homepage.group=Projects
       - homepage.name=Minecraft Java
       - homepage.icon=minecraft.png
       - homepage.href=${HOST_URL:-http://localhost}:${TCP_PORT:-25565}
