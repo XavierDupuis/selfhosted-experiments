@@ -29,28 +29,28 @@ services:
       - 8888:8888/tcp # HTTP proxy
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
-      # JELLYFIN
-      - ${JELLYFIN_WEB_PORT:-8096}:8096 # WebUI Portal
-      # JELLYSEERR
-      - ${JELLYSEERR_WEB_PORT:-5055}:5055 # WebUI Portal
+      # # JELLYFIN
+      # - ${JELLYFIN_WEB_PORT:-8096}:8096 # WebUI Portal
+      # # JELLYSEERR
+      # - ${JELLYSEERR_WEB_PORT:-5055}:5055 # WebUI Portal
       # QBITORRENT
       - ${QBITTORRENT_WEB_PORT:-3000}:${QBITTORRENT_WEB_PORT:-3000} # WebUI Portal (! MAPPING MUST BE X:X)
       - ${QBITTORRENT_TCP_PORT:-6881}:6881/tcp # Transmission Torrent Port TCP
       - ${QBITTORRENT_UDP_PORT:-6881}:6881/udp # Transmission Torrent Port UDP
-      # PROWLARR
-      - ${PROWLARR_WEB_PORT:-9696}:9696 # WebUI Portal
-      # SONARR
-      - ${SONARR_WEB_PORT:-8989}:8989 # WebUI Portal
-      # RADARR
-      - ${RADARR_WEB_PORT:-7878}:7878 # WebUI Portal
-      # LIDARR
-      - ${LIDARR_WEB_PORT:-8686}:8686 # WebUI Portal
-      # READARR
-      - ${READARR_WEB_PORT:-8787}:8787 # WebUI Portal
-      # BAZARR
-      - ${BAZARR_WEB_PORT:-6767}:6767 # WebUI Portal
+      # # PROWLARR
+      # - ${PROWLARR_WEB_PORT:-9696}:9696 # WebUI Portal
+      # # SONARR
+      # - ${SONARR_WEB_PORT:-8989}:8989 # WebUI Portal
+      # # RADARR
+      # - ${RADARR_WEB_PORT:-7878}:7878 # WebUI Portal
+      # # LIDARR
+      # - ${LIDARR_WEB_PORT:-8686}:8686 # WebUI Portal
+      # # READARR
+      # - ${READARR_WEB_PORT:-8787}:8787 # WebUI Portal
+      # # BAZARR
+      # - ${BAZARR_WEB_PORT:-6767}:6767 # WebUI Portal
     environment:
-      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER:?Missing variable VPN_SERVICE_PROVIDER} # Valid values:
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER:?Missing variable VPN_SERVICE_PROVIDER}
       - OPENVPN_USER=${VPN_USERNAME:?Missing variable VPN_USERNAME}
       - OPENVPN_PASSWORD=${VPN_PASSWORD:?Missing variable VPN_PASSWORD}
       - SERVER_COUNTRIES=${VPN_SERVER_COUNTRIES:?Missing variable VPN_SERVER_COUNTRIES}
@@ -73,17 +73,17 @@ services:
     container_name: jellyfin
     restart: unless-stopped
     ### WHEN VPN USED
-    network_mode: service:gluetun
-    depends_on:
-      - gluetun
+    # network_mode: service:gluetun
+    # depends_on:
+    #   - gluetun
     ### WHEN VPN UNUSED
-    # networks:
-    #   - media
-    # ports:
-    #   - ${JELLYFIN_WEB_PORT:-8096}:8096
-    #   - 7359:7359/udp
-    #   - 8920:8920
-    #   - 1900:1900/udp
+    networks:
+      - media
+    ports:
+      - ${JELLYFIN_WEB_PORT:-8096}:8096
+      - 7359:7359/udp
+      - 8920:8920
+      - 1900:1900/udp
     # Optional - may be necessary for docker healthcheck to pass if running in host network mode
     # extra_hosts:
     #   - "host.docker.internal:host-gateway"
@@ -113,14 +113,14 @@ services:
     container_name: jellyseerr
     restart: unless-stopped
     ### WHEN VPN USED
-    network_mode: service:gluetun
-    depends_on:
-      - gluetun
+    # network_mode: service:gluetun
+    # depends_on:
+    #   - gluetun
     ### WHEN VPN UNUSED
-    # networks:
-    #   - media
-    # ports:
-    #   - ${JELLYSEERR_WEB_PORT:-5055}:5055
+    networks:
+      - media
+    ports:
+      - ${JELLYSEERR_WEB_PORT:-5055}:5055
     environment:
       - LOG_LEVEL=debug
       ### COMMON
@@ -176,14 +176,14 @@ services:
     image: linuxserver/prowlarr:${PROWLARR_VERSION:-latest}
     restart: unless-stopped
     ### WHEN VPN USED
-    network_mode: service:gluetun
-    depends_on:
-      - gluetun
+    # network_mode: service:gluetun
+    # depends_on:
+    #   - gluetun
     ### WHEN VPN UNUSED
-    # networks:
-    #   - media
-    # ports:
-    #   - ${PROWLARR_WEB_PORT:-9696}:9696
+    networks:
+      - media
+    ports:
+      - ${PROWLARR_WEB_PORT:-9696}:9696
     environment:
       ### COMMON
       - PUID=${PUID:-1000}
@@ -206,14 +206,14 @@ services:
     container_name: sonarr
     restart: unless-stopped
     ### WHEN VPN USED
-    network_mode: service:gluetun
-    depends_on:
-      - gluetun
+    # network_mode: service:gluetun
+    # depends_on:
+    #   - gluetun
     ### WHEN VPN UNUSED
-    # networks:
-    #   - media
-    # ports:
-    #   - ${SONARR_WEB_PORT:-8989}:8989
+    networks:
+      - media
+    ports:
+      - ${SONARR_WEB_PORT:-8989}:8989
     environment:
       ### COMMON
       - PUID=${PUID:-1000}
@@ -238,14 +238,14 @@ services:
     image: lscr.io/linuxserver/radarr:${RADARR_VERSION:-latest}
     restart: unless-stopped
     ### WHEN VPN USED
-    network_mode: service:gluetun
-    depends_on:
-      - gluetun
+    # network_mode: service:gluetun
+    # depends_on:
+    #   - gluetun
     ### WHEN VPN UNUSED
-    # networks:
-    #   - media
-    # ports:
-    #   - ${RADARR_WEB_PORT:-7878}:7878
+    networks:
+      - media
+    ports:
+      - ${RADARR_WEB_PORT:-7878}:7878
     environment:
       ### COMMON
       - PUID=${PUID:-1000}
@@ -270,14 +270,14 @@ services:
     container_name: lidarr
     restart: unless-stopped
     ### WHEN VPN USED
-    network_mode: service:gluetun
-    depends_on:
-      - gluetun
+    # network_mode: service:gluetun
+    # depends_on:
+    #   - gluetun
     ### WHEN VPN UNUSED
-    # networks:
-    #   - media
-    # ports:
-    #   - ${LIDARR_WEB_PORT:-8686}:8686
+    networks:
+      - media
+    ports:
+      - ${LIDARR_WEB_PORT:-8686}:8686
     environment:
       ### COMMON
       - PUID=${PUID:-1000}
@@ -302,14 +302,14 @@ services:
     container_name: readarr
     restart: unless-stopped
     ### WHEN VPN USED
-    network_mode: service:gluetun
-    depends_on:
-      - gluetun
+    # network_mode: service:gluetun
+    # depends_on:
+    #   - gluetun
     ### WHEN VPN UNUSED
-    # networks:
-    #   - media
-    # ports:
-    #   - ${READARR_WEB_PORT:-8787}:8787
+    networks:
+      - media
+    ports:
+      - ${READARR_WEB_PORT:-8787}:8787
     environment:
       ### COMMON
       - PUID=${PUID:-1000}
@@ -334,14 +334,14 @@ services:
     container_name: bazarr
     restart: unless-stopped
     ### WHEN VPN USED
-    network_mode: service:gluetun
-    depends_on:
-      - gluetun
+    # network_mode: service:gluetun
+    # depends_on:
+    #   - gluetun
     ### WHEN VPN UNUSED
-    # networks:
-    #   - media
-    # ports:
-    #   - ${BAZARR_WEB_PORT:-6767}:6767
+    networks:
+      - media
+    ports:
+      - ${BAZARR_WEB_PORT:-6767}:6767
     environment:
       ### COMMON
       - PUID=${PUID:-1000}
