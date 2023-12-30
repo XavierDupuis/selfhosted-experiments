@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  speedtest:
+    image: openspeedtest:${VERSION:-latest}
+    container_name: openspeedtest
+    restart: unless-stopped
+    ports:
+      - '${WEB_PORT:-3001}:3001'
+    labels: 
+      - homepage.group=Utilities
+      - homepage.name=SpeedTest
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3001}
+      - homepage.icon=mdi-speedometer
+      - homepage.description=Free & Open-Source HTML5 Network Performance Estimation Tool
