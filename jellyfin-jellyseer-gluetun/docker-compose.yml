@@ -163,7 +163,7 @@ services:
       - TZ=${TIMEZONE:-UTC}
     volumes:
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/qbittorrent/config:/config
-      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/qbittorrent/downloads:/downloads
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
       - homepage.group=Media
       - homepage.name=Qbittorrent
