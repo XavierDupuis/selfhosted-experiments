@@ -1,0 +1,47 @@
+version: '2.4'
+
+services:
+  octoprint:
+    image: octoprint/octoprint:${VERSION:-latest}
+    container_name: octoprint
+    restart: unless-stopped
+    ports:
+      - ${WEB_PORT:-80}:80
+    # devices:
+    # use `python -m serial.tools.miniterm` to see what the name is of the printer, this requires pyserial
+    #  - /dev/ttyACM0:/dev/ttyACM0
+    #  - /dev/video0:/dev/video0
+    volumes:
+     - ${DIRECTORY:?Missing variable DIRECTORY}/octoprint:/octoprint
+    # uncomment the lines below to ensure camera streaming is enabled when
+    # you add a video device
+    environment:
+      - ENABLE_MJPG_STREAMER=true
+    devices:
+     - /dev/ttyUSB0:/dev/ttyUSB0
+     - /dev/video0:/dev/video0
+    labels:
+    - homepage.group=Projects
+    - homepage.name=Octoprint
+    - homepage.icon=octoprint.png
+    - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-80}
+    - homepage.description=The dockerized snappy web interface for your 3D printer!
+
+  ####
+  # uncomment if you wish to edit the configuration files of octoprint
+  # refer to docs on configuration editing for more information
+  ####
+
+  #config-editor:
+  #  image: linuxserver/code-server
+  #  ports:
+  #    - 8443:8443
+  #  depends_on:
+  #    - octoprint
+  #  restart: unless-stopped
+  #  environment:
+  #    - PUID=0
+  #    - GUID=0
+  #    - TZ=America/Chicago
+  #  volumes:
+  #    - ${DIRECTORY:?Missing variable DIRECTORY}/octoprint:/octoprint
