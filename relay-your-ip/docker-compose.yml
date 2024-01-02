@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  relay-your-ip:
+    image: ghcr.io/xavierdupuis/relayyourip:main
+    container_name: relay-your-ip
+    restart: always
+    env_file:
+      - stack.env
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/relay-your-ip/config:/app/config
+      - ${DIRECTORY:?Missing variable DIRECTORY}/relay-your-ip/data:/app/data
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      - homepage.group=Utilities
+      - homepage.name=RelayYourIp
+      - homepage.icon=mdi-web-sync
+      - homepage.description=Periodically check, notify and relay changes in your public IP address for seamless remote access 
