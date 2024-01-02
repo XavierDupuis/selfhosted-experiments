@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  kopia:
+    image: kopia/kopia:${VERSION:-latest}
+    container_name: kopia
+    restart: unless-stopped
+    ports:
+      - ${WEB_PORT:-51515}:${WEB_PORT:-51515}
+    command:
+      - server
+      - start
+      - --disable-csrf-token-checks
+      - --insecure
+      - --address=0.0.0.0:${WEB_PORT:-51515}
+      - --server-username=${USERNAME:?Missing variable USERNAME}
+      - --server-password=${PASSWORD:?Missing variable PASSWORD}
+    # environment:
+    #   # Set repository password
+    #   KOPIA_PASSWORD: "SECRET"
+    #   USER: "User"
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/kopia/config:/app/config
+      - ${DIRECTORY:?Missing variable DIRECTORY}/kopia/cache:/app/cache
+      - ${DIRECTORY:?Missing variable DIRECTORY}/kopia/logs:/app/logs
+      - ${DIRECTORY:?Missing variable DIRECTORY}/kopia/tmp:/tmp:shared
+      # Backup from
+      - ${DIRECTORY:?Missing variable DIRECTORY}/kopia/data:/data:ro
+      # Backup to
+      - ${DIRECTORY:?Missing variable DIRECTORY}/kopia/repository:/repository
+    labels:
+      - homepage.group=Utilities
+      - homepage.name=Kopia
+      - homepage.icon=kopia.png
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-51515}
+      - homepage.description=Cross-platform backup tool with fast, incremental backups, client-side end-to-end encryption, compression and data deduplication.
