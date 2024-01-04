@@ -67,6 +67,20 @@ services:
     expose:
       - "9200"
 
+  # tubearchivist-jf:
+  #   image: bbilly1/tubearchivist-jf
+  #   container_name: tubearchivist-jf
+  #   restart: unless-stopped
+  #   environment:
+  #     - TA_URL=http://tubearchivist:8000
+  #     - TA_TOKEN=${TA_TOKEN:?Missing variable TA_TOKEN}
+  #     - JF_URL=${JF_URL:?Missing variable JF_URL}
+  #     - JF_TOKEN=${JF_TOKEN:?Missing variable JF_TOKEN}
+  #   volumes:
+  #     - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/youtube:/youtube  # matching youtube volume as in Tube Archivist
+  #   expose:
+  #     - "8001"
+
 volumes:
   redis:
   es:
