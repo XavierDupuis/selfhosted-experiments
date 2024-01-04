@@ -1,0 +1,72 @@
+
+version: '3.5'
+
+services:
+  tubearchivist:
+    image: bbilly1/tubearchivist
+    container_name: tubearchivist
+    restart: unless-stopped
+    ports:
+      - ${WEB_PORT:-8000}:8000
+    volumes:
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/youtube:/youtube
+      - ${DIRECTORY:?Missing variable DIRECTORY}/tube-archivist:/cache
+    environment:
+      - ES_URL=http://archivist-es:9200         # needs protocol e.g. http and port
+      - REDIS_HOST=archivist-redis              # don't add protocol
+      - HOST_UID=1000
+      - HOST_GID=1000
+      - TA_HOST=${HOST_URL:-http://localhost}   # set your host name
+      - TA_USERNAME=${TA_USERNAME?:Missing variable TA_USERNAME}               # your initial TA credentials
+      - TA_PASSWORD=${TA_PASSWORD?:Missing variable TA_PASSWORD}                  # your initial TA credentials
+      - ELASTIC_PASSWORD=${ES_PASSWORD:?Missing variable ES_PASSWORD}             # set password for Elasticsearch
+      - TZ=${TZ:-UTC}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${WEB_PORT:-8000}/health"]
+      interval: 2m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      - archivist-es
+      - archivist-redis
+    labels:
+      - homepage.group=Media
+      - homepage.name=TubeArchivist
+      - homepage.icon=tube-archivist.png
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8000}
+      - homepage.description=Your self hosted YouTube media server
+
+  archivist-redis:
+    image: redis/redis-stack-server
+    container_name: archivist-redis
+    restart: unless-stopped
+    expose:
+      - "6379"
+    volumes:
+      - redis:/data
+    depends_on:
+      - archivist-es
+
+  archivist-es:
+    image: bbilly1/tubearchivist-es         # only for amd64, or use official es 8.11.0
+    container_name: archivist-es
+    restart: unless-stopped
+    environment:
+      - "ELASTIC_PASSWORD=${ES_PASSWORD:?Missing variable ES_PASSWORD}"       # matching Elasticsearch password
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "xpack.security.enabled=true"
+      - "discovery.type=single-node"
+      - "path.repo=/usr/share/elasticsearch/data/snapshot"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es:/usr/share/elasticsearch/data    # check for permission error when using bind mount, see readme
+    expose:
+      - "9200"
+
+volumes:
+  redis:
+  es:
