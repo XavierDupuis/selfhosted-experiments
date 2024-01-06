@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  stirling-pdf:
+    image: frooodle/s-pdf:${VERSION:-latest}
+    container_name: stirling-pdf
+    restart: unless-stopped
+    ports:
+      - '${WEB_PORT:-8080}:8080'
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/stirling-pdf/trainingData:/usr/share/tesseract-ocr/5/tessdata # Required for extra OCR languages
+      - ${DIRECTORY:?Missing variable DIRECTORY}/stirling-pdf/configs:/configs
+      - ${DIRECTORY:?Missing variable DIRECTORY}/stirling-pdf/customFiles:/customFiles/
+      - ${DIRECTORY:?Missing variable DIRECTORY}/stirling-pdf/logs:/logs/
+    environment:
+      DOCKER_ENABLE_SECURITY: false
+      # SECURITY_ENABLELOGIN: "false"
+      # SYSTEM_DEFAULTLOCALE: en_US
+      # UI_APPNAME: Stirling-PDF
+      # UI_HOMEDESCRIPTION: Demo site for Stirling-PDF Latest
+      # UI_APPNAMENAVBAR: Stirling-PDF Latest
+      # SYSTEM_MAXFILESIZE: "100"
+      # METRICS_ENABLED: "true"
+      # SYSTEM_GOOGLEVISIBILITY: "true"
+    labels: 
+      - homepage.group=Utilities
+      - homepage.name=Stirling-PDF
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
+      - homepage.icon=stirling-pdf.png
+      - homepage.description=Perform various operations on PDF files 
