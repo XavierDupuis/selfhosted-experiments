@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:${VERSION:-latest}
+    container_name: mealie
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-9000}:9000"
+    deploy:
+      resources:
+        limits:
+          memory: 1000M
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/mealie:/app/data/
+    environment:
+      - ALLOW_SIGNUP=true
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ:-UTC}
+      - MAX_WORKERS=1
+      - WEB_CONCURRENCY=1
+      - BASE_URL=https://mealie.yourdomain.com
+      - SMTP_HOST=${SMTP_HOST:?Missing variable SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT:?Missing variable SMTP_PORT}
+      - SMTP_FROM_NAME=${SMTP_FROM_NAME:?Missing variable SMTP_FROM_NAME}
+      - SMTP_AUTH_STRATEGY=${SMTP_AUTH_STRATEGY:?Missing variable SMTP_AUTH_STRATEGY}
+      - SMTP_FROM_EMAIL=${SMTP_FROM_EMAIL:?Missing variable SMTP_FROM_EMAIL}
+      - SMTP_USER=${SMTP_USER:?Missing variable SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:?Missing variable SMTP_PASSWORD}
+    labels:
+      - homepage.group=Projects
+      - homepage.name=Mealie
+      - homepage.icon=mealie.png
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-9000}
+      - homepage.description=Recipe manager and meal planner 
