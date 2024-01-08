@@ -8,6 +8,7 @@ services:
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/config:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
+      # - /mnt/drive1:/mnt/drive1:ro # (optional) Other mounted drives for widget integrations
     ports:
       - "${WEB_PORT:-3000}:3000"
     labels:

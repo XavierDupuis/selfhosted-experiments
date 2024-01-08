@@ -1,5 +1,4 @@
 *.env
-homepage/services.yml
-homepage/settings.yml
+homepage/*.yml
 *.tar.gz
 *.zip
