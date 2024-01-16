@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  minecraft-modded:
+    image: itzg/minecraft-server:${VERSION:-latest}
+    container_name: minecraft-modded
+    restart: unless-stopped
+    volumes:
+    - ${DIRECTORY:?Missing variable DIRECTORY}/minecraft-modded/modpacks:/modpacks
+    - ${DIRECTORY:?Missing variable DIRECTORY}/minecraft-modded/data:/data
+    environment:
+      EULA: "true"
+      MEMORY: ${MEMORY:-4G}
+      TYPE: ${TYPE:?Missing variable TYPE}
+      CF_PAGE_URL: ${CF_PAGE_URL:?Missing variable CF_PAGE_URL}
+      CF_API_KEY: ${CF_API_KEY:?Missing variable CF_API_KEY}
+    ports:
+      - "${TCP_PORT:-25565}:25565"
