@@ -33,6 +33,8 @@ services:
       - --metrics.prometheus=true
       # Expose prometheus metrics on port 8082
       - --entryPoints.metrics.address=:8082
+      # Enable the prometheus metrics endpoint
+      - --metrics.prometheus.entryPoint=metrics
 
     ports:
       - 80:80
@@ -52,4 +54,4 @@ services:
       - homepage.name=Traefik
       - homepage.icon=traefik.png
       - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
-      - homepage.description=Cloud Native Application Proxy 
+      - homepage.description=Cloud Native Application Proxy
