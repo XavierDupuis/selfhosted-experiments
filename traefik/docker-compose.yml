@@ -13,11 +13,31 @@ services:
       
       # Entrypoints
       - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+
+      # Enable a dns challenge named "myresolver"
+      - --certificatesresolvers.myresolver.acme.dnschallenge=true
+      # DNS provider for the challenge
+      - --certificatesresolvers.myresolver.acme.dnschallenge.provider=duckdns
+      # File or key used for certificates storage.
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      # Email address used for registration.
+      - --certificatesresolvers.myresolver.acme.email=${ACME_EMAIL:?Missing variable ACME_EMAIL}
+
+      # Enable prometheus metrics
+      - --metrics.prometheus=true
+      # Expose prometheus metrics on port 8082
+      - --entryPoints.metrics.address=:8082
+
     ports:
       - 80:80
+      - 443:443
       - ${WEB_PORT}:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/letsencrypt:/letsencrypt
+    environment:
+      - DUCKDNS_TOKEN=${DUCKDNS_TOKEN:?Missing variable DUCKDNS_TOKEN}
     labels:
       - homepage.group=Utilities
       - homepage.name=Traefik
