@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+  web_recipes:
+    image: vabene1111/recipes:${VERSION:-latest}
+    container_name: tandoor_web
+    restart: unless-stopped
+    # environment:
+    #   - DEBUG=${DEBUG:-0}
+    #   - GUNICORN_MEDIA=${GUNICORN_MEDIA:-0}
+    #   - SECRET_KEY=${SECRET_KEY:?Missing variable SECRET_KEY}
+    #   - DB_ENGINE=${DB_ENGINE:?Missing variable DB_ENGINE}
+    #   - POSTGRES_HOST=${POSTGRES_HOST:?Missing variable POSTGRES_HOST}
+    #   - POSTGRES_DB=${POSTGRES_DB:?Missing variable POSTGRES_DB}
+    #   - POSTGRES_PORT=${POSTGRES_PORT:?Missing variable POSTGRES_PORT}
+    #   - POSTGRES_USER=${POSTGRES_USER:?Missing variable POSTGRES_USER}
+    #   - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Missing variable POSTGRES_PASSWORD}
+    env_file:
+      - stack.env
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/tandoor/static:/opt/recipes/staticfiles
+      - ${DIRECTORY:?Missing variable DIRECTORY}/tandoor/media:/opt/recipes/mediafiles
+    depends_on:
+      - db_recipes
+    ports:
+      - ${WEB_PORT:-8080}:8080
+    labels: 
+      - homepage.group=Projects
+      - homepage.name=Tandoor
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
+      - homepage.icon=tandoor.png
+      - homepage.description=Managing recipes, planning meals, building shopping lists. 
+
+  db_recipes:
+    image: postgres:15-alpine
+    container_name: tandoor_db
+    restart: unless-stopped
+    volumes:
+      - db_recipes:/var/lib/postgresql/data
+    # environment:
+    #   - DEBUG=${DEBUG:-0}
+    #   - GUNICORN_MEDIA=${GUNICORN_MEDIA:-0}
+    #   - SECRET_KEY=${SECRET_KEY:?Missing variable SECRET_KEY}
+    #   - DB_ENGINE=${DB_ENGINE:?Missing variable DB_ENGINE}
+    #   - POSTGRES_HOST=${POSTGRES_HOST:?Missing variable POSTGRES_HOST}
+    #   - POSTGRES_DB=${POSTGRES_DB:?Missing variable POSTGRES_DB}
+    #   - POSTGRES_PORT=${POSTGRES_PORT:?Missing variable POSTGRES_PORT}
+    #   - POSTGRES_USER=${POSTGRES_USER:?Missing variable POSTGRES_USER}
+    #   - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Missing variable POSTGRES_PASSWORD}
+    env_file:
+      - stack.env
+
+volumes:
+  db_recipes:
