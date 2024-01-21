@@ -1,5 +1,10 @@
 version: "3.3"
 
+networks:
+  monitoring:
+    external:
+      name: monitoring
+
 services:
   traefik:
     image: traefik:${VERSION:-latest}
@@ -33,6 +38,10 @@ services:
       - 80:80
       - 443:443
       - ${WEB_PORT}:8080
+    networks:
+      - monitoring
+    expose:
+      - 8082
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/letsencrypt:/letsencrypt
