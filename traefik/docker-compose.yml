@@ -1,0 +1,26 @@
+version: "3.3"
+
+services:
+  traefik:
+    image: traefik:${VERSION:-latest}
+    container_name: traefik
+    restart: unless-stopped
+    command:
+      # - --log.level=DEBUG
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      
+      # Entrypoints
+      - --entrypoints.web.address=:80
+    ports:
+      - 80:80
+      - ${WEB_PORT}:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - homepage.group=Utilities
+      - homepage.name=Traefik
+      - homepage.icon=traefik.png
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
+      - homepage.description=Cloud Native Application Proxy 
