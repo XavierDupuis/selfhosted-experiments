@@ -31,8 +31,8 @@ services:
 
       # Enable prometheus metrics
       - --metrics.prometheus=true
-      # Expose prometheus metrics on port 8082
-      - --entryPoints.metrics.address=:8082
+      # Expose prometheus metrics on port ${METRICS_PORT:-8081}
+      - --entryPoints.metrics.address=:${METRICS_PORT:-8081}
       # Enable the prometheus metrics endpoint
       - --metrics.prometheus.entryPoint=metrics
 
@@ -48,11 +48,11 @@ services:
     ports:
       - 80:80
       - 443:443
-      - ${WEB_PORT}:8080
+      - ${WEB_PORT:-8080}:8080
     networks:
       - monitoring
     expose:
-      - 8082
+      - ${METRICS_PORT:-8081}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/letsencrypt:/letsencrypt
