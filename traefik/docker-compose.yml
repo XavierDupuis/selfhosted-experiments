@@ -16,6 +16,7 @@ services:
       - --api.insecure=true
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
+      - --providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN:?Missing variable DOMAIN}`)
       
       # Entrypoints
       - --entrypoints.web.address=:80
