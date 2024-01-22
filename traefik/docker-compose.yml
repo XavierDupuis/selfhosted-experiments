@@ -36,6 +36,15 @@ services:
       # Enable the prometheus metrics endpoint
       - --metrics.prometheus.entryPoint=metrics
 
+      # Enable access logs
+      - --accesslog=true
+      # Access logs file
+      - --accesslog.filepath=/logs/access.log
+      # Access logs format
+      - --accesslog.format=json
+      # Access logs buffering size
+      - --accesslog.bufferingsize=100
+
     ports:
       - 80:80
       - 443:443
@@ -47,6 +56,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/letsencrypt:/letsencrypt
+      - ${DIRECTORY}/traefik/logs:/logs
     environment:
       - DUCKDNS_TOKEN=${DUCKDNS_TOKEN:?Missing variable DUCKDNS_TOKEN}
     labels:
