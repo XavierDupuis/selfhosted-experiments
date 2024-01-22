@@ -1,15 +1,16 @@
 version: "3.3"
 
-networks:
-  monitoring:
-    external:
-      name: monitoring
+# networks:
+#   monitoring:
+#     external:
+#       name: monitoring
 
 services:
   traefik:
     image: traefik:${VERSION:-latest}
     container_name: traefik
     restart: unless-stopped
+    network_mode: "host"
     command:
       # - --log.level=DEBUG
       - --api.insecure=true
@@ -19,6 +20,10 @@ services:
       # Entrypoints
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
+
+      # Redirect http to https
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entryPoint.scheme=https
 
       # Enable a dns challenge named "myresolver"
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
@@ -45,14 +50,14 @@ services:
       # Access logs buffering size
       - --accesslog.bufferingsize=100
 
-    ports:
-      - 80:80
-      - 443:443
-      - ${WEB_PORT:-8080}:8080
-    networks:
-      - monitoring
-    expose:
-      - ${METRICS_PORT:-8081}
+    # ports:
+    #   - 80:80
+    #   - 443:443
+    #   - ${WEB_PORT:-8080}:8080
+    # networks:
+    #   - monitoring
+    # expose:
+    #   - ${METRICS_PORT:-8081}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/letsencrypt:/letsencrypt
