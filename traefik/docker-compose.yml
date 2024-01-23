@@ -30,6 +30,11 @@ services:
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
       # DNS provider for the challenge
       - --certificatesresolvers.myresolver.acme.dnschallenge.provider=duckdns
+      # Disable the propagation check that occurs before the certificate is issued by the acme provider
+      - --certificatesresolvers.myresolver.acme.dnschallenge.disablePropagationCheck=true
+      # Delay the check of the propagation of the DNS record before to check the DNS challenge (seconds)
+      - --certificatesresolvers.myresolver.acme.dnschallenge.delayBeforeCheck=60
+      
       # File or key used for certificates storage.
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
       # Email address used for registration.
