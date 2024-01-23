@@ -155,7 +155,7 @@ services:
     #   - 6881:6881/udp
     environment:
       - WEBUI_PORT=${QBITTORRENT_WEB_PORT:-3000}
-      - DOCKER_MODS=ghcr.io/gilbn/theme.park:qbittorrent
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:qbittorrent
       - TP_THEME=${TP_THEME:-nord}
       ### COMMON
       - PUID=${PUID:-1000}
