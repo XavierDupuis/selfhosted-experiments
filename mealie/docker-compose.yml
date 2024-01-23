@@ -29,6 +29,9 @@ services:
       - SMTP_USER=${SMTP_USER:?Missing variable SMTP_USER}
       - SMTP_PASSWORD=${SMTP_PASSWORD:?Missing variable SMTP_PASSWORD}
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.mealie.tls.certresolver=myresolver
+      - traefik.http.services.mealie.loadbalancer.server.port=9000
       - homepage.group=Projects
       - homepage.name=Mealie
       - homepage.icon=mealie.png

@@ -103,6 +103,9 @@ services:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/series
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyfin.tls.certresolver=myresolver
+      - traefik.http.services.jellyfin.loadbalancer.server.port=8096
       - homepage.group=Media
       - homepage.name=Jellyfin
       - homepage.icon=jellyfin.png
@@ -132,6 +135,9 @@ services:
     volumes:
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/jellyseerr/config:/app/config
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyseerr.tls.certresolver=myresolver
+      - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
       - homepage.group=Media
       - homepage.name=Jellyseerr
       - homepage.icon=jellyseerr.png
@@ -166,6 +172,9 @@ services:
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/qbittorrent/config:/config
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=${QBITTORRENT_WEB_PORT:-3000}
       - homepage.group=Media
       - homepage.name=Qbittorrent
       - homepage.icon=qbittorrent.png

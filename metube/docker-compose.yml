@@ -10,6 +10,9 @@ services:
     volumes:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/videos:/downloads
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.metube.tls.certresolver=myresolver
+      - traefik.http.services.metube.loadbalancer.server.port=8081
       - homepage.group=Utilities
       - homepage.name=MeTube
       - homepage.icon=metube.png

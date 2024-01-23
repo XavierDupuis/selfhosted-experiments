@@ -37,6 +37,9 @@ services:
       timeout: 10s
       retries: 5
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.owncloud.tls.certresolver=myresolver
+      - traefik.http.services.owncloud.loadbalancer.server.port=8080
       - homepage.group=Media
       - homepage.name=OwnCloud
       - homepage.icon=owncloud.png

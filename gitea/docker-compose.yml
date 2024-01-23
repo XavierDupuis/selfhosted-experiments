@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  server:
+  gitea:
     image: gitea/gitea:${VERSION:?-latest}
     container_name: gitea
     restart: unless-stopped
@@ -25,6 +25,9 @@ services:
       - ${WEB_PORT:?-3000}:3000
       - ${SSH_PORT:?-22}:22
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.gitea.tls.certresolver=myresolver
+      - traefik.http.services.gitea.loadbalancer.server.port=3000
       - homepage.group=Projects
       - homepage.name=Gitea
       - homepage.icon=gitea.png

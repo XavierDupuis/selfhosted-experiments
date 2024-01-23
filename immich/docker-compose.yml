@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  immich-server:
+  immich:
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     container_name: immich_server
     restart: unless-stopped
@@ -17,6 +17,9 @@ services:
     ports:
       - ${WEB_PORT:-3001}:3001
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.immich.tls.certresolver=myresolver
+      - traefik.http.services.immich.loadbalancer.server.port=3001
       - homepage.group=Media
       - homepage.name=Immich
       - homepage.icon=immich.png

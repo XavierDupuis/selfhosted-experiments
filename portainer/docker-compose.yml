@@ -14,6 +14,9 @@ services:
     ports:
       - "${WEB_PORT:-9443}:9443"
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.portainer.tls.certresolver=myresolver
+      - traefik.http.services.portainer.loadbalancer.server.port=9000
       - homepage.group=Utilities
       - homepage.name=Portainer
       - homepage.icon=portainer.png

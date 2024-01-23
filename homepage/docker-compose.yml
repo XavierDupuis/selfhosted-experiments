@@ -1,7 +1,7 @@
 version: "3.3"
 
 services:
-  homepage:
+  home:
     image: ghcr.io/gethomepage/homepage:${VERSION:-latest}
     container_name: homepage
     restart: unless-stopped
@@ -12,6 +12,9 @@ services:
     ports:
       - "${WEB_PORT:-3000}:3000"
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.homepage.tls.certresolver=myresolver
+      - traefik.http.services.homepage.loadbalancer.server.port=3000
       - homepage.group=Utilities
       - homepage.name=Homepage
       - homepage.icon=homepage.png

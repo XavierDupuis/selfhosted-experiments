@@ -70,6 +70,9 @@ services:
       # documents are written in.
       #PAPERLESS_OCR_LANGUAGE: eng
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.paperless-ngx.tls.certresolver=myresolver
+      - traefik.http.services.paperless-ngx.loadbalancer.server.port=8000
       - homepage.group=Utilities
       - homepage.name=Paperless-ngx
       - homepage.icon=paperless-ngx.png

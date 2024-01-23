@@ -20,6 +20,9 @@ services:
     ports:
       - ${WEB_PORT:-80}:80
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.vaultwarden.tls.certresolver=myresolver
+      - traefik.http.services.vaultwarden.loadbalancer.server.port=80
       - homepage.group=Utilities
       - homepage.name=Vaultwarden
       - homepage.icon=vaultwarden.png

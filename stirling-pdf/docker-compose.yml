@@ -22,6 +22,9 @@ services:
       # METRICS_ENABLED: "true"
       # SYSTEM_GOOGLEVISIBILITY: "true"
     labels: 
+      - traefik.enable=true
+      - traefik.http.routers.stirling-pdf.tls.certresolver=myresolver
+      - traefik.http.services.stirling-pdf.loadbalancer.server.port=8080
       - homepage.group=Utilities
       - homepage.name=Stirling-PDF
       - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
