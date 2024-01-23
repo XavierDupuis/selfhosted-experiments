@@ -53,7 +53,7 @@ services:
       - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER:?Missing variable VPN_SERVICE_PROVIDER}
       - OPENVPN_USER=${VPN_USERNAME:?Missing variable VPN_USERNAME}
       - OPENVPN_PASSWORD=${VPN_PASSWORD:?Missing variable VPN_PASSWORD}
-      - SERVER_COUNTRIES=${VPN_SERVER_COUNTRIES:?Missing variable VPN_SERVER_COUNTRIES}
+      - SERVER_COUNTRIES=${VPN_SERVER_COUNTRIES}
       - FREE_ONLY=${VPN_FREE_ONLY:?Missing variable VPN_FREE_ONLY}
       ## If VPN_TYPE is openvpn
       # - OPENVPN_CUSTOM_CONFIG=/gluetun/custom.conf
