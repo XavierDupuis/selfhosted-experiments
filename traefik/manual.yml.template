@@ -1,0 +1,26 @@
+http:
+  routers:
+    my-router:
+      entryPoints:
+      - web
+      - websecure
+      middlewares:
+      - my-basic-auth
+      service: my-service
+      rule: "Host(`service.domain.com`)"
+      tls:
+        certResolver: myresolver
+
+  middlewares:
+    my-basic-auth:
+      basicAuth:
+        users:
+        - test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/
+        - test2:$apr1$d9hr9HBB$4HxwgUir3HP4EsggP/QNo0
+        usersFile: etc/traefik/.htpasswd
+
+  services:
+    my-service:
+      loadBalancer:
+        servers:
+        - url: http:/ip:port
