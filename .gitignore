@@ -1,4 +1,5 @@
 *.env
 homepage/*.yml
+traefik/manual.yml
 *.tar.gz
 *.zip

@@ -14,10 +14,19 @@ services:
     command:
       # - --log.level=DEBUG
       - --api.insecure=true
+
+      # Enable docker provider
       - --providers.docker=true
+      # Docker containers not exposed by default
       - --providers.docker.exposedbydefault=false
+      # Docker provider default rule
       - --providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN:?Missing variable DOMAIN}`)
       
+      # Manual configuration file location
+      - --providers.file.filename=/etc/traefik/manual.yml
+      # Enable watch for manual configuration
+      - --providers.file.watch=true
+
       # Entrypoints
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
@@ -68,6 +77,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/letsencrypt:/letsencrypt
       - ${DIRECTORY}/traefik/logs:/logs
+      - ${DIRECTORY}/traefik/manual.yml:/etc/traefik/manual.yml
     environment:
       - DUCKDNS_TOKEN=${DUCKDNS_TOKEN:?Missing variable DUCKDNS_TOKEN}
     labels:
