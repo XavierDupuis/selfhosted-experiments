@@ -1,10 +1,5 @@
 version: "3.3"
 
-# networks:
-#   monitoring:
-#     external:
-#       name: monitoring
-
 services:
   traefik:
     image: traefik:${VERSION:-latest}

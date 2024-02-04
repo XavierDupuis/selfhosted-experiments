@@ -55,6 +55,8 @@ services:
       - 9090
     networks:
       - monitoring
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     labels:
       - traefik.enable=true
       - traefik.http.routers.prometheus.tls.certresolver=myresolver
