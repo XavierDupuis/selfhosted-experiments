@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:${VERSION:-latest}
+    container_name: uptime-kuma
+    restart: unless-stopped
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/uptime-kuma:/app/data
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - ${WEB_PORT:-3001}:3001
+    labels: 
+      - traefik.enable=true
+      - traefik.http.routers.uptime-kuma.tls.certresolver=myresolver
+      - traefik.http.services.uptime-kuma.loadbalancer.server.port=3001
+      - homepage.group=Projects
+      - homepage.name=Uptime-kuma
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3001}
+      - homepage.icon=uptime-kuma.png
+      - homepage.description=A fancy self-hosted monitoring tool 
