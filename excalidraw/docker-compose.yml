@@ -1,0 +1,16 @@
+services:
+  excalidraw:
+    container_name: excalidraw
+    image: excalidraw/excalidraw:${VERSION:-latest}
+    restart: unless-stopped
+    ports:
+     - ${WEB_PORT:-80}:80
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.gitea.tls.certresolver=myresolver
+      - traefik.http.services.gitea.loadbalancer.server.port=80
+      - homepage.group=Utilities
+      - homepage.name=Excalidraw
+      - homepage.icon=excalidraw.png
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-80}
+      - homepage.description=Virtual whiteboard for sketching hand-drawn like diagrams
