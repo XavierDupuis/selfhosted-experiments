@@ -40,7 +40,7 @@ services:
     container_name: prometheus
     restart: unless-stopped
     volumes:
-      - ${PROMETHEUS_LOCATION}/config:/etc/prometheus
+      - ${PROMETHEUS_LOCATION:?Missing variable PROMETHEUS_LOCATION}/config:/etc/prometheus
       - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
