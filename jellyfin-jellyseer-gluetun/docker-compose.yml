@@ -157,8 +157,8 @@ services:
     #   - media
     # ports:
     #   - ${QBITTORRENT_WEB_PORT:-3000}:${QBITTORRENT_WEB_PORT:-3000} # MAPPING MUST BE X:X
-    #   - 6881:6881
-    #   - 6881:6881/udp
+    #   - ${QBITTORRENT_TCP_PORT:-6881}:6881/tcp
+    #   - ${QBITTORRENT_UDP_PORT:-6881}:6881/udp
     environment:
       - WEBUI_PORT=${QBITTORRENT_WEB_PORT:-3000}
       - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:qbittorrent
