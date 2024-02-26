@@ -34,4 +34,4 @@ scrape_configs:
   
   - job_name: 'traefik'
     static_configs:
-      - targets: ['traefik:8081']
+      - targets: ['host.docker.internal:8081']

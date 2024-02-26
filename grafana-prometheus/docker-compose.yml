@@ -40,7 +40,7 @@ services:
     container_name: prometheus
     restart: unless-stopped
     volumes:
-      - ${PROMETHEUS_LOCATION}/config:/etc/prometheus
+      - ${PROMETHEUS_LOCATION:?Missing variable PROMETHEUS_LOCATION}/config:/etc/prometheus
       - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -55,6 +55,8 @@ services:
       - 9090
     networks:
       - monitoring
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     labels:
       - traefik.enable=true
       - traefik.http.routers.prometheus.tls.certresolver=myresolver
@@ -65,7 +67,38 @@ services:
       - homepage.href=${HOST_URL:-http://localhost}:${PROMETHEUS_WEB_PORT:-9090}
       - homepage.description=From metrics to insight
 
-
+  # https://grafana.com/docs/loki/latest/
+  loki:
+    image: grafana/loki:${LOKI_VERSION:-latest}
+    container_name: loki
+    restart: unless-stopped
+    ports:
+      - ${LOKI_WEB_PORT:-3100}:3100
+    volumes:
+      - ${LOKI_LOCATION:?Missing variable LOKI_LOCATION}/config:/etc/config
+      - ${LOKI_LOCATION:?Missing variable LOKI_LOCATION}/data:/loki
+    expose:
+      - 3100
+    networks:
+      - monitoring
+    command: -config.file=/etc/config/loki.yml
+  
+  # https://grafana.com/docs/loki/latest/send-data/promtail/
+  promtail:
+    image: grafana/promtail:${PROMTAIL_VERSION:-latest}
+    container_name: promtail
+    restart: unless-stopped
+    ports:
+      - ${PROMTAIL_WEB_PORT:-9080}:9080
+    volumes:
+      - ${PROMTAIL_LOCATION:?Missing variable PROMTAIL_LOCATION}/config:/etc/config
+      - ${PROMTAIL_LOCATION:?Missing variable LOKI_LOCATION}/data:/promtail
+      - ${LOGS_LOCATION:?Missing variable LOGS_LOCATION}:/var/log:ro
+    expose:
+      - 9080
+    networks:
+      - monitoring
+    command: -config.file=/etc/config/promtail.yml
 
   ### EXPORTERS
 
@@ -120,17 +153,3 @@ services:
       - 9798
     networks:
       - monitoring
-
-  # https://github.com/nginxinc/nginx-prometheus-exporter
-  # nginx-prometheus-exporter:
-  #   image: nginx/nginx-prometheus-exporter
-  #   container_name: nginx-prometheus-exporter
-  #   restart: unless-stopped
-  #   expose:
-  #     - 9113
-  #   networks:
-  #     - monitoring
-  #     - nginx
-  #   command:
-  #     - -nginx.scrape-uri
-  #     - http://nginx-proxy-manager:8080/status
