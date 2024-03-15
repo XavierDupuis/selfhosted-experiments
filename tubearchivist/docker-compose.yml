@@ -31,6 +31,9 @@ services:
       - archivist-es
       - archivist-redis
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.tubearchivist.tls.certresolver=myresolver
+      - traefik.http.services.tubearchivist.loadbalancer.server.port=8000
       - homepage.group=Media
       - homepage.name=TubeArchivist
       - homepage.icon=tube-archivist.png
