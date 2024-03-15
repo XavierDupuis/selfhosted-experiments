@@ -16,8 +16,8 @@ services:
       - REDIS_HOST=archivist-redis              # don't add protocol
       - HOST_UID=1000
       - HOST_GID=1000
-      - TA_HOST=${HOST_URL:-http://localhost}   # set your host name
-      - TA_USERNAME=${TA_USERNAME?:Missing variable TA_USERNAME}               # your initial TA credentials
+      - TA_HOST=${TA_HOST:-http://localhost}                                      # set your host name
+      - TA_USERNAME=${TA_USERNAME?:Missing variable TA_USERNAME}                  # your initial TA credentials
       - TA_PASSWORD=${TA_PASSWORD?:Missing variable TA_PASSWORD}                  # your initial TA credentials
       - ELASTIC_PASSWORD=${ES_PASSWORD:?Missing variable ES_PASSWORD}             # set password for Elasticsearch
       - TZ=${TZ:-UTC}
