@@ -157,8 +157,10 @@ services:
     ### WHEN VPN USED
     network_mode: service:gluetun
     depends_on:
-      - gluetun
-    ### WHEN VPN UNUSED
+      gluetun:
+        condition: service_healthy
+        restart: true
+    ## WHEN VPN UNUSED
     # networks:
     #   - media
     # ports:
