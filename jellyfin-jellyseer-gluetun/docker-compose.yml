@@ -67,6 +67,12 @@ services:
       - homepage.name=Gluetun
       - homepage.icon=gluetun.png
       - homepage.description=Lightweight swiss-knife-like VPN client to multiple VPN service providers
+    healthcheck: # https://github.com/qdm12/gluetun-wiki/blob/main/faq/healthcheck.md#docker-healthcheck
+      test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
+      interval: 5s
+      timeout: 5s
+      start_period: 10s
+      retries: 1
 
   jellyfin:
     image: jellyfin/jellyfin:${JELLYFIN_VERSION:-latest}
@@ -180,6 +186,12 @@ services:
       - homepage.icon=qbittorrent.png
       - homepage.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
       - homepage.description=Free and reliable P2P Bitorrent client
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${QBITTORRENT_WEB_PORT:-3000}"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 2m
 
   prowlarr:
     container_name: prowlarr
