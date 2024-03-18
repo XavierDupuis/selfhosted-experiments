@@ -13,6 +13,9 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/navidrome/data:/data
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.navidrome.tls.certresolver=myresolver
+      - traefik.http.services.navidrome.loadbalancer.server.port=4533
       - homepage.group=Media
       - homepage.name=Navidrome
       - homepage.icon=navidrome.png
