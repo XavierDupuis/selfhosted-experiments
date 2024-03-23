@@ -1,0 +1,35 @@
+
+services:
+  adguard:
+    container_name: adguardhome
+    image: adguard/adguardhome:${VERSION:-latest}
+    restart: unless-stopped
+    ports:
+        # DNS
+        - 53:53
+        # WebUI
+        - ${WEB_PORT:-3000}:3000/tcp
+        # # DHCP server
+        # - 67:67/udp
+        # - 68:68/udp
+        # # HTTPS/DNS-over-HTTPS
+        # - 443:443/tcp
+        # # DNS-over-TLS
+        # - 853:853/tcp
+        # # DNS-over-QUIC
+        # - 853:853/udp
+        # # DNSCrypt
+        # - 5443:5443/tcp
+        # - 5443:5443/udp
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/adguard/data:/opt/adguardhome/work
+      - ${DIRECTORY:?Missing variable DIRECTORY}/adguard/config:/opt/adguardhome/conf
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.adguard.tls.certresolver=myresolver
+      - traefik.http.services.adguard.loadbalancer.server.port=3000
+      - homepage.group=Utilities
+      - homepage.name=AdGuard
+      - homepage.icon=adguard-home.png
+      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3000}
+      - homepage.description=Network-wide ads & trackers blocking DNS server
