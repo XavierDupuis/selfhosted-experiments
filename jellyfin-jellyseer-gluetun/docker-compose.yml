@@ -188,12 +188,12 @@ services:
       - homepage.icon=qbittorrent.png
       - homepage.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
       - homepage.description=Free and reliable P2P Bitorrent client
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${QBITTORRENT_WEB_PORT:-3000}"]
-      interval: 1m30s
+    healthcheck: # https://github.com/qdm12/gluetun/issues/641#issuecomment-933856220
+      test: "curl -sf https://example.com || exit 1"
+      interval: 1m
       timeout: 10s
-      retries: 3
-      start_period: 2m
+      retries: 1
+      start_period: 30s
 
   prowlarr:
     container_name: prowlarr
