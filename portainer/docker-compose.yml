@@ -22,3 +22,7 @@ services:
       - homepage.icon=portainer.png
       - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-9443}
       - homepage.description=Portainer.io Community Edition
+      - homepage.widget.type=portainer
+      - homepage.widget.url=${HOST_URL:-https://localhost}:${WEB_PORT:-9443}
+      - homepage.widget.env=2
+      - homepage.widget.key=${PORTAINER_API_KEY}
