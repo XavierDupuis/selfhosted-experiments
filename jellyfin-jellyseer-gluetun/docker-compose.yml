@@ -26,7 +26,8 @@ services:
       - NET_ADMIN
     ports:
       # GLUETUN
-      - 8888:8888/tcp # HTTP proxy
+      - ${GLUETUN_PROXY_PORT:-8000}:8888/tcp # HTTP proxy
+      - ${GLUETUN_SERVER_PORT:-8000}:8000/tcp # HTTP control server
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
       # # JELLYFIN
@@ -67,6 +68,8 @@ services:
       - homepage.name=Gluetun
       - homepage.icon=gluetun.png
       - homepage.description=Lightweight swiss-knife-like VPN client to multiple VPN service providers
+      - homepage.widget.type=gluetun
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${GLUETUN_SERVER_PORT:-8000}
     healthcheck: # https://github.com/qdm12/gluetun-wiki/blob/main/faq/healthcheck.md#docker-healthcheck
       test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
       interval: 5s
@@ -117,6 +120,11 @@ services:
       - homepage.icon=jellyfin.png
       - homepage.href=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
       - homepage.description=The Free Software Media System
+      - homepage.widget.type=jellyfin
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
+      - homepage.widget.key=${JELLYFIN_API_KEY:?Missing variable JELLYFIN_API_KEY}
+      - homepage.widget.enableBlocks=true      # optional, defaults to false
+      - homepage.widget.enableNowPlaying=true  # optional, defaults to true
 
   jellyseerr:
     image: fallenbagel/jellyseerr:${JELLYSEERR_VERSION:-latest}
@@ -149,6 +157,9 @@ services:
       - homepage.icon=jellyseerr.png
       - homepage.href=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
       - homepage.description=Request Management and Media Discovery Tool for the Jellyfin Ecosystem
+      - homepage.widget.type=jellyseerr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYSEER_WEB_PORT:-8096}
+      - homepage.widget.key=${JELLYSEER_API_KEY:?Missing variable JELLYSEER_API_KEY}
 
   qbittorrent:
     container_name: qbittorrent
@@ -188,6 +199,10 @@ services:
       - homepage.icon=qbittorrent.png
       - homepage.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
       - homepage.description=Free and reliable P2P Bitorrent client
+      - homepage.widget.type=qbittorrent
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
+      - homepage.widget.username=${QBITTORRENT_USERNAME:?Missing variable QBITTORRENT_USERNAME}
+      - homepage.widget.password=${QBITTORRENT_PASSWORD:?Missing variable QBITTORRENT_PASSWORD}
     healthcheck: # https://github.com/qdm12/gluetun/issues/641#issuecomment-933856220
       test: "curl -sf https://example.com || exit 1"
       interval: 1m
@@ -224,6 +239,9 @@ services:
       - homepage.icon=prowlarr.png
       - homepage.href=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
       - homepage.description=Ultimate Indexer Manager
+      - homepage.widget.type=prowlarr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
+      - homepage.widget.key=${PROWLARR_API_KEY:?Missing variable PROWLARR_API_KEY}
 
   sonarr:
     image: linuxserver/sonarr:${SONARR_VERSION:-latest}
@@ -256,6 +274,10 @@ services:
       - homepage.icon=sonarr.png
       - homepage.href=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
       - homepage.description=Internet PVR for Usenet and Torrents
+      - homepage.widget.type=sonarr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
+      - homepage.widget.key=${SONARR_API_KEY:?Missing variable SONARR_API_KEY}
+      - homepage.widget.enableQueue=true # optional, defaults to false
 
   radarr:
     container_name: radarr
@@ -288,6 +310,10 @@ services:
       - homepage.icon=radarr.png
       - homepage.href=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
       - homepage.description=Movie collection manager for Usenet and BitTorrent
+      - homepage.widget.type=radarr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
+      - homepage.widget.key=${RADARR_API_KEY:?Missing variable RADARR_API_KEY}
+      - homepage.widget.enableQueue=true # optional, defaults to false
 
   lidarr:
     image: lscr.io/linuxserver/lidarr:${LIDARR_VERSION:-latest}
@@ -320,6 +346,9 @@ services:
       - homepage.icon=lidarr.png
       - homepage.href=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
       - homepage.description=Music collection manager for Usenet and BitTorrent
+      - homepage.widget.type=lidarr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
+      - homepage.widget.key=${LIDARR_API_KEY:?Missing variable LIDARR_API_KEY}
 
   readarr:
     image: lscr.io/linuxserver/readarr:${READARR_VERSION:-develop} # develop tag must be present
@@ -352,6 +381,9 @@ services:
       - homepage.icon=readarr.png
       - homepage.href=${HOST_URL:-http://localhost}:${READARR_WEB_PORT:-8787}
       - homepage.description=Book Manager and Automation
+      - homepage.widget.type=readarr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${READARR_WEB_PORT:-8787}
+      - homepage.widget.key=${READARR_API_KEY:?Missing variable READARR_API_KEY}
 
   bazarr:
     image: lscr.io/linuxserver/bazarr
@@ -384,3 +416,6 @@ services:
       - homepage.icon=bazarr.png
       - homepage.href=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}
       - homepage.description=Manages and downloads subtitles
+      - homepage.widget.type=bazarr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}
+      - homepage.widget.key=${BAZARR_API_KEY:?Missing variable BAZARR_API_KEY}
