@@ -158,7 +158,7 @@ services:
       - homepage.href=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
       - homepage.description=Request Management and Media Discovery Tool for the Jellyfin Ecosystem
       - homepage.widget.type=jellyseerr
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYSEER_WEB_PORT:-8096}
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
       - homepage.widget.key=${JELLYSEER_API_KEY}
 
   qbittorrent:
