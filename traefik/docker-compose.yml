@@ -81,3 +81,5 @@ services:
       - homepage.icon=traefik.png
       - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
       - homepage.description=Cloud Native Application Proxy
+      - homepage.widget.type=traefik
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
