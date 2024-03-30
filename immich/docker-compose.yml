@@ -25,6 +25,9 @@ services:
       - homepage.icon=immich.png
       - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3001}
       - homepage.description=Self-hosted backup solution for photos and videos on mobile device
+      - homepage.widget.type=immich
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-3001}
+      - homepage.widget.key=${IMMICH_API_KEY}
 
   immich-microservices:
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
