@@ -122,7 +122,7 @@ services:
       - homepage.description=The Free Software Media System
       - homepage.widget.type=jellyfin
       - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
-      - homepage.widget.key=${JELLYFIN_API_KEY:?Missing variable JELLYFIN_API_KEY}
+      - homepage.widget.key=${JELLYFIN_API_KEY}
       - homepage.widget.enableBlocks=true      # optional, defaults to false
       - homepage.widget.enableNowPlaying=true  # optional, defaults to true
 
@@ -159,7 +159,7 @@ services:
       - homepage.description=Request Management and Media Discovery Tool for the Jellyfin Ecosystem
       - homepage.widget.type=jellyseerr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYSEER_WEB_PORT:-8096}
-      - homepage.widget.key=${JELLYSEER_API_KEY:?Missing variable JELLYSEER_API_KEY}
+      - homepage.widget.key=${JELLYSEER_API_KEY}
 
   qbittorrent:
     container_name: qbittorrent
@@ -241,7 +241,7 @@ services:
       - homepage.description=Ultimate Indexer Manager
       - homepage.widget.type=prowlarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
-      - homepage.widget.key=${PROWLARR_API_KEY:?Missing variable PROWLARR_API_KEY}
+      - homepage.widget.key=${PROWLARR_API_KEY}
 
   sonarr:
     image: linuxserver/sonarr:${SONARR_VERSION:-latest}
@@ -276,7 +276,7 @@ services:
       - homepage.description=Internet PVR for Usenet and Torrents
       - homepage.widget.type=sonarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
-      - homepage.widget.key=${SONARR_API_KEY:?Missing variable SONARR_API_KEY}
+      - homepage.widget.key=${SONARR_API_KEY}
       - homepage.widget.enableQueue=true # optional, defaults to false
 
   radarr:
@@ -312,7 +312,7 @@ services:
       - homepage.description=Movie collection manager for Usenet and BitTorrent
       - homepage.widget.type=radarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
-      - homepage.widget.key=${RADARR_API_KEY:?Missing variable RADARR_API_KEY}
+      - homepage.widget.key=${RADARR_API_KEY}
       - homepage.widget.enableQueue=true # optional, defaults to false
 
   lidarr:
@@ -348,7 +348,7 @@ services:
       - homepage.description=Music collection manager for Usenet and BitTorrent
       - homepage.widget.type=lidarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
-      - homepage.widget.key=${LIDARR_API_KEY:?Missing variable LIDARR_API_KEY}
+      - homepage.widget.key=${LIDARR_API_KEY}
 
   readarr:
     image: lscr.io/linuxserver/readarr:${READARR_VERSION:-develop} # develop tag must be present
@@ -383,7 +383,7 @@ services:
       - homepage.description=Book Manager and Automation
       - homepage.widget.type=readarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${READARR_WEB_PORT:-8787}
-      - homepage.widget.key=${READARR_API_KEY:?Missing variable READARR_API_KEY}
+      - homepage.widget.key=${READARR_API_KEY}
 
   bazarr:
     image: lscr.io/linuxserver/bazarr
@@ -418,4 +418,4 @@ services:
       - homepage.description=Manages and downloads subtitles
       - homepage.widget.type=bazarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}
-      - homepage.widget.key=${BAZARR_API_KEY:?Missing variable BAZARR_API_KEY}
+      - homepage.widget.key=${BAZARR_API_KEY}
