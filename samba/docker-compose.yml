@@ -20,10 +20,10 @@ services:
       # - USER=user;user
 
       # set the UID for the samba share, default: ""
-      - USERID=0
+      - USERID=${PUID:-1000}
 
       # set the GID for the samba share, default: ""
-      - GROUPID=0
+      - GROUPID=${PGID:-1000}
 
       # add a single share. If you need more, use command instead of environment
       # required arg: "<name>;</path>"
