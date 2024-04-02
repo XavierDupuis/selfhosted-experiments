@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   minecraft-modded:
     image: itzg/minecraft-server:${VERSION:-latest}

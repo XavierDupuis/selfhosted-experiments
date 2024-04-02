@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   onedev:
     image: 1dev/server:${VERSION:-latest}

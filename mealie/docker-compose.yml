@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
   mealie:
     image: ghcr.io/mealie-recipes/mealie:${VERSION:-latest}

@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   metube:
     image: ghcr.io/alexta69/metube:${VERSION:-latest}

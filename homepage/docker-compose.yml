@@ -1,5 +1,3 @@
-version: "3.3"
-
 services:
   home:
     image: ghcr.io/gethomepage/homepage:${VERSION:-latest}
