@@ -33,6 +33,10 @@ services:
       - homepage.icon=grafana.png
       - homepage.href=${HOST_URL:-http://localhost}:${GRAFANA_WEB_PORT:-3000}
       - homepage.description=Visualize your data, optimize your performance
+      - homepage.widget.type=grafana
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${GRAFANA_WEB_PORT:-3000}
+      - homepage.widget.username=${GRAFANA_USERNAME}
+      - homepage.widget.password=${GRAFANA_PASSWORD}
 
   # https://prometheus.io/
   prometheus:
@@ -66,6 +70,8 @@ services:
       - homepage.icon=prometheus.png
       - homepage.href=${HOST_URL:-http://localhost}:${PROMETHEUS_WEB_PORT:-9090}
       - homepage.description=From metrics to insight
+      - homepage.widget.type=prometheus
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${PROMETHEUS_WEB_PORT:-9090}
 
   # https://grafana.com/docs/loki/latest/
   loki:
