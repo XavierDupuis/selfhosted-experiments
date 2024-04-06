@@ -1,6 +1,7 @@
 # https://gethomepage.dev/main/configs/settings/
 
 title: My Awesome Homepage
+instanceName: public
 startUrl: https://custom.url
 background:
   image: /images/background.png
