@@ -1,14 +1,24 @@
 services:
   home:
     image: ghcr.io/gethomepage/homepage:${VERSION:-latest}
-    container_name: homepage
+    container_name: homepage_public
     restart: unless-stopped
     volumes:
-      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/config:/app/config
+      # DOCKER
       - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
-      # - /mnt/drive1:/mnt/drive1:ro # (optional) Other mounted drives for widget integrations
-    ports:
-      - "${WEB_PORT:-3000}:3000"
+      # OTHER DRIVES (for widget integrations)
+      # - /mnt/drive1:/mnt/drive1:ro
+      # COMMON CONFIG
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/bookmarks.yaml:/app/config/bookmarks.yaml:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/custom.css:/app/config/custom.css:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/custom.js:/app/config/custom.js:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/docker.yaml:/app/config/docker.yaml:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/kubernetes.yaml:/app/config/kubernetes.yaml:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/services.yaml:/app/config/services.yaml:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/widgets.yaml:/app/config/widgets.yaml:ro
+      # SPECIFIC CONFIG
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/public/settings.yaml:/app/config/settings.yaml:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/public/logs:/app/config/logs
     labels:
       - traefik.enable=true
       - traefik.http.routers.homepage.tls.certresolver=myresolver
@@ -17,4 +27,33 @@ services:
       - homepage.name=Homepage
       - homepage.icon=homepage.png
       - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3000}
+      - homepage.description=Highly customizable homepage with Docker and service API integrations.
+
+  home_internal:
+    image: ghcr.io/gethomepage/homepage:${VERSION:-latest}
+    container_name: homepage_internal
+    restart: unless-stopped
+    volumes:
+      # DOCKER
+      - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
+      # OTHER DRIVES (for widget integrations)
+      # - /mnt/drive1:/mnt/drive1:ro
+      # COMMON CONFIG
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/bookmarks.yaml:/app/config/bookmarks.yaml:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/custom.css:/app/config/custom.css:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/custom.js:/app/config/custom.js:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/docker.yaml:/app/config/docker.yaml:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/kubernetes.yaml:/app/config/kubernetes.yaml:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/services.yaml:/app/config/services.yaml:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/widgets.yaml:/app/config/widgets.yaml:ro
+      # SPECIFIC CONFIG
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/internal/settings.yaml:/app/config/settings.yaml:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/internal/logs:/app/config/logs
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    labels:
+      - homepage.group=Utilities
+      - homepage.name=Homepage (internal)
+      - homepage.icon=homepage.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3000}
       - homepage.description=Highly customizable homepage with Docker and service API integrations.
