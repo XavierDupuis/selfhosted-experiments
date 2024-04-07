@@ -29,7 +29,7 @@ services:
       - homepage.group=Utilities
       - homepage.name=Homepage
       - homepage.icon=homepage.png
-      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3000}
+      - homepage.instance.public.href=https://home.${DOMAIN:?Missing variable DOMAIN}
       - homepage.description=Highly customizable homepage with Docker and service API integrations.
 
   home_internal:
