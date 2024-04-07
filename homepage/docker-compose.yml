@@ -17,9 +17,9 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/custom.js:/app/config/custom.js:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/docker.yaml:/app/config/docker.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/kubernetes.yaml:/app/config/kubernetes.yaml:ro
-      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/services.yaml:/app/config/services.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/widgets.yaml:/app/config/widgets.yaml:ro
       # SPECIFIC CONFIG
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/public/services.yaml:/app/config/services.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/public/settings.yaml:/app/config/settings.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/public/logs:/app/config/logs
     labels:
@@ -50,9 +50,9 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/custom.js:/app/config/custom.js:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/docker.yaml:/app/config/docker.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/kubernetes.yaml:/app/config/kubernetes.yaml:ro
-      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/services.yaml:/app/config/services.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/common/widgets.yaml:/app/config/widgets.yaml:ro
       # SPECIFIC CONFIG
+      - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/internal/services.yaml:/app/config/services.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/internal/settings.yaml:/app/config/settings.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/internal/logs:/app/config/logs
     ports:
