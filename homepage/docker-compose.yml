@@ -3,6 +3,9 @@ services:
     image: ghcr.io/gethomepage/homepage:${VERSION:-latest}
     container_name: homepage_public
     restart: unless-stopped
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
     volumes:
       # DOCKER
       - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
@@ -33,6 +36,9 @@ services:
     image: ghcr.io/gethomepage/homepage:${VERSION:-latest}
     container_name: homepage_internal
     restart: unless-stopped
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
     volumes:
       # DOCKER
       - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
