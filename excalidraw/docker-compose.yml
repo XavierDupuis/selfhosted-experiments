@@ -7,8 +7,8 @@ services:
      - ${WEB_PORT:-80}:80
     labels:
       - traefik.enable=true
-      - traefik.http.routers.gitea.tls.certresolver=myresolver
-      - traefik.http.services.gitea.loadbalancer.server.port=80
+      - traefik.http.routers.excalidraw.tls.certresolver=myresolver
+      - traefik.http.services.excalidraw.loadbalancer.server.port=80
       - homepage.group=Utilities
       - homepage.name=Excalidraw
       - homepage.icon=excalidraw.png
