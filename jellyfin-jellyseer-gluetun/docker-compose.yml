@@ -116,7 +116,8 @@ services:
       - homepage.group=Media
       - homepage.name=Jellyfin
       - homepage.icon=jellyfin.png
-      - homepage.href=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
+      - homepage.instance.public.href=https://jellyfin.${DOMAIN:?Missing variable DOMAIN}
       - homepage.description=The Free Software Media System
       - homepage.widget.type=jellyfin
       - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
@@ -153,7 +154,8 @@ services:
       - homepage.group=Media
       - homepage.name=Jellyseerr
       - homepage.icon=jellyseerr.png
-      - homepage.href=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
+      - homepage.instance.public.href=https://jellyseerr.${DOMAIN:?Missing variable DOMAIN}
       - homepage.description=Request Management and Media Discovery Tool for the Jellyfin Ecosystem
       - homepage.widget.type=jellyseerr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
@@ -195,7 +197,8 @@ services:
       - homepage.group=Media
       - homepage.name=Qbittorrent
       - homepage.icon=qbittorrent.png
-      - homepage.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
+      - homepage.instance.public.href=https://qbittorrent.${DOMAIN:?Missing variable DOMAIN}
       - homepage.description=Free and reliable P2P Bitorrent client
       - homepage.widget.type=qbittorrent
       - homepage.widget.url=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
@@ -235,7 +238,7 @@ services:
       - homepage.group=Media
       - homepage.name=Prowlarr
       - homepage.icon=prowlarr.png
-      - homepage.href=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
       - homepage.description=Ultimate Indexer Manager
       - homepage.widget.type=prowlarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
@@ -270,7 +273,7 @@ services:
       - homepage.group=Media
       - homepage.name=Sonarr
       - homepage.icon=sonarr.png
-      - homepage.href=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
       - homepage.description=Internet PVR for Usenet and Torrents
       - homepage.widget.type=sonarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
@@ -306,7 +309,7 @@ services:
       - homepage.group=Media
       - homepage.name=Radarr
       - homepage.icon=radarr.png
-      - homepage.href=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
       - homepage.description=Movie collection manager for Usenet and BitTorrent
       - homepage.widget.type=radarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
@@ -342,7 +345,7 @@ services:
       - homepage.group=Media
       - homepage.name=Lidarr
       - homepage.icon=lidarr.png
-      - homepage.href=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
       - homepage.description=Music collection manager for Usenet and BitTorrent
       - homepage.widget.type=lidarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
@@ -377,7 +380,7 @@ services:
       - homepage.group=Media
       - homepage.name=Readarr
       - homepage.icon=readarr.png
-      - homepage.href=${HOST_URL:-http://localhost}:${READARR_WEB_PORT:-8787}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${READARR_WEB_PORT:-8787}
       - homepage.description=Book Manager and Automation
       - homepage.widget.type=readarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${READARR_WEB_PORT:-8787}
@@ -412,7 +415,7 @@ services:
       - homepage.group=Media
       - homepage.name=Bazarr
       - homepage.icon=bazarr.png
-      - homepage.href=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}
       - homepage.description=Manages and downloads subtitles
       - homepage.widget.type=bazarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}

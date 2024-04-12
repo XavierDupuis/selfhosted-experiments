@@ -29,7 +29,8 @@ services:
       - homepage.group=Utilities
       - homepage.name=Grafana
       - homepage.icon=grafana.png
-      - homepage.href=${HOST_URL:-http://localhost}:${GRAFANA_WEB_PORT:-3000}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${GRAFANA_WEB_PORT:-3000}
+      - homepage.instance.public.href=https://grafana.${DOMAIN:?Missing variable DOMAIN}
       - homepage.description=Visualize your data, optimize your performance
       - homepage.widget.type=grafana
       - homepage.widget.url=${HOST_URL:-http://localhost}:${GRAFANA_WEB_PORT:-3000}
@@ -66,7 +67,7 @@ services:
       - homepage.group=Utilities
       - homepage.name=Prometheus
       - homepage.icon=prometheus.png
-      - homepage.href=${HOST_URL:-http://localhost}:${PROMETHEUS_WEB_PORT:-9090}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${PROMETHEUS_WEB_PORT:-9090}
       - homepage.description=From metrics to insight
       - homepage.widget.type=prometheus
       - homepage.widget.url=${HOST_URL:-http://localhost}:${PROMETHEUS_WEB_PORT:-9090}

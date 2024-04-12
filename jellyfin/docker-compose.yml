@@ -24,5 +24,6 @@ services:
       - homepage.group=Media
       - homepage.name=Jellyfin
       - homepage.icon=jellyfin.png
-      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8096}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8096}
+      - homepage.instance.public.href=https://jellyfin.${DOMAIN:?Missing variable DOMAIN}
       - homepage.description=The Free Software Media System
