@@ -34,7 +34,8 @@ services:
       - homepage.group=Media
       - homepage.name=TubeArchivist
       - homepage.icon=tube-archivist.png
-      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8000}
+      - homepage.instance.public.href=https://tubearchivist.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8000}
       - homepage.description=Your self hosted YouTube media server
 
   archivist-redis:

@@ -12,5 +12,6 @@ services:
       - homepage.group=Utilities
       - homepage.name=Excalidraw
       - homepage.icon=excalidraw.png
-      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-80}
+      - homepage.instance.public.href=https://excalidraw.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-80}
       - homepage.description=Virtual whiteboard for sketching hand-drawn like diagrams

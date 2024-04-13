@@ -18,5 +18,6 @@ services:
       - homepage.group=Media
       - homepage.name=Navidrome
       - homepage.icon=navidrome.png
-      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-4533}
+      - homepage.instance.public.href=https://navidrome.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-https://localhost}:${WEB_PORT:-4533}
       - homepage.description=Web-based music collection server and streamer

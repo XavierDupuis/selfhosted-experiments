@@ -28,7 +28,8 @@ services:
       - traefik.http.services.tandoor.loadbalancer.server.port=8080
       - homepage.group=Projects
       - homepage.name=Tandoor
-      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
+      - homepage.instance.public.href=https://tandoor.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
       - homepage.icon=tandoor.png
       - homepage.description=Managing recipes, planning meals, building shopping lists.
 
