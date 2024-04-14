@@ -74,7 +74,8 @@ services:
       - homepage.group=Utilities
       - homepage.name=Paperless-ngx
       - homepage.icon=paperless-ngx.png
-      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8000}
+      - homepage.instance.public.href=https://paperless-ngx.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8000}
       - homepage.description=Scan, index and archive all your physical documents
 
 volumes:

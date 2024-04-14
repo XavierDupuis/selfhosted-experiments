@@ -26,6 +26,7 @@ services:
       - traefik.http.services.stirling-pdf.loadbalancer.server.port=8080
       - homepage.group=Utilities
       - homepage.name=Stirling-PDF
-      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
+      - homepage.instance.public.href=https://stirling-pdf.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
       - homepage.icon=stirling-pdf.png
       - homepage.description=Perform various operations on PDF files 

@@ -31,5 +31,6 @@ services:
       - homepage.group=Utilities
       - homepage.name=AdGuard
       - homepage.icon=adguard-home.png
-      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3000}
+      - homepage.instance.public.href=https://adguard.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3000}
       - homepage.description=Network-wide ads & trackers blocking DNS server

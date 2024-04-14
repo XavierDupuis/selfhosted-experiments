@@ -30,5 +30,6 @@ services:
       - homepage.group=Utilities
       - homepage.name=Kopia
       - homepage.icon=kopia.png
-      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-51515}
+      - homepage.instance.public.href=https://kopia.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-51515}
       - homepage.description=Cross-platform backup tool with fast, incremental backups, client-side end-to-end encryption, compression and data deduplication.

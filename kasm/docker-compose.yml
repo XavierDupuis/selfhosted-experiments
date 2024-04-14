@@ -23,5 +23,6 @@ services:
       - homepage.group=Utilities
       - homepage.name=KASM
       - homepage.icon=linuxserver-io.png
-      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-443}
+      - homepage.instance.public.href=https://kasm.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-443}
       - homepage.description=Graphical-based containers

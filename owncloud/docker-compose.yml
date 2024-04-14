@@ -41,7 +41,8 @@ services:
       - homepage.group=Media
       - homepage.name=OwnCloud
       - homepage.icon=owncloud.png
-      - homepage.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
+      - homepage.instance.public.href=https://owncloud.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
       - homepage.description=Secure cloud solution for filesharing
   
   mariadb:
