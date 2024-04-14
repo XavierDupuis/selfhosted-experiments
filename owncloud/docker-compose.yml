@@ -28,7 +28,7 @@ services:
       - OWNCLOUD_REDIS_ENABLED=true
       - OWNCLOUD_REDIS_HOST=redis
     volumes:
-      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/documents:/mnt/data
+      - ${DIRECTORY:?Missing variable DIRECTORY}/owncloud/data:/mnt/data
     healthcheck:
       test: ["CMD", "/usr/bin/healthcheck"]
       interval: 30s
