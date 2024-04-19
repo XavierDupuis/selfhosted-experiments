@@ -50,8 +50,8 @@ services:
     command: >
       -w "WORKGROUP"
       -u "${SAMBA_USERNAME:?Missing variable SAMBA_USERNAME};${SAMBA_PASSWORD:?Missing variable SAMBA_PASSWORD}"      
-      -s "private;/private;yes;no;no;${SAMBA_USERNAME:?Missing variable SAMBA_USERNAME};${SAMBA_USERNAME:?Missing variable SAMBA_USERNAME};${SAMBA_USERNAME:?Missing variable SAMBA_USERNAME}"
-      -s "public;/public;yes;no;no;all;${SAMBA_USERNAME:?Missing variable SAMBA_USERNAME};${SAMBA_USERNAME:?Missing variable SAMBA_USERNAME}"
+      -s "private;/shares/private;yes;no;no;${SAMBA_USERNAME:?Missing variable SAMBA_USERNAME};${SAMBA_USERNAME:?Missing variable SAMBA_USERNAME};${SAMBA_USERNAME:?Missing variable SAMBA_USERNAME}"
+      -s "public;/shares/public;yes;no;no;all;${SAMBA_USERNAME:?Missing variable SAMBA_USERNAME};${SAMBA_USERNAME:?Missing variable SAMBA_USERNAME}"
       -p
     ports:
       - "137:137/udp" # required to advertise shares (NMBD)
