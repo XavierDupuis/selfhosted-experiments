@@ -3,12 +3,6 @@ networks:
     name: monitoring
     driver: bridge
 
-volumes:
-  prometheus-data:
-    driver: local
-  grafana-data:
-    driver: local
-
 services:
 
   # https://grafana.com/docs/grafana/latest/
@@ -16,10 +10,13 @@ services:
     image: grafana/grafana-oss:${GRAFANA_VERSION:-latest}
     container_name: grafana
     restart: unless-stopped
+    user: 1000:1000
     ports:
       - ${GRAFANA_WEB_PORT:-3000}:3000
     volumes:
-      - grafana-data:/var/lib/grafana
+      # - grafana-data:/var/lib/grafana
+      - ${GRAFANA_LOCATION:?Missing variable GRAFANA_LOCATION}/data:/var/lib/grafana
+      - ${GRAFANA_LOCATION:?Missing variable GRAFANA_LOCATION}/provisioning/:/etc/grafana/provisioning
     networks:
       - monitoring
     labels:
@@ -42,9 +39,14 @@ services:
     image: prom/prometheus:${PROMETHEUS_VERSION:-latest}
     container_name: prometheus
     restart: unless-stopped
+    user: 1000:1000
+    ports:
+      - ${PROMETHEUS_WEB_PORT:-9090}:9090
+    expose:
+      - 9090
     volumes:
       - ${PROMETHEUS_LOCATION:?Missing variable PROMETHEUS_LOCATION}/config:/etc/prometheus
-      - prometheus-data:/prometheus
+      - ${PROMETHEUS_LOCATION:?Missing variable PROMETHEUS_LOCATION}/data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -52,10 +54,6 @@ services:
       - '--web.console.libraries=/etc/prometheus/console_libraries'
       - '--web.console.templates=/etc/prometheus/consoles'
       - '--web.enable-lifecycle'
-    ports:
-      - ${PROMETHEUS_WEB_PORT:-9090}:9090
-    expose:
-      - 9090
     networks:
       - monitoring
     extra_hosts:
