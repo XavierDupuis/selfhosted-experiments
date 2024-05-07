@@ -182,3 +182,17 @@ services:
       - 9798
     networks:
       - monitoring
+
+  # https://github.com/prometheus-pve/prometheus-pve-exporter
+  pve-exporter:
+    image: prompve/prometheus-pve-exporter:${VERSION:-latest}
+    container_name: pve-exporter
+    restart: unless-stopped
+    environment:
+      - PVE_VERIFY_SSL=false
+      - PVE_USER=${PVE_USER:?Missing variable PVE_USER}
+      - PVE_PASSWORD=${PVE_PASSWORD:?Missing variable PVE_TOKEN_NAME}
+    expose:
+      - 9221
+    networks:
+      - monitoring

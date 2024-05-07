@@ -40,3 +40,22 @@ scrape_configs:
   - job_name: 'navidrome'
     static_configs:
       - targets: ['host.docker.internal:9006']
+
+ # https://github.com/prometheus-pve/prometheus-pve-exporter?tab=readme-ov-file#prometheus-configuration
+  - job_name: 'pve'
+    static_configs:
+      - targets:
+        - 192.168.1.2
+        - 192.168.1.3
+    metrics_path: /pve
+    params:
+      module: [default]
+      cluster: ['1']
+      node: ['1']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: pve-exporter:9221
