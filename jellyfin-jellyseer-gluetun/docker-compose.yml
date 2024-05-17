@@ -245,7 +245,7 @@ services:
       - homepage.widget.key=${PROWLARR_API_KEY}
 
   sonarr:
-    image: linuxserver/sonarr:${SONARR_VERSION:-latest}
+    image: lscr.io/linuxserver/sonarr:${SONARR_VERSION:-latest}
     container_name: sonarr
     restart: unless-stopped
     ### WHEN VPN USED
