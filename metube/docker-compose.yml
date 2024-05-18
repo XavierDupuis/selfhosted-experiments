@@ -15,7 +15,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.metube.tls.certresolver=myresolver
       - traefik.http.services.metube.loadbalancer.server.port=8081
-      - homepage.group=Utilities
+      - homepage.group=Download
       - homepage.name=MeTube
       - homepage.icon=metube.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8081}

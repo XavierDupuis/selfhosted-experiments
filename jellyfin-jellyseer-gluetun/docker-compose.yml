@@ -62,7 +62,7 @@ services:
       - PGID=${PGID:-1000}
       - UMASK=${UMASK:-0002}
     labels:
-      - homepage.group=Media
+      - homepage.group=Servarr
       - homepage.name=Gluetun
       - homepage.icon=gluetun.png
       - homepage.description=Lightweight swiss-knife-like VPN client to multiple VPN service providers
@@ -194,7 +194,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
       - traefik.http.services.qbittorrent.loadbalancer.server.port=${QBITTORRENT_WEB_PORT:-3000}
-      - homepage.group=Media
+      - homepage.group=Download
       - homepage.name=Qbittorrent
       - homepage.icon=qbittorrent.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
@@ -235,7 +235,7 @@ services:
     volumes:
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/prowlarr/config:/config
     labels:
-      - homepage.group=Media
+      - homepage.group=Servarr
       - homepage.name=Prowlarr
       - homepage.icon=prowlarr.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
@@ -270,7 +270,7 @@ services:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/tv
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
-      - homepage.group=Media
+      - homepage.group=Servarr
       - homepage.name=Sonarr
       - homepage.icon=sonarr.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
@@ -306,7 +306,7 @@ services:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
-      - homepage.group=Media
+      - homepage.group=Servarr
       - homepage.name=Radarr
       - homepage.icon=radarr.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
@@ -342,7 +342,7 @@ services:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
-      - homepage.group=Media
+      - homepage.group=Servarr
       - homepage.name=Lidarr
       - homepage.icon=lidarr.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
@@ -377,7 +377,7 @@ services:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/books:/books
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
-      - homepage.group=Media
+      - homepage.group=Servarr
       - homepage.name=Readarr
       - homepage.icon=readarr.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${READARR_WEB_PORT:-8787}
@@ -412,7 +412,7 @@ services:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
-      - homepage.group=Media
+      - homepage.group=Servarr
       - homepage.name=Bazarr
       - homepage.icon=bazarr.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}

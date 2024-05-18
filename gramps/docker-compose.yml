@@ -25,7 +25,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.gramps.tls.certresolver=myresolver
       - traefik.http.services.gramps.loadbalancer.server.port=5000
-      - homepage.group=Projects
+      - homepage.group=Utilities
       - homepage.name=Gramps
       - homepage.icon=gramps.png
       - homepage.instance.public.href=https://gramps.${DOMAIN:?Missing variable DOMAIN}

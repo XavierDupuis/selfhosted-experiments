@@ -26,7 +26,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.homepage.tls.certresolver=myresolver
       - traefik.http.services.homepage.loadbalancer.server.port=3000
-      - homepage.group=Utilities
+      - homepage.group=Monitoring
       - homepage.name=Homepage
       - homepage.icon=homepage.png
       - homepage.instance.public.href=https://home.${DOMAIN:?Missing variable DOMAIN}

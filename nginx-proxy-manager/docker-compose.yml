@@ -21,7 +21,7 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/nginx/data:/data
       - /etc/letsencrypt:/etc/letsencrypt
     labels:
-      - homepage.group=Utilities
+      - homepage.group=Network
       - homepage.name=Nginx Proxy Manager
       - homepage.icon=nginx-proxy-manager.png
       - homepage.instance.public.href=https://nginx-proxy-manager.${DOMAIN:?Missing variable DOMAIN}

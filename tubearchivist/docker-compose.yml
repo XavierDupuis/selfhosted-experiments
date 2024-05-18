@@ -31,7 +31,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.tubearchivist.tls.certresolver=myresolver
       - traefik.http.services.tubearchivist.loadbalancer.server.port=8000
-      - homepage.group=Media
+      - homepage.group=Download
       - homepage.name=TubeArchivist
       - homepage.icon=tube-archivist.png
       - homepage.instance.public.href=https://tubearchivist.${DOMAIN:?Missing variable DOMAIN}

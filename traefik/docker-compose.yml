@@ -76,7 +76,7 @@ services:
     environment:
       - DUCKDNS_TOKEN=${DUCKDNS_TOKEN:?Missing variable DUCKDNS_TOKEN}
     labels:
-      - homepage.group=Utilities
+      - homepage.group=Network
       - homepage.name=Traefik
       - homepage.icon=traefik.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}

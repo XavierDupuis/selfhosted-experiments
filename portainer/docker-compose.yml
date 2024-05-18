@@ -15,7 +15,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.portainer.tls.certresolver=myresolver
       - traefik.http.services.portainer.loadbalancer.server.port=9000
-      - homepage.group=Utilities
+      - homepage.group=Management
       - homepage.name=Portainer
       - homepage.icon=portainer.png
       - homepage.instance.public.href=https://portainer.${DOMAIN:?Missing variable DOMAIN}

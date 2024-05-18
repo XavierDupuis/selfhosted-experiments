@@ -28,7 +28,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.adguard.tls.certresolver=myresolver
       - traefik.http.services.adguard.loadbalancer.server.port=3000
-      - homepage.group=Utilities
+      - homepage.group=Network
       - homepage.name=AdGuard
       - homepage.icon=adguard-home.png
       - homepage.instance.public.href=https://adguard.${DOMAIN:?Missing variable DOMAIN}

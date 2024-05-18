@@ -23,7 +23,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.grafana.tls.certresolver=myresolver
       - traefik.http.services.grafana.loadbalancer.server.port=3000
-      - homepage.group=Utilities
+      - homepage.group=Monitoring
       - homepage.name=Grafana
       - homepage.icon=grafana.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${GRAFANA_WEB_PORT:-3000}
@@ -62,7 +62,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.prometheus.tls.certresolver=myresolver
       - traefik.http.services.prometheus.loadbalancer.server.port=9090
-      - homepage.group=Utilities
+      - homepage.group=Monitoring
       - homepage.name=Prometheus
       - homepage.icon=prometheus.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${PROMETHEUS_WEB_PORT:-9090}
@@ -122,7 +122,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.influxdb.tls.certresolver=myresolver
       - traefik.http.services.influxdb.loadbalancer.server.port=8086
-      - homepage.group=Utilities
+      - homepage.group=Monitoring
       - homepage.name=InfluxDB
       - homepage.icon=influxdb.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${INFLUXDB_WEB_PORT:-8086}

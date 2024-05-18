@@ -18,7 +18,7 @@ services:
      - /dev/ttyUSB0:/dev/ttyUSB0
      - /dev/video0:/dev/video0
     labels:
-    - homepage.group=Projects
+    - homepage.group=Utilities
     - homepage.name=Octoprint
     - homepage.icon=octoprint.png
     - homepage.instance.public.href=https://octoprint.${DOMAIN:?Missing variable DOMAIN}

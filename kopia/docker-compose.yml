@@ -27,7 +27,7 @@ services:
       # Backup to
       - ${DIRECTORY:?Missing variable DIRECTORY}/kopia/repository:/repository
     labels:
-      - homepage.group=Utilities
+      - homepage.group=Services
       - homepage.name=Kopia
       - homepage.icon=kopia.png
       - homepage.instance.public.href=https://kopia.${DOMAIN:?Missing variable DOMAIN}

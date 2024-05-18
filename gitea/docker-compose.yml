@@ -26,7 +26,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.gitea.tls.certresolver=myresolver
       - traefik.http.services.gitea.loadbalancer.server.port=3000
-      - homepage.group=Projects
+      - homepage.group=Development
       - homepage.name=Gitea
       - homepage.icon=gitea.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3000}
