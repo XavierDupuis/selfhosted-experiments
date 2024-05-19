@@ -68,8 +68,7 @@ services:
       POSTGRES_USER: ${DB_USERNAME:?Missing variable DB_USERNAME}
       POSTGRES_DB: ${DB_DATABASE_NAME:?Missing variable DB_DATABASE_NAME}
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ${DATABASE_LOCATION:?Missing variable DATABASE_LOCATION}:/var/lib/postgresql/data
 
 volumes:
-  pgdata:
   model-cache:
