@@ -1,0 +1,8 @@
+# https://gethomepage.dev/latest/configs/docker/
+
+docker:
+  socket: /var/run/docker.sock
+
+# remote:
+#   host: 192.168.1.1
+#   port: 2375
