@@ -1,9 +1,3 @@
-volumes:
-  mysql:
-    driver: local
-  redis:
-    driver: local
-
 services:
   owncloud:
     image: owncloud/server:${VERSION:-latest}
@@ -61,7 +55,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - mysql:/var/lib/mysql
+      - ${DIRECTORY:?Missing variable DIRECTORY}/owncloud/mysql:/var/lib/mysql
 
   redis:
     image: redis:6
@@ -74,4 +68,4 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - redis:/data
+      - ${DIRECTORY:?Missing variable DIRECTORY}/owncloud/redis:/data
