@@ -22,7 +22,7 @@ services:
         # - 5443:5443/tcp
         # - 5443:5443/udp
     volumes:
-      - ${DIRECTORY:?Missing variable DIRECTORY}/adguard/data:/opt/adguardhome/work
+      - ${DIRECTORY:?Missing variable DIRECTORY}/adguard/data:/opt/adguardhome/work/data
       - ${DIRECTORY:?Missing variable DIRECTORY}/adguard/config:/opt/adguardhome/conf
     labels:
       - traefik.enable=true
