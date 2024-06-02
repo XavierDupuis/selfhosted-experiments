@@ -37,6 +37,9 @@ services:
       - homepage.instance.public.href=https://tubearchivist.${DOMAIN:?Missing variable DOMAIN}
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8000}
       - homepage.description=Your self hosted YouTube media server
+      - homepage.widget.type=tubearchivist
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-8000}
+      - homepage.widget.key=${TA_TOKEN}
 
   archivist-redis:
     image: redis/redis-stack-server
@@ -68,6 +71,7 @@ services:
     expose:
       - "9200"
 
+  # Uncomment for Jellyfin integration
   # tubearchivist-jf:
   #   image: bbilly1/tubearchivist-jf
   #   container_name: tubearchivist-jf
