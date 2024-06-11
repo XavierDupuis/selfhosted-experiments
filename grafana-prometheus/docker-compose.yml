@@ -14,7 +14,6 @@ services:
     ports:
       - ${GRAFANA_WEB_PORT:-3000}:3000
     volumes:
-      # - grafana-data:/var/lib/grafana
       - ${GRAFANA_LOCATION:?Missing variable GRAFANA_LOCATION}/data:/var/lib/grafana
       - ${GRAFANA_LOCATION:?Missing variable GRAFANA_LOCATION}/provisioning/:/etc/grafana/provisioning
     networks:
