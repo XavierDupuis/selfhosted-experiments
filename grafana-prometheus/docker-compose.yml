@@ -75,6 +75,7 @@ services:
     image: grafana/loki:${LOKI_VERSION:-latest}
     container_name: loki
     restart: unless-stopped
+    user: 1000:1000
     ports:
       - ${LOKI_WEB_PORT:-3100}:3100
     volumes:
