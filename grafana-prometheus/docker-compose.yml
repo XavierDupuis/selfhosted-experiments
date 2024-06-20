@@ -191,7 +191,7 @@ services:
     environment:
       - PVE_VERIFY_SSL=false
       - PVE_USER=${PVE_USER:?Missing variable PVE_USER}
-      - PVE_PASSWORD=${PVE_PASSWORD:?Missing variable PVE_TOKEN_NAME}
+      - PVE_PASSWORD=${PVE_PASSWORD:?Missing variable PVE_PASSWORD}
     expose:
       - 9221
     networks:
