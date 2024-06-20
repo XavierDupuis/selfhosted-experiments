@@ -1,6 +1,6 @@
 services:
   tubearchivist:
-    image: bbilly1/tubearchivist
+    image: bbilly1/tubearchivist:${VERSION:-latest}
     container_name: tubearchivist
     restart: unless-stopped
     ports:
@@ -42,7 +42,7 @@ services:
       - homepage.widget.key=${TA_TOKEN}
 
   archivist-redis:
-    image: redis/redis-stack-server
+    image: redis/redis-stack-server:latest
     container_name: archivist-redis
     restart: unless-stopped
     expose:
@@ -53,7 +53,7 @@ services:
       - archivist-es
 
   archivist-es:
-    image: bbilly1/tubearchivist-es         # only for amd64, or use official es 8.11.0
+    image: bbilly1/tubearchivist-es:latest         # only for amd64, or use official es 8.11.0
     container_name: archivist-es
     restart: unless-stopped
     environment:
