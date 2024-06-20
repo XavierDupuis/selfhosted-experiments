@@ -1,6 +1,6 @@
 services:
   wireguard:
-    image: lscr.io/linuxserver/wireguard:latest
+    image: lscr.io/linuxserver/wireguard:${VERSION:-latest}
     container_name: wireguard
     restart: unless-stopped
     cap_add:
