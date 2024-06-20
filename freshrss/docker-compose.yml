@@ -1,0 +1,27 @@
+services:
+  freshrss:
+    image: lscr.io/linuxserver/freshrss:${VERSION:-latest}
+    container_name: freshrss
+    restart: unless-stopped
+    ports:
+      - ${WEB_PORT:-80}:80
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/freshrss/config:/config
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ:-Etc/UTC}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.freshrss.tls.certresolver=myresolver
+      - traefik.http.services.freshrss.loadbalancer.server.port=80
+      - homepage.group=Monitoring
+      - homepage.name=FreshRSS
+      - homepage.icon=freshrss.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-80}
+      - homepage.instance.public.href=https://freshrss.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.description=A free, self-hostable feed aggregator
+      - homepage.widget.type=freshrss
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-80}
+      - homepage.widget.username=${FRESHRSS_USERNAME}
+      - homepage.widget.password=${FRESHRSS_PASSWORD}
