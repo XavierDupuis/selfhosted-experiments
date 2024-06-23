@@ -23,6 +23,8 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/public/services.yaml:/app/config/services.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/public/settings.yaml:/app/config/settings.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/public/logs:/app/config/logs
+    ports:
+      - "${PUBLIC_WEB_PORT:-3000}:3000"
     labels:
       - traefik.enable=true
       - traefik.http.routers.homepage.tls.certresolver=myresolver
@@ -31,6 +33,7 @@ services:
       - homepage.name=Homepage
       - homepage.icon=homepage.png
       - homepage.instance.public.href=https://home.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${PUBLIC_WEB_PORT:-3000}
       - homepage.description=Highly customizable homepage with Docker and service API integrations.
 
   home_internal:
@@ -58,10 +61,10 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/internal/settings.yaml:/app/config/settings.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/internal/logs:/app/config/logs
     ports:
-      - "${WEB_PORT:-3000}:3000"
+      - "${PRIVATE_WEB_PORT:-3000}:3000"
     labels:
       - homepage.group=Utilities
       - homepage.name=Homepage (internal)
       - homepage.icon=homepage.png
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3000}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${PRIVATE_WEB_PORT:-3000}
       - homepage.description=Highly customizable homepage with Docker and service API integrations.
