@@ -1,0 +1,106 @@
+services:
+  ollama:
+    image: ollama/ollama:${OLLAMA_VERSION:-latest}
+    container_name: ollama
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - OLLAMA_KEEP_ALIVE=24h
+      # - ENABLE_IMAGE_GENERATION=True
+      # - COMFYUI_BASE_URL=http://stable-diffusion-webui:7860
+    networks:
+      - gen-ai
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/gen-ai/ollama:/root/.ollama
+    labels:
+      # - traefik.enable=true
+      # - traefik.http.routers.ollama.tls.certresolver=myresolver
+      # - traefik.http.services.ollama.loadbalancer.server.port=11434
+      - homepage.group=Utilities
+      - homepage.name=Ollama
+      - homepage.icon=ollama.png
+      # - homepage.instance.public.href=https://ollama.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-11434}
+      - homepage.description=Get up and running with Llama 3, Mistral, Gemma 2, and other large language models.
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:${OPENWEBUI_VERSION:-latest}
+    container_name: open-webui
+    restart: unless-stopped
+    depends_on:
+      - ollama
+    networks:
+      - gen-ai
+    ports:
+      - ${OPENWEBUI_WEB_PORT:-8080}:8080
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - ENABLE_RAG_WEB_SEARCH=True
+      - RAG_WEB_SEARCH_ENGINE=searxng
+      - RAG_WEB_SEARCH_RESULT_COUNT=3
+      - RAG_WEB_SEARCH_CONCURRENT_REQUESTS=10
+      - SEARXNG_QUERY_URL=http://searxng:8080/search?q=<query>
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/gen-ai/open-webui/data:/app/backend/data
+    labels:
+      # - traefik.enable=true
+      # - traefik.http.routers.openwebui.tls.certresolver=myresolver
+      # - traefik.http.services.openwebui.loadbalancer.server.port=8080
+      - homepage.group=Utilities
+      - homepage.name=Open WebUI
+      - homepage.icon=open-webui.png
+      # - homepage.instance.public.href=https://openwebui.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${OPENWEBUI_WEB_PORT:-8080}
+      - homepage.description=User-friendly WebUI for LLMs
+
+  searxng:
+    image: searxng/searxng:${SEARXNG_VERSION:-latest}
+    container_name: searxng
+    restart: unless-stopped
+    depends_on:
+      - ollama
+      - open-webui
+    networks:
+      - gen-ai
+    ports:
+      - ${SEARXNG_WEB_PORT:-8080}:8080
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/gen-ai/searxng:/etc/searxng
+    labels:
+      # - traefik.enable=true
+      # - traefik.http.routers.searxng.tls.certresolver=myresolver
+      # - traefik.http.services.searxng.loadbalancer.server.port=8080
+      - homepage.group=Utilities
+      - homepage.name=SearXNG
+      - homepage.icon=searxng.png
+      # - homepage.instance.public.href=https://searxng.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${SEARXNG_WEB_PORT:-8080}
+      - homepage.description=Free internet metasearch engine which aggregates results from various search services and databases
+
+networks:
+  gen-ai:
+    name: gen-ai
+    driver: bridge
