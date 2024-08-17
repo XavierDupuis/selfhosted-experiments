@@ -38,7 +38,7 @@ services:
     container_name: tandoor_db
     restart: unless-stopped
     volumes:
-      - db_recipes:/var/lib/postgresql/data
+      - ${DIRECTORY:?Missing variable DIRECTORY}/tandoor/data:/var/lib/postgresql/data
     # environment:
     #   - DEBUG=${DEBUG:-0}
     #   - GUNICORN_MEDIA=${GUNICORN_MEDIA:-0}
@@ -51,6 +51,3 @@ services:
     #   - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Missing variable POSTGRES_PASSWORD}
     env_file:
       - stack.env
-
-volumes:
-  db_recipes:
