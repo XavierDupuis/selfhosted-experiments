@@ -7,7 +7,7 @@ services:
       - ${WEB_PORT:-8000}:8000
     volumes:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/youtube:/youtube
-      - ${DIRECTORY:?Missing variable DIRECTORY}/tube-archivist:/cache
+      - ${DIRECTORY:?Missing variable DIRECTORY}/tube-archivist/cache:/cache
     environment:
       - ES_URL=http://archivist-es:9200         # needs protocol e.g. http and port
       - REDIS_HOST=archivist-redis              # don't add protocol
@@ -48,7 +48,7 @@ services:
     expose:
       - "6379"
     volumes:
-      - redis:/data
+      - ${DIRECTORY:?Missing variable DIRECTORY}/tube-archivist/redis:/data
     depends_on:
       - archivist-es
 
@@ -67,14 +67,10 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - es:/usr/share/elasticsearch/data    # check for permission error when using bind mount, see readme
+      - ${DIRECTORY:?Missing variable DIRECTORY}/tube-archivist/es:/usr/share/elasticsearch/data    # check for permission error when using bind mount, see readme
     expose:
       - "9200"
 
   # For integration with Jellyfin, see
   # https://github.com/tubearchivist/tubearchivist-jf-plugin?tab=readme-ov-file#installation 
   # https://github.com/tubearchivist/tubearchivist-jf-plugin?tab=readme-ov-file#configuration
-
-volumes:
-  redis:
-  es:
