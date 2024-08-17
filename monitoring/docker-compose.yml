@@ -58,9 +58,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.prometheus.tls.certresolver=myresolver
-      - traefik.http.services.prometheus.loadbalancer.server.port=9090
       - homepage.group=Monitoring
       - homepage.name=Prometheus
       - homepage.icon=prometheus.png
