@@ -30,4 +30,4 @@ services:
     devices:
       - /dev/kmsg
     ports:
-      - 8080:8080
+      - 9101:8080
