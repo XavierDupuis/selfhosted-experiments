@@ -20,5 +20,5 @@ services:
       - homepage.group=Projects
       - homepage.name=Minecraft Java
       - homepage.icon=minecraft.png
-      - homepage.href=${HOST_URL:-http://localhost}:${TCP_PORT:-25565}
+      # - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${TCP_PORT:-25565}
       - homepage.description=v${MINECRAFT_VERSION:?Missing variable MINECRAFT_VERSION}
