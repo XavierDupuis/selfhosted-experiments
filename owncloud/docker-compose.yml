@@ -1,6 +1,6 @@
 services:
   owncloud:
-    image: owncloud/server:${VERSION:-latest}
+    image: owncloud/server:10.13.4
     container_name: owncloud
     restart: unless-stopped
     ports:
