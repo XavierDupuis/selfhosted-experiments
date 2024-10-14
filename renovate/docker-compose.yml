@@ -1,0 +1,32 @@
+services:
+  renovate:
+    image: ghcr.io/mend/renovate-ce:8.4.0
+    container_name: renovate
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-8080}:8080"
+    environment:
+      LOG_LEVEL: debug  # Defaults to 'info'
+      # LOG_FORMAT: json  # Defaults to 'pretty'. Useful when importing logs to reporting tool (eg. Splunk).
+      MEND_RNV_LICENSE_KEY: ${LICENSE_KEY:?Missing variable LICENSE_KEY}
+      MEND_RNV_ACCEPT_TOS: Y
+      
+      # Provide connection details for the GitHub App
+      # Available at: https://github.com/settings/apps/<your-renovate-app>
+      MEND_RNV_PLATFORM: github
+      MEND_RNV_GITHUB_APP_ID: ${GITHUB_APP_ID:?Missing variable GITHUB_APP_ID}
+      # MEND_RNV_GITHUB_APP_KEY: ${GITHUB_APP_KEY:?Missing variable GITHUB_APP_KEY}
+      MEND_RNV_GITHUB_PEM_FILE_PATH: ${GITHUB_PEM_FILE_PATH:?Missing variable GITHUB_PEM_FILE_PATH}
+      MEND_RNV_WEBHOOK_SECRET: ${WEBHOOK_SECRET:?Missing variable WEBHOOK_SECRET}
+
+      # Mend Renovate Application settings (Optional)
+      # MEND_RNV_ADMIN_API_ENABLED: true  # Enable incoming API calls. Must set MEND_RNV_SERVER_API_SECRET.
+      # MEND_RNV_SERVER_API_SECRET: abc123 # Required to enable APIs
+      # MEND_RNV_LOG_HISTORY_DIR: /logs  # Persist Renovate job logs - organized by org/rep/timestamp. Enable volume mount!
+      # MEND_RNV_SQLITE_FILE_PATH: /db/renovate-ce.sqlite  # Persist database to file. Enable volume mount! (Defaults to '/tmp/database.sqlite')
+      # MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: 'enabled', 'disabled', 'discovered' (default)
+      # MEND_RNV_AUTODISCOVER_FILTER: org1/*, org2/test* # Renovate will only run on these repos
+    volumes:
+      - "${DIRECTORY:?Missing variable DIRECTORY}/renovate/data:/db"
+      - "${DIRECTORY:?Missing variable DIRECTORY}/renovate/logs:/logs"
+      - "${DIRECTORY:?Missing variable DIRECTORY}/renovate/key/renovate.private-key.pem:${GITHUB_PEM_FILE_PATH:?Missing variable GITHUB_PEM_FILE_PATH}"
