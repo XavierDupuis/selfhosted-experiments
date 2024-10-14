@@ -352,7 +352,7 @@ services:
       - homepage.widget.key=${LIDARR_API_KEY}
 
   readarr:
-    image: lscr.io/linuxserver/readarr:0.3.32
+    image: lscr.io/linuxserver/readarr:1.0.1126
     container_name: readarr
     restart: unless-stopped
     ### WHEN VPN USED
