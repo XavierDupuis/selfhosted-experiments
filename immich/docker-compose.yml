@@ -1,6 +1,6 @@
 services:
   immich:
-    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    image: ghcr.io/immich-app/immich-server:v1.116.2
     container_name: immich_server
     restart: unless-stopped
     volumes:
@@ -28,7 +28,7 @@ services:
       - homepage.widget.key=${IMMICH_API_KEY}
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+    image: ghcr.io/immich-app/immich-machine-learning:v1.116.2
     container_name: immich_machine_learning
     restart: unless-stopped
     volumes:

@@ -11,7 +11,7 @@ networks:
 services:
   # https://github.com/qdm12/gluetun/wiki
   gluetun:
-    image: qmcgaw/gluetun:${GLUETUN_VERSION:-latest}
+    image: qmcgaw/gluetun:v3.37.1
     container_name: gluetun
     restart: unless-stopped
     devices:
@@ -76,7 +76,7 @@ services:
       retries: 1
 
   jellyfin:
-    image: jellyfin/jellyfin:${JELLYFIN_VERSION:-latest}
+    image: jellyfin/jellyfin:10.9.1
     container_name: jellyfin
     restart: unless-stopped
     ### WHEN VPN USED
@@ -126,7 +126,7 @@ services:
       - homepage.widget.enableNowPlaying=true  # optional, defaults to true
 
   jellyseerr:
-    image: fallenbagel/jellyseerr:${JELLYSEERR_VERSION:-latest}
+    image: fallenbagel/jellyseerr:1.9.2
     container_name: jellyseerr
     restart: unless-stopped
     ### WHEN VPN USED
@@ -163,7 +163,7 @@ services:
 
   qbittorrent:
     container_name: qbittorrent
-    image: lscr.io/linuxserver/qbittorrent:${QBITTORRENT_VERSION:-latest}
+    image: lscr.io/linuxserver/qbittorrent:4.6.5
     restart: unless-stopped
     ### WHEN VPN USED
     network_mode: service:gluetun
@@ -213,7 +213,7 @@ services:
 
   prowlarr:
     container_name: prowlarr
-    image: linuxserver/prowlarr:${PROWLARR_VERSION:-latest}
+    image: linuxserver/prowlarr:1.21.2
     restart: unless-stopped
     ### WHEN VPN USED
     # network_mode: service:gluetun
@@ -245,7 +245,7 @@ services:
       - homepage.widget.key=${PROWLARR_API_KEY}
 
   sonarr:
-    image: lscr.io/linuxserver/sonarr:${SONARR_VERSION:-latest}
+    image: lscr.io/linuxserver/sonarr:4.0.8
     container_name: sonarr
     restart: unless-stopped
     ### WHEN VPN USED
@@ -282,7 +282,7 @@ services:
 
   radarr:
     container_name: radarr
-    image: lscr.io/linuxserver/radarr:${RADARR_VERSION:-latest}
+    image: lscr.io/linuxserver/radarr:5.8.3
     restart: unless-stopped
     ### WHEN VPN USED
     # network_mode: service:gluetun
@@ -317,7 +317,7 @@ services:
       - homepage.widget.enableQueue=true # optional, defaults to false
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:${LIDARR_VERSION:-latest}
+    image: lscr.io/linuxserver/lidarr:2.4.3
     container_name: lidarr
     restart: unless-stopped
     ### WHEN VPN USED
@@ -352,7 +352,7 @@ services:
       - homepage.widget.key=${LIDARR_API_KEY}
 
   readarr:
-    image: lscr.io/linuxserver/readarr:${READARR_VERSION:-develop} # develop tag must be present
+    image: lscr.io/linuxserver/readarr:0.3.32
     container_name: readarr
     restart: unless-stopped
     ### WHEN VPN USED
@@ -387,7 +387,7 @@ services:
       - homepage.widget.key=${READARR_API_KEY}
 
   bazarr:
-    image: lscr.io/linuxserver/bazarr
+    image: lscr.io/linuxserver/bazarr:1.4.3
     container_name: bazarr
     restart: unless-stopped
     ### WHEN VPN USED
