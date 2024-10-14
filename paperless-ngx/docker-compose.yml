@@ -7,7 +7,7 @@ services:
       - redisdata:/data
 
   db:
-    image: docker.io/library/postgres:15
+    image: docker.io/library/postgres:17
     container_name: paperless-ngx-db
     restart: unless-stopped
     volumes:
