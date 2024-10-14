@@ -34,7 +34,7 @@ services:
       - homepage.description=Managing recipes, planning meals, building shopping lists.
 
   db_recipes:
-    image: postgres:15-alpine
+    image: postgres:17-alpine
     container_name: tandoor_db
     restart: unless-stopped
     volumes:
