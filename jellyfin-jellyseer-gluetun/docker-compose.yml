@@ -11,7 +11,7 @@ networks:
 services:
   # https://github.com/qdm12/gluetun/wiki
   gluetun:
-    image: qmcgaw/gluetun:v3.37.1
+    image: qmcgaw/gluetun:v3.39.1
     container_name: gluetun
     restart: unless-stopped
     devices:
