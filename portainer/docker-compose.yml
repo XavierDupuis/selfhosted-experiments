@@ -1,6 +1,6 @@
 services:
   portainer:
-    image: portainer/portainer-ce:${VERSION:-latest}
+    image: portainer/portainer-ce:2.20.1
     container_name: portainer
     restart: unless-stopped
     security_opt:
