@@ -1,6 +1,6 @@
 services:
   octoprint:
-    image: octoprint/octoprint:${VERSION:-latest}
+    image: octoprint/octoprint:1.9.3
     container_name: octoprint
     restart: unless-stopped
     ports:
