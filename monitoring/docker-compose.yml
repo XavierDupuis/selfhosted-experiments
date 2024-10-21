@@ -68,7 +68,7 @@ services:
 
   # https://grafana.com/docs/loki/latest/
   loki:
-    image: grafana/loki:3.0.0
+    image: grafana/loki:3.2.1
     container_name: loki
     restart: unless-stopped
     user: 1000:1000
