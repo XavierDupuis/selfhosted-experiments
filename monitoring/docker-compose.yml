@@ -85,7 +85,7 @@ services:
   
   # https://grafana.com/docs/loki/latest/send-data/promtail/
   promtail:
-    image: grafana/promtail:3.0.0
+    image: grafana/promtail:3.2.1
     container_name: promtail
     restart: unless-stopped
     ports:
