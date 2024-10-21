@@ -35,7 +35,7 @@ services:
 
   # https://prometheus.io/
   prometheus:
-    image: prom/prometheus:2.53.2
+    image: prom/prometheus:v2.53.2
     container_name: prometheus
     restart: unless-stopped
     user: 1000:1000
