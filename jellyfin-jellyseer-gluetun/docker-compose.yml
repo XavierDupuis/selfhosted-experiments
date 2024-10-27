@@ -282,7 +282,7 @@ services:
 
   radarr:
     container_name: radarr
-    image: lscr.io/linuxserver/radarr:5.12.2
+    image: lscr.io/linuxserver/radarr:5.14.0
     restart: unless-stopped
     ### WHEN VPN USED
     # network_mode: service:gluetun
