@@ -1,6 +1,6 @@
 services:
   immich:
-    image: ghcr.io/immich-app/immich-server:v1.117.0
+    image: ghcr.io/immich-app/immich-server:v1.119.1
     container_name: immich_server
     restart: unless-stopped
     volumes:
