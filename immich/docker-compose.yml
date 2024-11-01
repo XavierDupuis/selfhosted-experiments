@@ -26,6 +26,7 @@ services:
       - homepage.widget.type=immich
       - homepage.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-3001}
       - homepage.widget.key=${IMMICH_API_KEY}
+      - homepage.widget.version=2 # >= v1.118
 
   immich-machine-learning:
     image: ghcr.io/immich-app/immich-machine-learning:v1.117.0
