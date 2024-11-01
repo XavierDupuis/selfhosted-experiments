@@ -1,6 +1,6 @@
 services:
   navidrome:
-    image: deluan/navidrome:${VERSION:-latest}
+    image: deluan/navidrome:0.52.5
     container_name: navidrome
     restart: unless-stopped
     ports:
