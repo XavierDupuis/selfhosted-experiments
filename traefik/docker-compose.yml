@@ -5,15 +5,17 @@ services:
     restart: unless-stopped
     network_mode: "host"
     command:
+      - --global.sendanonymoususage=false
       # - --log.level=DEBUG
-      - --api.insecure=true
+      - --log.filePath=/logs/debug.log
+      # - --api.insecure=true
 
       # Enable docker provider
-      - --providers.docker=true
+      # - --providers.docker=true
       # Docker containers not exposed by default
-      - --providers.docker.exposedbydefault=false
+      # - --providers.docker.exposedbydefault=false
       # Docker provider default rule
-      - --providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN:?Missing variable DOMAIN}`)
+      # - --providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN:?Missing variable DOMAIN}`)
 
       # Enable file provider
       - --providers.file=true
