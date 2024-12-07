@@ -127,7 +127,7 @@ services:
       - homepage.description=Real-time insights from any time series data with a single, purpose-built database
 
   pve-exporter:
-    image: prompve/prometheus-pve-exporter:3.4.5
+    image: prompve/prometheus-pve-exporter:3.4.6
     container_name: pve-exporter
     restart: unless-stopped
     environment:
