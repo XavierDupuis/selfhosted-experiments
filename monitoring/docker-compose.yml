@@ -102,7 +102,7 @@ services:
 
   # https://docs.influxdata.com/influxdb/v2/install/?t=Docker
   influxdb:
-    image: influxdb:2.7.10
+    image: influxdb:2.7.11
     container_name: influxdb
     restart: unless-stopped
     user: 1000:1000
