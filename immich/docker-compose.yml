@@ -29,7 +29,7 @@ services:
       - homepage.widget.version=2 # >= v1.118
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:v1.121.0
+    image: ghcr.io/immich-app/immich-machine-learning:v1.122.1
     container_name: immich_machine_learning
     restart: unless-stopped
     volumes:
