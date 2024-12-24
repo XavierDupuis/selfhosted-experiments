@@ -1,6 +1,6 @@
 services:
   octoprint:
-    image: octoprint/octoprint:1.10.2
+    image: octoprint/octoprint:1.10.3
     container_name: octoprint
     restart: unless-stopped
     ports:
