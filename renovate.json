@@ -6,9 +6,6 @@
   "packageRules": [
     {
       "description": "Fix lscr.io/linuxserver/qbittorrent versioning which does not follow semver",
-      "matchManagers": [
-        "dockerfile"
-      ],
       "matchPackageNames": [
         "lscr.io/linuxserver/qbittorrent"
       ],
