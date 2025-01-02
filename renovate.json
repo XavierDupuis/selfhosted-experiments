@@ -2,5 +2,18 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "managers": ["dockerfile"],
+      "packageNames": ["lscr.io/linuxserver/qbittorrent"],
+      "datasource": "docker",
+      "extractVersion": {
+        "pattern": "(\\d+\\.\\d+\\.\\d+)(?:-ls\\d+)?",
+        "group": 1
+      },
+      "allowedVersions": "^4.0.0",
+      "versioning": "semver"
+    }
   ]
 }
