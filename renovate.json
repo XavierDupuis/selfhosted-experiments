@@ -5,8 +5,12 @@
   ],
   "packageRules": [
     {
-      "managers": ["dockerfile"],
-      "packageNames": ["lscr.io/linuxserver/qbittorrent"],
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchPackageNames": [
+        "lscr.io/linuxserver/qbittorrent"
+      ],
       "extractVersion": "(\\d+\\.\\d+\\.\\d+)(?:-ls\\d+)?",
       "allowedVersions": "^4.0.0",
       "versioning": "semver"
