@@ -5,13 +5,14 @@
   ],
   "packageRules": [
     {
+      "description": "Fix lscr.io/linuxserver/qbittorrent versioning which does not follow semver",
       "matchManagers": [
         "dockerfile"
       ],
       "matchPackageNames": [
         "lscr.io/linuxserver/qbittorrent"
       ],
-      "extractVersion": "(\\d+\\.\\d+\\.\\d+)(?:-ls\\d+)?",
+      "extractVersion": "/^(?<major>\\d{1})\\.(?<minor>\\d+)\\.(?<fix>\\d+)$/",
       "allowedVersions": "^4.0.0",
       "versioning": "semver"
     }
