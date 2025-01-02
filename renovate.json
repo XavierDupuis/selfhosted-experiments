@@ -3,6 +3,8 @@
   "extends": [
     "config:recommended"
   ],
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
   "packageRules": [
     {
       "description": "Fix lscr.io/linuxserver/qbittorrent versioning which does not follow semver. Limitation : Major version is one digit",
