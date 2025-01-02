@@ -12,9 +12,7 @@
       "matchPackageNames": [
         "lscr.io/linuxserver/qbittorrent"
       ],
-      "extractVersion": "/^(?<major>\\d{1})\\.(?<minor>\\d+)\\.(?<fix>\\d+)$/",
-      "allowedVersions": "^4.0.0",
-      "versioning": "semver"
+      "allowedVersions": "/^(?<major>\\d{1})\\.(?<minor>\\d+)\\.(?<fix>\\d+)$/"
     }
   ]
 }
