@@ -8,10 +8,7 @@
       "managers": ["dockerfile"],
       "packageNames": ["lscr.io/linuxserver/qbittorrent"],
       "datasource": "docker",
-      "extractVersion": {
-        "pattern": "(\\d+\\.\\d+\\.\\d+)(?:-ls\\d+)?",
-        "group": 1
-      },
+      "extractVersion": "(\\d+\\.\\d+\\.\\d+)(?:-ls\\d+)?",
       "allowedVersions": "^4.0.0",
       "versioning": "semver"
     }
