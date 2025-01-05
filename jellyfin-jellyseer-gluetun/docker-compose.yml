@@ -410,6 +410,7 @@ services:
     volumes:
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/bazarr/config:/config
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/tv
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
       - homepage.group=Servarr
