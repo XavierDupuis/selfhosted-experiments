@@ -12,6 +12,14 @@
         "lscr.io/linuxserver/qbittorrent"
       ],
       "allowedVersions": "/^(?<major>\\d{1})\\.(?<minor>\\d+)\\.(?<fix>\\d+)$/"
+    },
+    {
+      "description": "Groups Immich server & machine-learning packages releases",
+      "matchPackageNames": [
+        "ghcr.io/immich-app/immich-server",
+        "ghcr.io/immich-app/immich-machine-learning"
+      ],
+      "groupName": "Immich"
     }
   ]
 }
