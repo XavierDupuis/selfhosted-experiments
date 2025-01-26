@@ -1,0 +1,22 @@
+services:
+  kiwix-serve:
+    image: ghcr.io/kiwix/kiwix-serve:3.7.0
+    container_name: kiwix
+    restart: unless-stopped
+    ports:
+      - ${WEB_PORT:-8080}:8080
+    volumes:
+      - /tmp/zim:/data
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/archives:/data
+    command:
+      - '*.zim'
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.kiwix.tls.certresolver=myresolver
+      - traefik.http.services.kiwix.loadbalancer.server.port=8080
+      - homepage.group=Archiving
+      - homepage.name=Kiwix
+      - homepage.icon=kiwix.png
+      - homepage.instance.public.href=https://kiwix.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
+      - homepage.description=An offline reader for Wikipedia (& many other websites)
