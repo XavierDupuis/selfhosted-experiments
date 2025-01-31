@@ -1,6 +1,6 @@
 services:
   gramps: &grampsweb
-    image: ghcr.io/gramps-project/grampsweb:v24.8.0
+    image: ghcr.io/gramps-project/grampsweb:v25.1.1
     restart: unless-stopped
     container_name: grampsweb
     ports:
