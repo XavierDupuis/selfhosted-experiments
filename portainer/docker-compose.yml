@@ -18,7 +18,7 @@ services:
       - homepage.group=Management
       - homepage.name=Portainer
       - homepage.icon=portainer.png
-      - homepage.instance.public.href=https://portainer.${DOMAIN:?Missing variable DOMAIN}
+      # - homepage.instance.public.href=https://portainer.${DOMAIN:?Missing variable DOMAIN}
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-9443}
       - homepage.description=Portainer.io Community Edition
       - homepage.widget.type=portainer
