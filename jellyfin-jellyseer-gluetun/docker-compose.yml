@@ -213,7 +213,7 @@ services:
 
   prowlarr:
     container_name: prowlarr
-    image: linuxserver/prowlarr:1.28.2
+    image: linuxserver/prowlarr:1.30.2
     restart: unless-stopped
     ### WHEN VPN USED
     # network_mode: service:gluetun
