@@ -13,6 +13,8 @@ services:
     user: 1000:1000
     ports:
       - ${GRAFANA_WEB_PORT:-3000}:3000
+    environment:
+      - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN:?Missing variable DOMAIN}
     volumes:
       - ${GRAFANA_LOCATION:?Missing variable GRAFANA_LOCATION}/data:/var/lib/grafana
       - ${GRAFANA_LOCATION:?Missing variable GRAFANA_LOCATION}/provisioning/:/etc/grafana/provisioning
