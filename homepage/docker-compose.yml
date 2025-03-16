@@ -1,11 +1,12 @@
 services:
   home:
-    image: ghcr.io/gethomepage/homepage:v0.10.9
+    image: ghcr.io/gethomepage/homepage:v1.0.3
     container_name: homepage_public
     restart: unless-stopped
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
+      - HOMEPAGE_ALLOWED_HOSTS=home.${DOMAIN:?Missing variable DOMAIN}
     volumes:
       # DOCKER (optional) For docker integrations
       # - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -37,12 +38,13 @@ services:
       - homepage.description=Highly customizable homepage with Docker and service API integrations.
 
   home_internal:
-    image: ghcr.io/gethomepage/homepage:v0.10.9
+    image: ghcr.io/gethomepage/homepage:v1.0.3
     container_name: homepage_internal
     restart: unless-stopped
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
+      - HOMEPAGE_ALLOWED_HOSTS=${MACHINE_IP:?Missing variable MACHINE_IP}:${PRIVATE_WEB_PORT:-3000}
     volumes:
       # DOCKER (optional) For docker integrations
       # - /var/run/docker.sock:/var/run/docker.sock:ro
