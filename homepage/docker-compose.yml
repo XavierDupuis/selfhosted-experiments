@@ -6,7 +6,7 @@ services:
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
-      - HOMEPAGE_ALLOWED_HOSTS=home.${DOMAIN:?Missing variable DOMAIN}
+      - HOMEPAGE_ALLOWED_HOSTS=${FQDN:?Missing variable FQDN} 
     volumes:
       # DOCKER (optional) For docker integrations
       # - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -33,7 +33,7 @@ services:
       - homepage.group=Monitoring
       - homepage.name=Homepage
       - homepage.icon=homepage.png
-      - homepage.instance.public.href=https://home.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.public.href=https://${FQDN:?Missing variable FQDN}
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${PUBLIC_WEB_PORT:-3000}
       - homepage.description=Highly customizable homepage with Docker and service API integrations.
 
