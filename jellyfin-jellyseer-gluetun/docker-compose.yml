@@ -44,8 +44,6 @@ services:
       # - ${RADARR_WEB_PORT:-7878}:7878 # WebUI Portal
       # # LIDARR
       # - ${LIDARR_WEB_PORT:-8686}:8686 # WebUI Portal
-      # # READARR
-      # - ${READARR_WEB_PORT:-8787}:8787 # WebUI Portal
       # # BAZARR
       # - ${BAZARR_WEB_PORT:-6767}:6767 # WebUI Portal
     environment:
@@ -350,41 +348,6 @@ services:
       - homepage.widget.type=lidarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
       - homepage.widget.key=${LIDARR_API_KEY}
-
-  readarr:
-    image: lscr.io/linuxserver/readarr:0.4.11-nightly
-    container_name: readarr
-    restart: unless-stopped
-    ### WHEN VPN USED
-    # network_mode: service:gluetun
-    # depends_on:
-    #   - gluetun
-    ### WHEN VPN UNUSED
-    networks:
-      - media
-    ports:
-      - ${READARR_WEB_PORT:-8787}:8787
-    environment:
-      ### COMMON
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - UMASK=${UMASK:-0002}
-      - TZ=${TIMEZONE:-UTC}
-      - DOCKER_MODS=ghcr.io/gilbn/theme.park:readarr
-      - TP_THEME=${TP_THEME:-nord}
-    volumes:
-      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/readarr/config:/config
-      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/books:/books
-      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
-    labels:
-      - homepage.group=Servarr
-      - homepage.name=Readarr
-      - homepage.icon=readarr.png
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${READARR_WEB_PORT:-8787}
-      - homepage.description=Book Manager and Automation
-      - homepage.widget.type=readarr
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${READARR_WEB_PORT:-8787}
-      - homepage.widget.key=${READARR_API_KEY}
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:1.5.1
