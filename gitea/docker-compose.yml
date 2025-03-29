@@ -1,6 +1,6 @@
 services:
   gitea:
-    image: gitea/gitea:1.23.4
+    image: gitea/gitea:1.23.6
     container_name: gitea
     restart: unless-stopped
     environment:
