@@ -30,3 +30,8 @@ services:
       - "${DIRECTORY:?Missing variable DIRECTORY}/renovate/data:/db"
       - "${DIRECTORY:?Missing variable DIRECTORY}/renovate/logs:/logs"
       - "${DIRECTORY:?Missing variable DIRECTORY}/renovate/key/renovate.private-key.pem:${GITHUB_PEM_FILE_PATH:?Missing variable GITHUB_PEM_FILE_PATH}"
+    labels:
+      - homepage.group=Utilities
+      - homepage.name=Renovate
+      - homepage.icon=renovate.png
+      - homepage.description=Cross-platform Dependency Automation by Mend.io 
