@@ -1,0 +1,48 @@
+# https://github.com/rustdesk/rustdesk/wiki/How-does-RustDesk-work
+
+networks:
+  rustdesk:
+    name: rustdesk
+    external: false
+
+services:
+  relay-server:
+    image: rustdesk/rustdesk-server:1.1.14
+    container_name: hbbr
+    restart: unless-stopped
+    networks:
+      - rustdesk
+    ports:
+      - ${RELAY_PORT:-21117}:21117 # (TCP): used for the Relay services.
+      - 21119:21115                # (TCP): used to support web clients.
+    volumes:
+      - "${DIRECTORY:?Missing variable DIRECTORY}/rustdesk/hbbr:/root"
+    command: hbbr -k ${PUBLIC_KEY:?Missing variable PUBLIC_KEY} 
+    labels: 
+      - homepage.group=Utilities
+      - homepage.name=RustDesk
+      - homepage.icon=rustdesk.png
+      - homepage.description=Remote desktop (Relay server)
+
+  signaling-server:
+    image: rustdesk/rustdesk-server:1.1.14
+    container_name: hbbs
+    restart: unless-stopped
+    networks:
+      - rustdesk
+    ports:
+      # - 21114:21114   # (TCP): used for web console, only available in Pro version.
+      - 21115:21115     # (TCP): used for the NAT type test.
+      - 21116:21116     # (TCP): used for TCP hole punching and connection service.
+      - 21116:21116/udp # (UDP): used for the ID registration and heartbeat service. 
+      - 21118:21118     # (TCP): used to support web clients.
+    volumes:
+      - "${DIRECTORY:?Missing variable DIRECTORY}/rustdesk/hbbs:/root"
+    depends_on:
+      - relay-server
+    command: hbbs -k ${PUBLIC_KEY:?Missing variable PUBLIC_KEY} -r rustdesk.${DOMAIN:?Missing variable DOMAIN}:${RELAY_PORT:-21117}
+    labels: 
+      - homepage.group=Utilities
+      - homepage.name=RustDesk
+      - homepage.icon=rustdesk.png
+      - homepage.description=Remote desktop (Signaling server)
