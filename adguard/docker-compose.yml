@@ -6,7 +6,8 @@ services:
     restart: unless-stopped
     ports:
         # DNS
-        - 53:53
+        - 53:53/tcp
+        - 53:53/udp
         # WebUI
         - ${WEB_PORT:-80}:80/tcp
         # Config
