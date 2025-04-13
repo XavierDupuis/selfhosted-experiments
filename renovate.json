@@ -34,11 +34,12 @@
     },
     {
       "description": "Groups Immich server & machine-learning packages releases",
+      "groupName": "Immich",
       "matchPackageNames": [
         "ghcr.io/immich-app/immich-server",
         "ghcr.io/immich-app/immich-machine-learning"
       ],
-      "groupName": "Immich"
+      "changelogUrl": "https://github.com/immich-app/immich/releases"
     }
   ]
 }
