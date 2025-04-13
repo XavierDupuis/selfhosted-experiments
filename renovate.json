@@ -39,7 +39,7 @@
         "ghcr.io/immich-app/immich-server",
         "ghcr.io/immich-app/immich-machine-learning"
       ],
-      "changelogUrl": "https://github.com/immich-app/immich/releases"
+      "overridePackageName": "ghcr.io/immich-app/immich-server"
     }
   ]
 }
