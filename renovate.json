@@ -11,7 +11,7 @@
       "matchFiles": [
         "gitea/docker-compose.yml"
       ],
-      "prBodyNotes": "This PR affects a stack in production. Merging this PR automatically update & redeploy the stack in production."
+      "prBodyNotes": "<p><h3>⚠️ Warning:</h3><strong>This PR affects a stack in production. Merging this PR will automatically update and redeploy the stack in production.</strong></p>"
     },
     {
       "description": "Fix lscr.io/linuxserver/qbittorrent versioning which does not follow semver. Limitation : Major version is one digit",
