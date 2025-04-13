@@ -7,11 +7,23 @@
   "prConcurrentLimit": 0,
   "packageRules": [
     {
-      "description": "Adds 'GitOps' warning to relevant stacks PRs",
+      "description": "Adds affected stack in production information message",
       "matchFiles": [
-        "gitea/docker-compose.yml"
+        "adguard/docker-compose.yml",
+        "gitea/docker-compose.yml",
+        "homepage/docker-compose.yml",
+        "immich/docker-compose.yml",
+        "navidrome/docker-compose.yml",
+        "renovate/docker-compose.yml",
+        "traefik/docker-compose.yml",
+        "wireguard/docker-compose.yml"
       ],
-      "prBodyNotes": "<strong> ⚠️ This PR affects a stack in production. </strong> Merging this PR will automatically update and redeploy the stack in production."
+      "prBodyNotes": "<strong> ℹ️ This PR affects a stack in production. </strong> Merging this PR will automatically update and redeploy the stack in production."
+    },
+    {
+      "description": "Adds unaffected stack in production information message",
+      "matchFiles": [],
+      "prBodyNotes": "<strong> ⚠️ Manual action required. </strong> Merging this PR will NOT automatically update and redeploy the stack in production."
     },
     {
       "description": "Fix lscr.io/linuxserver/qbittorrent versioning which does not follow semver. Limitation : Major version is one digit",
