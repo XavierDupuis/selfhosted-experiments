@@ -22,7 +22,9 @@
     },
     {
       "description": "Adds unaffected stack in production information message",
-      "matchFiles": [],
+      "matchFiles": [
+        "portainer/docker-compose.yml"
+      ],
       "prBodyNotes": "<strong> ⚠️ Manual action required. </strong> Merging this PR will NOT automatically update and redeploy the stack in production."
     },
     {
