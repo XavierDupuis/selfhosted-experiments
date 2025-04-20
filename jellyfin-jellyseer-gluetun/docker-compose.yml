@@ -24,10 +24,10 @@ services:
       - NET_ADMIN
     ports:
       # GLUETUN
-      - ${GLUETUN_PROXY_PORT:-8000}:8888/tcp # HTTP proxy
-      - ${GLUETUN_SERVER_PORT:-8000}:8000/tcp # HTTP control server
-      - 8388:8388/tcp # Shadowsocks
-      - 8388:8388/udp # Shadowsocks
+      - ${GLUETUN_PROXY_PORT:-8888}:8888/tcp # HTTP proxy
+      # - ${GLUETUN_SERVER_PORT:-8000}:8000/tcp # HTTP control server
+      # - 8388:8388/tcp # Shadowsocks
+      # - 8388:8388/udp # Shadowsocks
       # # JELLYFIN
       # - ${JELLYFIN_WEB_PORT:-8096}:8096 # WebUI Portal
       # # JELLYSEERR
@@ -216,7 +216,9 @@ services:
     ### WHEN VPN USED
     # network_mode: service:gluetun
     # depends_on:
-    #   - gluetun
+    #   gluetun:
+    #     condition: service_healthy
+    #     restart: true
     ### WHEN VPN UNUSED
     networks:
       - media
