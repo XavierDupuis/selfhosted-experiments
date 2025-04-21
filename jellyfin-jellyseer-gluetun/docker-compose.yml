@@ -386,3 +386,27 @@ services:
       - homepage.widget.type=bazarr
       - homepage.widget.url=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}
       - homepage.widget.key=${BAZARR_API_KEY}
+
+  byparr:
+    container_name: byparr
+    image: ghcr.io/thephaseless/byparr:latest
+    restart: unless-stopped
+    ### WHEN VPN USED
+    # network_mode: service:gluetun
+    # depends_on:
+    #   gluetun:
+    #     condition: service_healthy
+    #     restart: true
+    ### WHEN VPN UNUSED
+    networks:
+      - media
+    ports:
+      - ${BYPARR_WEB_PORT:-8191}:8191
+    volumes:
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/byparr/data:/app/screenshots
+    labels:
+      - homepage.group=Servarr
+      - homepage.name=Byparr
+      - homepage.icon=mdi-button-cursor
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${BYPARR_WEB_PORT:-8191}
+      - homepage.description=FlareSolverr drop-in replacement with FastAPI and nodriver 
