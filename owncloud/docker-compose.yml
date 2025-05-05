@@ -58,7 +58,7 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/owncloud/mysql:/var/lib/mysql
 
   redis:
-    image: redis:6
+    image: redis:8
     container_name: owncloud_redis
     restart: unless-stopped
     command: ["--databases", "1"]

@@ -40,7 +40,7 @@ services:
       - model-cache:/cache
 
   redis:
-    image: redis:6.2
+    image: redis:8.0
     container_name: immich_redis
     restart: unless-stopped
 
