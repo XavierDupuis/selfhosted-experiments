@@ -8,6 +8,8 @@ services:
       - GAMEMODE=survival
       - VERSION=${MINECRAFT_VERSION:?Missing variable MINECRAFT_VERSION}
       - DIFFICULTY=normal
+    stdin_open: true
+    tty: true
     ports:
       - ${WEB_PORT:-19132}:19132/udp
     volumes:
