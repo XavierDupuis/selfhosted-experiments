@@ -1,0 +1,21 @@
+services:
+  minecraft-bedrock:
+    image: itzg/minecraft-bedrock-server:2025.5.0
+    container_name: minecraft-bedrock
+    restart: unless-stopped
+    environment:
+      - EULA=TRUE
+      - GAMEMODE=survival
+      - VERSION=${MINECRAFT_VERSION:?Missing variable MINECRAFT_VERSION}
+      - DIFFICULTY=normal
+    ports:
+      - ${WEB_PORT:-19132}:19132/udp
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/minecraft-bedrock/data:/data
+    labels:
+      - homepage.group=Games
+      - homepage.name=Minecraft Bedrock
+      - homepage.icon=minecraft.png
+      - homepage.description=Bedrock Vanilla ${MINECRAFT_VERSION:?Missing variable MINECRAFT_VERSION}
+      - homepage.widget.type=minecraft
+      - homepage.widget.url=udp://${HOST_URL:-http://localhost}:${WEB_PORT:-19132}
