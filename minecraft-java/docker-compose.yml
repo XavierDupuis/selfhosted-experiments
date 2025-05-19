@@ -15,10 +15,10 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - ${DIRECTORY:?Missing variable DIRECTORY}/minecraft:/data
+      - ${DIRECTORY:?Missing variable DIRECTORY}/minecraft-java:/data
     labels:
       - homepage.group=Games
       - homepage.name=Minecraft Java
       - homepage.icon=minecraft.png
       # - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${TCP_PORT:-25565}
-      - homepage.description=Vanilla ${MINECRAFT_VERSION:?Missing variable MINECRAFT_VERSION}
+      - homepage.description=Java Vanilla ${MINECRAFT_VERSION:?Missing variable MINECRAFT_VERSION}
