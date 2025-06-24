@@ -18,7 +18,8 @@
         "traefik/docker-compose.yml",
         "wireguard/docker-compose.yml",
         "monitoree/monitoree-docker/docker-compose.yml",
-        "monitoree/monitoree-network/docker-compose.yml"
+        "monitoree/monitoree-network/docker-compose.yml",
+        "jellyfin-jellyseer-gluetun/docker-compose.yml"
       ],
       "prBodyNotes": "<strong> ℹ️ This PR affects a stack in production. </strong> Merging this PR will automatically update and redeploy the stack in production."
     },
