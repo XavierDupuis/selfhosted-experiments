@@ -3,18 +3,16 @@ services:
     image: vabene1111/recipes:1.5.19
     container_name: tandoor_web
     restart: unless-stopped
-    # environment:
-    #   - DEBUG=${DEBUG:-0}
-    #   - GUNICORN_MEDIA=${GUNICORN_MEDIA:-0}
-    #   - SECRET_KEY=${SECRET_KEY:?Missing variable SECRET_KEY}
-    #   - DB_ENGINE=${DB_ENGINE:?Missing variable DB_ENGINE}
-    #   - POSTGRES_HOST=${POSTGRES_HOST:?Missing variable POSTGRES_HOST}
-    #   - POSTGRES_DB=${POSTGRES_DB:?Missing variable POSTGRES_DB}
-    #   - POSTGRES_PORT=${POSTGRES_PORT:?Missing variable POSTGRES_PORT}
-    #   - POSTGRES_USER=${POSTGRES_USER:?Missing variable POSTGRES_USER}
-    #   - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Missing variable POSTGRES_PASSWORD}
-    env_file:
-      - stack.env
+    environment:
+      - DEBUG=${DEBUG:-0}
+      - GUNICORN_MEDIA=${GUNICORN_MEDIA:-0}
+      - SECRET_KEY=${SECRET_KEY:?Missing variable SECRET_KEY}
+      - DB_ENGINE=${DB_ENGINE:?Missing variable DB_ENGINE}
+      - POSTGRES_HOST=${POSTGRES_HOST:?Missing variable POSTGRES_HOST}
+      - POSTGRES_DB=${POSTGRES_DB:?Missing variable POSTGRES_DB}
+      - POSTGRES_PORT=${POSTGRES_PORT:?Missing variable POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER:?Missing variable POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Missing variable POSTGRES_PASSWORD}
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/tandoor/static:/opt/recipes/staticfiles
       - ${DIRECTORY:?Missing variable DIRECTORY}/tandoor/media:/opt/recipes/mediafiles
@@ -39,15 +37,8 @@ services:
     restart: unless-stopped
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/tandoor/data:/var/lib/postgresql/data
-    # environment:
-    #   - DEBUG=${DEBUG:-0}
-    #   - GUNICORN_MEDIA=${GUNICORN_MEDIA:-0}
-    #   - SECRET_KEY=${SECRET_KEY:?Missing variable SECRET_KEY}
-    #   - DB_ENGINE=${DB_ENGINE:?Missing variable DB_ENGINE}
-    #   - POSTGRES_HOST=${POSTGRES_HOST:?Missing variable POSTGRES_HOST}
-    #   - POSTGRES_DB=${POSTGRES_DB:?Missing variable POSTGRES_DB}
-    #   - POSTGRES_PORT=${POSTGRES_PORT:?Missing variable POSTGRES_PORT}
-    #   - POSTGRES_USER=${POSTGRES_USER:?Missing variable POSTGRES_USER}
-    #   - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Missing variable POSTGRES_PASSWORD}
-    env_file:
-      - stack.env
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:?Missing variable POSTGRES_DB}
+      - POSTGRES_PORT=${POSTGRES_PORT:?Missing variable POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER:?Missing variable POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Missing variable POSTGRES_PASSWORD}
