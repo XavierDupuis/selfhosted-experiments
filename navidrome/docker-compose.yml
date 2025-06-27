@@ -10,7 +10,8 @@ services:
       - ND_PROMETHEUS_METRICSPATH=/metrics
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/navidrome/data:/data
-      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
+      # - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
+      - truenas_nfs_music:/music
     labels:
       - traefik.enable=true
       - traefik.http.routers.navidrome.tls.certresolver=myresolver
@@ -26,3 +27,11 @@ services:
       - homepage.widget.user=${NAVIDROME_API_USER}
       - homepage.widget.token=${NAVIDROME_API_TOKEN}
       - homepage.widget.salt=${NAVIDROME_API_SALT}
+
+volumes:
+  truenas_nfs_music:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${VOLUME_ADDRESS:?Missing variable VOLUME_ADDRESS},ro
+      device: ":${VOLUME_DEVICE:?Missing variable VOLUME_DEVICE}"
