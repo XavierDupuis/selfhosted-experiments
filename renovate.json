@@ -22,7 +22,8 @@
         "jellyfin-jellyseer-gluetun/docker-compose.yml",
         "uptime-kuma/docker-compose.yml",
         "monitoring/docker-compose.yml",
-        "owncloud/docker-compose.yml"
+        "owncloud/docker-compose.yml",
+        "tandoor/docker-compose.yml"
       ],
       "prBodyNotes": "<strong> ℹ️ This PR affects a stack in production. </strong> Merging this PR will automatically update and redeploy the stack in production."
     },
