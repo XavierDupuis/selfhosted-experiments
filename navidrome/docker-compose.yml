@@ -9,6 +9,8 @@ services:
       - ND_PROMETHEUS_ENABLED=true
       - ND_PROMETHEUS_METRICSPATH=/metrics
       - ND_ENABLEINSIGHTSCOLLECTOR=false
+      - ND_LASTFM_APIKEY=${LASTFM_APIKEY:-}
+      - ND_LASTFM_SECRET=${LASTFM_SECRET:-}
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/navidrome/data:/data
       # - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
