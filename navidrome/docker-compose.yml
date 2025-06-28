@@ -8,6 +8,7 @@ services:
     environment: # https://www.navidrome.org/docs/usage/configuration-options/#available-options
       - ND_PROMETHEUS_ENABLED=true
       - ND_PROMETHEUS_METRICSPATH=/metrics
+      - ND_ENABLEINSIGHTSCOLLECTOR=false
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/navidrome/data:/data
       # - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
