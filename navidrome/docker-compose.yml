@@ -34,5 +34,5 @@ volumes:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=${VOLUME_ADDRESS:?Missing variable VOLUME_ADDRESS},rw
+      o: addr=${VOLUME_ADDRESS:?Missing variable VOLUME_ADDRESS},ro
       device: ":${VOLUME_DEVICE:?Missing variable VOLUME_DEVICE}"
