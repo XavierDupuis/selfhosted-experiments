@@ -28,7 +28,7 @@ services:
       - homepage.name=Tandoor
       - homepage.instance.public.href=https://tandoor.${DOMAIN:?Missing variable DOMAIN}
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
-      - homepage.icon=tandoor.png
+      - homepage.icon=tandoor-recipes.png
       - homepage.description=Managing recipes, planning meals, building shopping lists.
 
   db_recipes:
