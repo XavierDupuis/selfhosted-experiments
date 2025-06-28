@@ -15,7 +15,7 @@ services:
     ports:
       - "${WEB_PORT:-1337}:1337"
     environment:
-      - BASE_URL=${HOST_URL:-http://localhost}:${WEB_PORT:-1337}
+      - BASE_URL=https://planka.${DOMAIN:?Missing variable DOMAIN} # ${HOST_URL:-http://localhost}:${WEB_PORT:-1337}
       - DATABASE_URL=postgresql://postgres@postgres/${DB_NAME:-planka}
 
       # Optionally store the database password in secrets:
