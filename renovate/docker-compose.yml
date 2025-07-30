@@ -1,6 +1,6 @@
 services:
   renovate:
-    image: ghcr.io/mend/renovate-ce:10.5.0
+    image: ghcr.io/mend/renovate-ce:11.0.0
     container_name: renovate
     restart: unless-stopped
     ports:
