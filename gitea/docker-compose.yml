@@ -16,7 +16,7 @@ services:
       - GITEA__security__SECRET_KEY=${GITEA__security__SECRET_KEY:?Missing variable GITEA__security__SECRET_KEY}
       - GITEA__security__INTERNAL_TOKEN=${GITEA__security__INTERNAL_TOKEN:?Missing variable GITEA__security__INTERNAL_TOKEN}
     volumes:
-      - ${DIRECTORY}/gitea/data:/data
+      - ${DIRECTORY:-Missing variable DIRECTORY}/gitea/data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
