@@ -1,0 +1,22 @@
+services:
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:2025.7.4
+    container_name: home-assistant
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ:-Etc/UTC}
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/home-assistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    ports:
+      - ${WEB_PORT:?-8123}:8123
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.home-assistant.tls.certresolver=myresolver
+      - traefik.http.services.home-assistant.loadbalancer.server.port=8123
+      - homepage.group=Utilities
+      - homepage.name=Home Assistant
+      - homepage.icon=home-assistant.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8123}
+      - homepage.description=Open source home automation that puts local control and privacy first.
