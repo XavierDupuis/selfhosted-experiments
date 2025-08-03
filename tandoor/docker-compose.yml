@@ -1,6 +1,6 @@
 services:
   tandoor:
-    image: vabene1111/recipes:1.5.35
+    image: vabene1111/recipes:2.0.1
     container_name: tandoor_web
     restart: unless-stopped
     environment:
