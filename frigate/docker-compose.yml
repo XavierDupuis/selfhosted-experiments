@@ -1,0 +1,35 @@
+services:
+  frigate:
+    image: ghcr.io/blakeblackshear/frigate:0.16.0-rc3
+    container_name: frigate
+    restart: unless-stopped
+    shm_size: "64mb" # https://docs.frigate.video/frigate/installation/#calculating-required-shm-size
+    # devices:
+      # - /dev/bus/usb:/dev/bus/usb   # passes the USB Coral, needs to be modified for other versions
+      # - /dev/apex_0:/dev/apex_0     # passes a PCIe Coral, follow driver instructions here https://coral.ai/docs/m2/get-started/#2a-on-linux
+      # - /dev/dri/renderD128         # for intel hwaccel, needs to be updated for your hardware
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DIRECTORY:?Missing variable DIRECTORY}/frigate/config:/config
+      - ${DIRECTORY:?Missing variable DIRECTORY}/frigate/storage:/media/frigate
+      - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+      - ${WEB_PORT:-8971}:8971
+      # - "5000:5000"     # Internal unauthenticated access. Expose carefully.
+      - 8554:8554       # RTSP feeds
+      - 8555:8555/tcp   # WebRTC over tcp
+      - 8555:8555/udp   # WebRTC over udp
+    environment:
+      - FRIGATE_RTSP_PASSWORD=${PASSWORD:?Missing variable PASSWORD}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frigate.tls.certresolver=myresolver
+      - traefik.http.services.frigate.loadbalancer.server.port=8971
+      - homepage.group=Security
+      - homepage.name=Frigate
+      - homepage.icon=frigate.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8971}
+      - homepage.description=NVR with realtime local object detection for IP cameras
