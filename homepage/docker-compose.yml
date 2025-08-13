@@ -1,6 +1,6 @@
 services:
   home:
-    image: ghcr.io/gethomepage/homepage:v1.4.3
+    image: ghcr.io/gethomepage/homepage:v1.4.5
     container_name: homepage_public
     restart: unless-stopped
     environment:
@@ -38,7 +38,7 @@ services:
       - homepage.description=Highly customizable homepage with Docker and service API integrations.
 
   home_internal:
-    image: ghcr.io/gethomepage/homepage:v1.4.3
+    image: ghcr.io/gethomepage/homepage:v1.4.5
     container_name: homepage_internal
     restart: unless-stopped
     environment:
