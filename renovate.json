@@ -4,7 +4,7 @@
     "config:recommended"
   ],
   "ignorePaths": [
-    "**/unused/**"
+    "**/.unused/**"
   ],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
