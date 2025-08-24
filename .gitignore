@@ -1,3 +1,4 @@
 *.*
+!**/*.unused
 !**/*.template
 !**/docker-compose.yml
