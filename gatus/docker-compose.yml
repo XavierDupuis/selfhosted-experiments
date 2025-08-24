@@ -1,0 +1,23 @@
+services:
+  gatus:
+    image: ghcr.io/twin/gatus:v5.23.2
+    container_name: gatus
+    restart: unless-stopped
+    ports:
+      - ${WEB_PORT:-8080}:8080
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/gatus/config:/config
+    environment:
+      - DOMAIN=${DOMAIN:?Missing variable DOMAIN}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.gatus.tls.certresolver=myresolver
+      - traefik.http.services.gatus.loadbalancer.server.port=8080
+      - homepage.group=Monitoring
+      - homepage.name=gatus
+      - homepage.icon=gatus.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
+      - homepage.instance.public.href=https://gatus.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.description=Automated developer-oriented status page
+      - homepage.widget.type=gatus
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
