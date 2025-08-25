@@ -24,6 +24,6 @@ services:
     - homepage.instance.public.href=https://octoprint.${DOMAIN:?Missing variable DOMAIN}
     - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-80}
     - homepage.description=The dockerized snappy web interface for your 3D printer!
-    - homepage.widget.type=octoprint
-    - homepage.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-80}
-    - homepage.widget.key=${OCTOPRINT_API_KEY}
+    - homepage.instance.internal.widget.type=octoprint
+    - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-80}
+    - homepage.instance.internal.widget.key=${OCTOPRINT_API_KEY}
