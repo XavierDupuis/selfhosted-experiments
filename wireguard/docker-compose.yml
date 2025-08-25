@@ -26,7 +26,7 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     labels:
-      - homepage.group=Network
-      - homepage.name=Wireguard
-      - homepage.icon=wireguard.png
-      - homepage.description=Fast, Modern, Secure VPN Tunnel
+      - homepage.instance.internal.group=Network
+      - homepage.instance.internal.name=Wireguard
+      - homepage.instance.internal.icon=wireguard.png
+      - homepage.instance.internal.description=Fast, Modern, Secure VPN Tunnel

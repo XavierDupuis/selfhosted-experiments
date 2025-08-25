@@ -60,12 +60,12 @@ services:
       - PGID=${PGID:-1000}
       - UMASK=${UMASK:-0002}
     labels:
-      - homepage.group=Servarr
-      - homepage.name=Gluetun
-      - homepage.icon=gluetun.png
-      - homepage.description=Lightweight swiss-knife-like VPN client to multiple VPN service providers
-      - homepage.widget.type=gluetun
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${GLUETUN_SERVER_PORT:-8000}
+      - homepage.instance.internal.group=Servarr
+      - homepage.instance.internal.name=Gluetun
+      - homepage.instance.internal.icon=gluetun.png
+      - homepage.instance.internal.description=Lightweight swiss-knife-like VPN client to multiple VPN service providers
+      - homepage.instance.internal.widget.type=gluetun
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${GLUETUN_SERVER_PORT:-8000}
     healthcheck: # https://github.com/qdm12/gluetun-wiki/blob/main/faq/healthcheck.md#docker-healthcheck
       test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
       interval: 5s
@@ -114,14 +114,14 @@ services:
       - homepage.group=Media
       - homepage.name=Jellyfin
       - homepage.icon=jellyfin.png
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
-      - homepage.instance.public.href=https://jellyfin.${DOMAIN:?Missing variable DOMAIN}
       - homepage.description=The Free Software Media System
-      - homepage.widget.type=jellyfin
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
-      - homepage.widget.key=${JELLYFIN_API_KEY}
-      - homepage.widget.enableBlocks=true      # optional, defaults to false
-      - homepage.widget.enableNowPlaying=true  # optional, defaults to true
+      - homepage.instance.public.href=https://jellyfin.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
+      - homepage.instance.internal.widget.type=jellyfin
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
+      - homepage.instance.internal.widget.key=${JELLYFIN_API_KEY}
+      - homepage.instance.internal.widget.enableBlocks=true      # optional, defaults to false
+      - homepage.instance.internal.widget.enableNowPlaying=true  # optional, defaults to true
 
   jellyseerr:
     image: fallenbagel/jellyseerr:2.7.0
@@ -152,12 +152,12 @@ services:
       - homepage.group=Media
       - homepage.name=Jellyseerr
       - homepage.icon=jellyseerr.png
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
-      - homepage.instance.public.href=https://jellyseerr.${DOMAIN:?Missing variable DOMAIN}
       - homepage.description=Request Management and Media Discovery Tool for the Jellyfin Ecosystem
-      - homepage.widget.type=jellyseerr
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
-      - homepage.widget.key=${JELLYSEER_API_KEY}
+      - homepage.instance.public.href=https://jellyseerr.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
+      - homepage.instance.internal.widget.type=jellyseerr
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
+      - homepage.instance.internal.widget.key=${JELLYSEER_API_KEY}
 
   qbittorrent:
     container_name: qbittorrent
@@ -195,13 +195,13 @@ services:
       - homepage.group=Download
       - homepage.name=Qbittorrent
       - homepage.icon=qbittorrent.png
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
-      - homepage.instance.public.href=https://qbittorrent.${DOMAIN:?Missing variable DOMAIN}
       - homepage.description=Free and reliable P2P Bitorrent client
-      - homepage.widget.type=qbittorrent
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
-      - homepage.widget.username=${QBITTORRENT_USERNAME:?Missing variable QBITTORRENT_USERNAME}
-      - homepage.widget.password=${QBITTORRENT_PASSWORD:?Missing variable QBITTORRENT_PASSWORD}
+      - homepage.instance.public.href=https://qbittorrent.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
+      - homepage.instance.internal.widget.type=qbittorrent
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
+      - homepage.instance.internal.widget.username=${QBITTORRENT_USERNAME:?Missing variable QBITTORRENT_USERNAME}
+      - homepage.instance.internal.widget.password=${QBITTORRENT_PASSWORD:?Missing variable QBITTORRENT_PASSWORD}
     healthcheck: # https://github.com/qdm12/gluetun/issues/641#issuecomment-933856220
       test: "curl -sf https://example.com || exit 1"
       interval: 1m
@@ -235,14 +235,14 @@ services:
     volumes:
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/prowlarr/config:/config
     labels:
-      - homepage.group=Servarr
-      - homepage.name=Prowlarr
-      - homepage.icon=prowlarr.png
+      - homepage.instance.internal.group=Servarr
+      - homepage.instance.internal.name=Prowlarr
+      - homepage.instance.internal.icon=prowlarr.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
-      - homepage.description=Ultimate Indexer Manager
-      - homepage.widget.type=prowlarr
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
-      - homepage.widget.key=${PROWLARR_API_KEY}
+      - homepage.instance.internal.description=Ultimate Indexer Manager
+      - homepage.instance.internal.widget.type=prowlarr
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
+      - homepage.instance.internal.widget.key=${PROWLARR_API_KEY}
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:4.0.15
@@ -270,15 +270,15 @@ services:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/tv
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
-      - homepage.group=Servarr
-      - homepage.name=Sonarr
-      - homepage.icon=sonarr.png
+      - homepage.instance.internal.group=Servarr
+      - homepage.instance.internal.name=Sonarr
+      - homepage.instance.internal.icon=sonarr.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
-      - homepage.description=Internet PVR for Usenet and Torrents
-      - homepage.widget.type=sonarr
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
-      - homepage.widget.key=${SONARR_API_KEY}
-      - homepage.widget.enableQueue=true # optional, defaults to false
+      - homepage.instance.internal.description=Internet PVR for Usenet and Torrents
+      - homepage.instance.internal.widget.type=sonarr
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
+      - homepage.instance.internal.widget.key=${SONARR_API_KEY}
+      - homepage.instance.internal.widget.enableQueue=true # optional, defaults to false
 
   radarr:
     container_name: radarr
@@ -306,15 +306,15 @@ services:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
-      - homepage.group=Servarr
-      - homepage.name=Radarr
-      - homepage.icon=radarr.png
+      - homepage.instance.internal.group=Servarr
+      - homepage.instance.internal.name=Radarr
+      - homepage.instance.internal.icon=radarr.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
-      - homepage.description=Movie collection manager for Usenet and BitTorrent
-      - homepage.widget.type=radarr
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
-      - homepage.widget.key=${RADARR_API_KEY}
-      - homepage.widget.enableQueue=true # optional, defaults to false
+      - homepage.instance.internal.description=Movie collection manager for Usenet and BitTorrent
+      - homepage.instance.internal.widget.type=radarr
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
+      - homepage.instance.internal.widget.key=${RADARR_API_KEY}
+      - homepage.instance.internal.widget.enableQueue=true # optional, defaults to false
 
   lidarr:
     image: lscr.io/linuxserver/lidarr:2.12.4
@@ -342,14 +342,14 @@ services:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
-      - homepage.group=Servarr
-      - homepage.name=Lidarr
-      - homepage.icon=lidarr.png
+      - homepage.instance.internal.group=Servarr
+      - homepage.instance.internal.name=Lidarr
+      - homepage.instance.internal.icon=lidarr.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
-      - homepage.description=Music collection manager for Usenet and BitTorrent
-      - homepage.widget.type=lidarr
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
-      - homepage.widget.key=${LIDARR_API_KEY}
+      - homepage.instance.internal.description=Music collection manager for Usenet and BitTorrent
+      - homepage.instance.internal.widget.type=lidarr
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
+      - homepage.instance.internal.widget.key=${LIDARR_API_KEY}
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:1.5.2
@@ -378,14 +378,14 @@ services:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/tv
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
     labels:
-      - homepage.group=Servarr
-      - homepage.name=Bazarr
-      - homepage.icon=bazarr.png
+      - homepage.instance.internal.group=Servarr
+      - homepage.instance.internal.name=Bazarr
+      - homepage.instance.internal.icon=bazarr.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}
-      - homepage.description=Manages and downloads subtitles
-      - homepage.widget.type=bazarr
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}
-      - homepage.widget.key=${BAZARR_API_KEY}
+      - homepage.instance.internal.description=Manages and downloads subtitles
+      - homepage.instance.internal.widget.type=bazarr
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}
+      - homepage.instance.internal.widget.key=${BAZARR_API_KEY}
 
   byparr:
     container_name: byparr
@@ -405,8 +405,8 @@ services:
     volumes:
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/byparr/data:/app/screenshots
     labels:
-      - homepage.group=Servarr
-      - homepage.name=Byparr
-      - homepage.icon=mdi-button-cursor
+      - homepage.instance.internal.group=Servarr
+      - homepage.instance.internal.name=Byparr
+      - homepage.instance.internal.icon=mdi-button-cursor
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${BYPARR_WEB_PORT:-8191}
-      - homepage.description=FlareSolverr drop-in replacement with FastAPI and nodriver 
+      - homepage.instance.internal.description=FlareSolverr drop-in replacement with FastAPI and nodriver 

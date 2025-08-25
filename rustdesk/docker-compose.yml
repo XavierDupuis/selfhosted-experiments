@@ -19,10 +19,10 @@ services:
       - "${DIRECTORY:?Missing variable DIRECTORY}/rustdesk/hbbr:/root"
     command: hbbr -k ${PUBLIC_KEY:?Missing variable PUBLIC_KEY} 
     labels: 
-      - homepage.group=Utilities
-      - homepage.name=RustDesk
-      - homepage.icon=rustdesk.png
-      - homepage.description=Remote desktop (Relay server)
+      - homepage.instance.internal.group=Utilities
+      - homepage.instance.internal.name=RustDesk
+      - homepage.instance.internal.icon=rustdesk.png
+      - homepage.instance.internal.description=Remote desktop (Relay server)
 
   signaling-server:
     image: rustdesk/rustdesk-server:1.1.14
@@ -42,7 +42,7 @@ services:
       - relay-server
     command: hbbs -k ${PUBLIC_KEY:?Missing variable PUBLIC_KEY} -r rustdesk.${DOMAIN:?Missing variable DOMAIN}:${RELAY_PORT:-21117}
     labels: 
-      - homepage.group=Utilities
-      - homepage.name=RustDesk
-      - homepage.icon=rustdesk.png
-      - homepage.description=Remote desktop (Signaling server)
+      - homepage.instance.internal.group=Utilities
+      - homepage.instance.internal.name=RustDesk
+      - homepage.instance.internal.icon=rustdesk.png
+      - homepage.instance.internal.description=Remote desktop (Signaling server)

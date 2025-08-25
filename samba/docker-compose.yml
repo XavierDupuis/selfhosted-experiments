@@ -66,7 +66,7 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/samba/shares/private:/shares/private:z 
       - ${DIRECTORY:?Missing variable DIRECTORY}/samba/shares/public:/shares/public:z 
     labels:
-      - homepage.group=Services
-      - homepage.name=Samba
-      - homepage.icon=mdi-folder-account
-      - homepage.description=Opening windows to a wider world
+      - homepage.instance.internal.group=Services
+      - homepage.instance.internal.name=Samba
+      - homepage.instance.internal.icon=mdi-folder-account
+      - homepage.instance.internal.description=Opening windows to a wider world

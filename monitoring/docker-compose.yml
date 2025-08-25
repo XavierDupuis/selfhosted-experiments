@@ -60,13 +60,13 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     labels:
-      - homepage.group=Monitoring
-      - homepage.name=Prometheus
-      - homepage.icon=prometheus.png
+      - homepage.instance.internal.group=Monitoring
+      - homepage.instance.internal.name=Prometheus
+      - homepage.instance.internal.icon=prometheus.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${PROMETHEUS_WEB_PORT:-9090}
-      - homepage.description=From metrics to insight
-      - homepage.widget.type=prometheus
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${PROMETHEUS_WEB_PORT:-9090}
+      - homepage.instance.internal.description=From metrics to insight
+      - homepage.instance.internal.widget.type=prometheus
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${PROMETHEUS_WEB_PORT:-9090}
 
   # https://grafana.com/docs/loki/latest/
   loki:
@@ -121,12 +121,12 @@ services:
       - traefik.enable=true
       - traefik.http.routers.influxdb.tls.certresolver=myresolver
       - traefik.http.services.influxdb.loadbalancer.server.port=8086
-      - homepage.group=Monitoring
-      - homepage.name=InfluxDB
-      - homepage.icon=influxdb.png
+      - homepage.instance.internal.group=Monitoring
+      - homepage.instance.internal.name=InfluxDB
+      - homepage.instance.internal.icon=influxdb.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${INFLUXDB_WEB_PORT:-8086}
-      - homepage.instance.public.href=https://influxdb.${DOMAIN:?Missing variable DOMAIN}
-      - homepage.description=Real-time insights from any time series data with a single, purpose-built database
+      # - homepage.instance.public.href=https://influxdb.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.description=Real-time insights from any time series data with a single, purpose-built database
 
   pve-exporter:
     image: prompve/prometheus-pve-exporter:3.5.5

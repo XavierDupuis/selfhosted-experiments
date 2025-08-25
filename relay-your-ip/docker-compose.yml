@@ -10,7 +10,7 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/relay-your-ip/data:/app/data
       - /etc/localtime:/etc/localtime:ro
     labels:
-      - homepage.group=Services
-      - homepage.name=RelayYourIp
-      - homepage.icon=mdi-web-sync
-      - homepage.description=Periodically check, notify and relay changes in your public IP address for seamless remote access 
+      - homepage.instance.internal.group=Services
+      - homepage.instance.internal.name=RelayYourIp
+      - homepage.instance.internal.icon=mdi-web-sync
+      - homepage.instance.internal.description=Periodically check, notify and relay changes in your public IP address for seamless remote access 
