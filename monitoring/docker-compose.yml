@@ -30,10 +30,10 @@ services:
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${GRAFANA_WEB_PORT:-3000}
       - homepage.instance.public.href=https://grafana.${DOMAIN:?Missing variable DOMAIN}
       - homepage.description=Visualize your data, optimize your performance
-      - homepage.widget.type=grafana
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${GRAFANA_WEB_PORT:-3000}
-      - homepage.widget.username=${GRAFANA_USERNAME}
-      - homepage.widget.password=${GRAFANA_PASSWORD}
+      - homepage.instance.internal.widget.type=grafana
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${GRAFANA_WEB_PORT:-3000}
+      - homepage.instance.internal.widget.username=${GRAFANA_USERNAME}
+      - homepage.instance.internal.widget.password=${GRAFANA_PASSWORD}
 
   # https://prometheus.io/
   prometheus:

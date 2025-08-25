@@ -26,10 +26,10 @@ services:
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-2283}
       - homepage.instance.public.href=https://immich.${DOMAIN:?Missing variable DOMAIN}
       - homepage.description=Self-hosted backup solution for photos and videos on mobile device
-      - homepage.widget.type=immich
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-2283}
-      - homepage.widget.key=${IMMICH_API_KEY}
-      - homepage.widget.version=2 # >= v1.118
+      - homepage.instance.internal.widget.type=immich
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-2283}
+      - homepage.instance.internal.widget.key=${IMMICH_API_KEY}
+      - homepage.instance.internal.widget.version=2 # >= v1.118
 
   immich-machine-learning:
     image: ghcr.io/immich-app/immich-machine-learning:v1.138.1
