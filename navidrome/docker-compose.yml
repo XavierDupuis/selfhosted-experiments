@@ -26,10 +26,10 @@ services:
       - homepage.instance.internal.href=${HOST_URL:-https://localhost}:${WEB_PORT:-4533}
       - homepage.description=Web-based music collection server and streamer
       - homepage.widget.type=navidrome
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-4533}
-      - homepage.widget.user=${NAVIDROME_API_USER}
-      - homepage.widget.token=${NAVIDROME_API_TOKEN}
-      - homepage.widget.salt=${NAVIDROME_API_SALT}
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-4533}
+      - homepage.instance.internal.widget.user=${NAVIDROME_API_USER}
+      - homepage.instance.internal.widget.token=${NAVIDROME_API_TOKEN}
+      - homepage.instance.internal.widget.salt=${NAVIDROME_API_SALT}
 
 volumes:
   truenas_nfs_music:
