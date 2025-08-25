@@ -3,8 +3,16 @@ services:
     image: ghcr.io/xavierdupuis/relayyourip:main
     container_name: relay-your-ip
     restart: always
-    env_file:
-      - stack.env
+    environment:
+      - LABEL=${LABEL:?Missing variable LABEL}
+      - MSMTP_ACCOUNT=${MSMTP_ACCOUNT:?Missing variable MSMTP_ACCOUNT}
+      - MSMTP_HOST=${MSMTP_HOST:?Missing variable MSMTP_HOST}
+      - MSMTP_PORT=${MSMTP_PORT:?Missing variable MSMTP_PORT}
+      - MSMTP_FROM=${MSMTP_FROM:?Missing variable MSMTP_FROM}
+      - MSMTP_USER=${MSMTP_USER:?Missing variable MSMTP_USER}
+      - MSMTP_PASSWORD=${MSMTP_PASSWORD:?Missing variable MSMTP_PASSWORD}
+      - RECIPIENTS_EMAILS=${RECIPIENTS_EMAILS:?Missing variable RECIPIENTS_EMAILS}
+      - CRON_SCHEDULE=${CRON_SCHEDULE:?Missing variable CRON_SCHEDULE}
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/relay-your-ip/config:/app/config
       - ${DIRECTORY:?Missing variable DIRECTORY}/relay-your-ip/data:/app/data
