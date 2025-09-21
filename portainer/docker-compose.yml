@@ -16,7 +16,7 @@ services:
       - traefik.http.routers.portainer.tls.certresolver=myresolver
       - traefik.http.services.portainer.loadbalancer.server.port=9000
       - homepage.instance.internal.group=Management
-      - homepage.instance.internal.name=Portainer
+      - homepage.instance.internal.name=${HOMEPAGE_NAME:-Portainer}
       - homepage.instance.internal.icon=portainer.png
       # - homepage.instance.public.href=https://portainer.${DOMAIN:?Missing variable DOMAIN}
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-9443}
