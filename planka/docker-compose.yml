@@ -123,7 +123,7 @@ services:
       - homepage.description=Elegant open source project tracking
 
   postgres:
-    image: postgres:16-alpine
+    image: postgres:18-alpine
     restart: unless-stopped
     container_name: planka-postgres
     volumes:
