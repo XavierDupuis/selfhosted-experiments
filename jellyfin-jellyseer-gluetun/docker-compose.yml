@@ -352,7 +352,7 @@ services:
       - homepage.instance.internal.widget.key=${LIDARR_API_KEY}
 
   bazarr:
-    image: lscr.io/linuxserver/bazarr:1.5.2
+    image: lscr.io/linuxserver/bazarr:1.5.3
     container_name: bazarr
     restart: unless-stopped
     ### WHEN VPN USED
