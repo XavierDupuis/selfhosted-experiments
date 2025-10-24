@@ -19,7 +19,7 @@ services:
     depends_on:
       - db_recipes
     ports:
-      - ${WEB_PORT:-8080}:8080
+      - ${WEB_PORT:-80}:80
     labels: 
       - traefik.enable=true
       - traefik.http.routers.tandoor.tls.certresolver=myresolver
@@ -27,7 +27,7 @@ services:
       - homepage.group=Utilities
       - homepage.name=Tandoor
       - homepage.instance.public.href=https://tandoor.${DOMAIN:?Missing variable DOMAIN}
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-80}
       - homepage.icon=tandoor-recipes.png
       - homepage.description=Managing recipes, planning meals, building shopping lists.
 
