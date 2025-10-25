@@ -124,7 +124,7 @@ services:
       - homepage.instance.internal.widget.enableNowPlaying=true  # optional, defaults to true
 
   jellyseerr:
-    image: fallenbagel/jellyseerr:2.7.0
+    image: fallenbagel/jellyseerr:2.7.3
     container_name: jellyseerr
     restart: unless-stopped
     ### WHEN VPN USED
