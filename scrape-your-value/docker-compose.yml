@@ -1,0 +1,16 @@
+services:
+  scrape-your-value:
+    image: ghcr.io/xavierdupuis/scrapeyourvalue:main
+    container_name: scrape-your-value
+    restart: always
+    environment:
+      - CRON_SCHEDULE=${CRON_SCHEDULE:?Missing variable CRON_SCHEDULE}
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/scrape-your-value/data:/app/data
+      - ${DIRECTORY:?Missing variable DIRECTORY}/scrape-your-value/config:/app/config
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      - homepage.instance.internal.group=Services
+      - homepage.instance.internal.name=ScrapeYourValue
+      - homepage.instance.internal.icon=mdi-radar
+      - homepage.instance.internal.description=Monitors endpoints reponses from various websites and sends notifications when values change.
