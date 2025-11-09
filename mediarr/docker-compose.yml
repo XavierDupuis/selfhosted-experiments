@@ -408,7 +408,7 @@ services:
 
   # byparr:
   #   container_name: byparr
-  #   image: ghcr.io/thephaseless/byparr:latest
+  #   image: ghcr.io/thephaseless/byparr:2.0.1
   #   restart: unless-stopped
   #   ### WHEN VPN USED
   #   # network_mode: service:gluetun
