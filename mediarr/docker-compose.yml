@@ -406,27 +406,27 @@ services:
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${TUNARR_WEB_PORT:-8000}
       - homepage.instance.internal.description=classic TV experience using your own media
 
-  byparr:
-    container_name: byparr
-    image: ghcr.io/thephaseless/byparr:latest
-    restart: unless-stopped
-    ### WHEN VPN USED
-    # network_mode: service:gluetun
-    # depends_on:
-    #   gluetun:
-    #     condition: service_healthy
-    #     restart: true
-    ### WHEN VPN UNUSED
-    networks:
-      - media
-    ports:
-      - ${BYPARR_WEB_PORT:-8191}:8191
-    volumes:
-      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/byparr/data:/app/screenshots
-    labels:
-      - homepage.instance.internal.group=Servarr
-      - homepage.instance.internal.name=Byparr
-      - homepage.instance.internal.icon=mdi-button-cursor
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${BYPARR_WEB_PORT:-8191}
-      - homepage.instance.internal.description=FlareSolverr drop-in replacement with FastAPI and nodriver 
+  # byparr:
+  #   container_name: byparr
+  #   image: ghcr.io/thephaseless/byparr:latest
+  #   restart: unless-stopped
+  #   ### WHEN VPN USED
+  #   # network_mode: service:gluetun
+  #   # depends_on:
+  #   #   gluetun:
+  #   #     condition: service_healthy
+  #   #     restart: true
+  #   ### WHEN VPN UNUSED
+  #   networks:
+  #     - media
+  #   ports:
+  #     - ${BYPARR_WEB_PORT:-8191}:8191
+  #   volumes:
+  #     - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/byparr/data:/app/screenshots
+  #   labels:
+  #     - homepage.instance.internal.group=Servarr
+  #     - homepage.instance.internal.name=Byparr
+  #     - homepage.instance.internal.icon=mdi-button-cursor
+  #     - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${BYPARR_WEB_PORT:-8191}
+  #     - homepage.instance.internal.description=FlareSolverr drop-in replacement with FastAPI and nodriver 
 
