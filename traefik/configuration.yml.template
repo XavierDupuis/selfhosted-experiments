@@ -3,8 +3,8 @@ http:
   routers:
     my-router:
       entryPoints:
-      - web
-      - websecure
+      - http
+      - https
       middlewares:
       - my-basic-auth
       service: my-service

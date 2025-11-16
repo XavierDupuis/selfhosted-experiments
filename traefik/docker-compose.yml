@@ -25,12 +25,12 @@ services:
       - --providers.file.watch=true
 
       # Entrypoints
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
+      - --entrypoints.http.address=:80
+      - --entrypoints.https.address=:443
 
       # Redirect http to https
-      - --entrypoints.web.http.redirections.entryPoint.to=websecure
-      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --entrypoints.http.http.redirections.entryPoint.to=https
+      - --entrypoints.http.http.redirections.entryPoint.scheme=https
 
       # Enable a dns challenge named "myresolver"
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
