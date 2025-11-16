@@ -26,7 +26,9 @@ services:
 
       # Entrypoints
       - --entrypoints.http.address=:80
+      - --entrypoints.http.http.middlewares=geoblock
       - --entrypoints.https.address=:443
+      - --entrypoints.https.http.middlewares=geoblock
 
       # Redirect http to https
       - --entrypoints.http.http.redirections.entryPoint.to=https
@@ -61,6 +63,10 @@ services:
       - --accesslog.format=json
       # Access logs buffering size
       - --accesslog.bufferingsize=100
+
+      # Plugins
+      - --experimental.plugins.geoblock.moduleName=github.com/PascalMinder/geoblock
+      - --experimental.plugins.geoblock.version=v0.3.3
 
     # ports:
     #   - 80:80
