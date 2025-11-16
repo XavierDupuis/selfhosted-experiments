@@ -14,4 +14,4 @@ services:
       - "${PORT:-2375}:2375"
 
 volumes:
-  socket-proxy.run
+  socket-proxy.run:
