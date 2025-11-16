@@ -1,0 +1,17 @@
+services:
+  socket-proxy:
+    image: 11notes/socket-proxy:2.1.6
+    container_name: docker-socket-proxy
+    restart: "unless-stopped"
+    read_only: true
+    user: "0:996" # root:docker
+    environment:
+      - TZ=${TZ:-Etc/UTC}
+    volumes:
+      - "/run/docker.sock:/run/docker.sock:ro" 
+      - "socket-proxy.run:/run/proxy"
+    ports:
+      - "${PORT:-2375}:2375"
+
+volumes:
+  socket-proxy.run
