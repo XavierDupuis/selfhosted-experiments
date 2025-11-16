@@ -8,7 +8,8 @@ services:
       - --global.sendanonymoususage=false
       # - --log.level=DEBUG
       - --log.filePath=/logs/debug.log
-      # - --api.insecure=true
+      - --api.dashboard=true
+      - --api.insecure=false
 
       # Enable docker provider
       # - --providers.docker=true
