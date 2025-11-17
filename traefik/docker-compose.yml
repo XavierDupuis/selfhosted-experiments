@@ -82,6 +82,7 @@ services:
       - ${DIRECTORY}/traefik/logs:/logs
       - ${DIRECTORY}/traefik/config:/etc/traefik/config
     environment:
+      - TZ=${TZ:-Etc/UTC}
       - DUCKDNS_TOKEN=${DUCKDNS_TOKEN:?Missing variable DUCKDNS_TOKEN}
     labels:
       - homepage.group=Network
