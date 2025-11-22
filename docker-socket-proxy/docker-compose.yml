@@ -4,7 +4,7 @@ services:
     container_name: docker-socket-proxy
     restart: "unless-stopped"
     read_only: true
-    user: "0:996" # root:docker
+    user: "0:${DOCKER_GID:?Missing variable DOCKER_GID}" # root:docker
     environment:
       - TZ=${TZ:-Etc/UTC}
     volumes:
