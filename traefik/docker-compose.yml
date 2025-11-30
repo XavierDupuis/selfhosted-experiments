@@ -6,7 +6,7 @@ services:
     network_mode: "host"
     command:
       - --global.sendanonymoususage=false
-      - --log.level=DEBUG
+      - --log.level=ERROR
       - --log.filePath=/logs/debug.log
       # - --api.insecure=true
 
