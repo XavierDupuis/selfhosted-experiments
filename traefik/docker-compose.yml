@@ -25,15 +25,15 @@ services:
       - --providers.file.watch=true
 
       # Entrypoints
-      - --entrypoints.http.address=:80
-      - --entrypoints.http.http.middlewares=geoblock
       - --entrypoints.https.address=:443
-      - --entrypoints.https.http.middlewares=geoblock
-
+      - --entrypoints.http.address=:80
       # Redirect http to https
       - --entrypoints.http.http.redirections.entryPoint.to=https
       - --entrypoints.http.http.redirections.entryPoint.scheme=https
-      - --entrypoints.http.http.redirections.entryPoint.permanent=true
+      # - --entrypoints.http.http.redirections.entryPoint.permanent=true
+      # Geo-block middleware configuration
+      - --entrypoints.https.http.middlewares=geoblock
+      # - --entrypoints.http.http.middlewares=geoblock
 
       # Enable a dns challenge named "myresolver"
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
