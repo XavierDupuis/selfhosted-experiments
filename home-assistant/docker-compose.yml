@@ -9,6 +9,8 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/home-assistant/config:/config
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
     ports:
       - ${WEB_PORT:?-8123}:8123
     labels:
