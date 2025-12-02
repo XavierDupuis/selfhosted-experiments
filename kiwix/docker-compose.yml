@@ -1,6 +1,6 @@
 services:
   kiwix-serve:
-    image: ghcr.io/kiwix/kiwix-serve:3.8.0
+    image: ghcr.io/kiwix/kiwix-serve:3.8.1
     container_name: kiwix
     restart: unless-stopped
     ports:
