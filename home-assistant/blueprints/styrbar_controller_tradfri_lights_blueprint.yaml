@@ -1,0 +1,534 @@
+# Inspired from
+# - https://github.com/ouhlar/home_assistant/blob/main/blueprints/styrbar_light_remote_control.yaml
+# - https://github.com/EPMatt/awesome-ha-blueprints/blob/main/blueprints/controllers/ikea_e2001_e2002/ikea_e2001_e2002.yaml
+
+blueprint:
+  name: STYRBAR Controller -> TRÂDFRI Lights
+  description: |
+    Combined blueprint that merges the IKEA E2001/E2002 controller blueprint
+    with an automated mapping to lights (single bulb or group). Supports
+    deCONZ, ZHA and Zigbee2MQTT integrations and automatically maps the
+    controller buttons to common light actions (on/off, brightness up/down,
+    color temperature adjustments). Minimal configuration required.
+  domain: automation
+  homeassistant:
+    min_version: 2024.10.0
+  input:
+    integration:
+      name: Integration
+      description: Integration used for connecting the remote with Home Assistant.
+      selector:
+        select:
+          options:
+            - deCONZ
+            - ZHA
+            - Zigbee2MQTT
+    controller_device:
+      name: Controller Device
+      description: The controller device (deCONZ, ZHA, or Zigbee2MQTT device).
+      selector:
+        device:
+          filter:
+            - integration: mqtt
+              manufacturer: IKEA
+              model: STYRBAR remote control
+            - integration: mqtt
+              manufacturer: IKEA
+              model: STYRBAR remote control (E2001/E2002)
+            - integration: zha
+              manufacturer: IKEA of Sweden
+              model: Remote Control N2
+            - integration: deconz
+              manufacturer: IKEA of Sweden
+              model: Remote Control N2
+    target_light:
+      name: Target Light / Group
+      description: Target light entity or a light group entity to control.
+      selector:
+        entity:
+          domain: light
+    helper_last_controller_event:
+      name: Helper - Last Controller Event
+      description: Input Text used to store the last event fired by the controller. Create an `input_text` entity and select it here.
+      selector:
+        entity:
+          domain: input_text
+    brightness_step:
+      name: Brightness Step (%)
+      description: Percentage step used for brightness up/down on each iteration.
+      default: 5
+      selector:
+        number:
+          min: 1
+          max: 100
+          step: 1
+          unit_of_measurement: "%"
+    delay_ms:
+      name: Delay (ms) Between Steps
+      description: Delay in milliseconds between repeated steps when holding a button.
+      default: 300
+      selector:
+        number:
+          min: 100
+          max: 2000
+          step: 50
+          unit_of_measurement: ms
+    transition_seconds:
+      name: Transition Time (s)
+      description: Transition duration for light service calls.
+      default: 1
+      selector:
+        number:
+          min: 0.1
+          max: 60
+          step: 0.1
+          unit_of_measurement: s
+    color_temp_click_step:
+      name: Color Temp Click Step (K)
+      description: Kelvins to increase/decrease on a single arrow click.
+      default: 200
+      selector:
+        number:
+          min: 50
+          max: 2000
+          step: 10
+          unit_of_measurement: K
+    color_temp_hold_step:
+      name: Color Temp Hold Step (K)
+      description: Kelvins to increase/decrease on each hold iteration.
+      default: 100
+      selector:
+        number:
+          min: 10
+          max: 1000
+          step: 10
+          unit_of_measurement: K
+    # Optional loop toggles (useful for ZHA/deCONZ where release detection may differ)
+    button_up_long_loop:
+      name: Loop Up While Holding
+      description: Loop brightness up action while holding when supported.
+      default: true
+      selector:
+        boolean: {}
+    button_down_long_loop:
+      name: Loop Down While Holding
+      description: Loop brightness down action while holding when supported.
+      default: true
+      selector:
+        boolean: {}
+    button_left_long_loop:
+      name: Loop Color Left While Holding
+      description: Loop color temperature decrease while holding when supported.
+      default: true
+      selector:
+        boolean: {}
+    button_right_long_loop:
+      name: Loop Color Right While Holding
+      description: Loop color temperature increase while holding when supported.
+      default: true
+      selector:
+        boolean: {}
+
+variables:
+  # basic conversions and mapping from integrated blueprint
+  integration: !input integration
+  integration_id: '{{ integration | lower }}'
+  helper_last_controller_event: !input helper_last_controller_event
+  controller_id: !input controller_device
+  target_light: !input target_light
+  brightness_step: !input brightness_step
+  delay_ms: !input delay_ms
+  transition_seconds: !input transition_seconds
+  color_temp_click_step: !input color_temp_click_step
+  color_temp_hold_step: !input color_temp_hold_step
+  button_up_long_loop: !input button_up_long_loop
+  button_down_long_loop: !input button_down_long_loop
+  button_left_long_loop: !input button_left_long_loop
+  button_right_long_loop: !input button_right_long_loop
+  # mapping between common controller actions and integration-specific event strings
+  actions_mapping:
+    deconz:
+      button_left_short: ['3002']
+      button_left_long: ['3001']
+      button_left_release: ['3003']
+      button_right_short: ['4002']
+      button_right_long: ['4001']
+      button_right_release: ['4003']
+      button_up_short: ['1002']
+      button_up_long: ['1001']
+      button_up_release: ['1003']
+      button_down_short: ['2002']
+      button_down_long: ['2001']
+      button_down_release: ['2003']
+    zha:
+      button_left_short: [press_257_13_0]
+      button_left_long: [hold_3329_0]
+      button_left_release: [release]
+      button_right_short: [press_256_13_0]
+      button_right_long: [hold_3328_0]
+      button_right_release: [release]
+      button_up_short: ['on']
+      button_up_long: [move_with_on_off_0_83, move_with_on_off_MoveMode.Up_83]
+      button_up_release: [stop, stop_with_on_off]
+      button_down_short: ['off']
+      button_down_long: [move_1_83, move_MoveMode.Down_83_0_0]
+      button_down_release: [stop, stop_with_on_off, stop_0_0]
+    zigbee2mqtt:
+      button_left_short: [arrow_left_click]
+      button_left_long: [arrow_left_hold]
+      button_left_release: [arrow_left_release]
+      button_right_short: [arrow_right_click]
+      button_right_long: [arrow_right_hold]
+      button_right_release: [arrow_right_release]
+      button_up_short: ['on']
+      button_up_long: [brightness_move_up]
+      button_up_release: [brightness_stop]
+      button_down_short: ['off']
+      button_down_long: [brightness_move_down]
+      button_down_release: [brightness_stop]
+
+  # pre-resolve button action names for the selected integration
+  button_left_short: '{{ actions_mapping[integration_id]["button_left_short"] }}'
+  button_left_long: '{{ actions_mapping[integration_id]["button_left_long"] }}'
+  button_left_release: '{{ actions_mapping[integration_id]["button_left_release"] }}'
+  button_right_short: '{{ actions_mapping[integration_id]["button_right_short"] }}'
+  button_right_long: '{{ actions_mapping[integration_id]["button_right_long"] }}'
+  button_right_release: '{{ actions_mapping[integration_id]["button_right_release"] }}'
+  button_up_short: '{{ actions_mapping[integration_id]["button_up_short"] }}'
+  button_up_long: '{{ actions_mapping[integration_id]["button_up_long"] }}'
+  button_up_release: '{{ actions_mapping[integration_id]["button_up_release"] }}'
+  button_down_short: '{{ actions_mapping[integration_id]["button_down_short"] }}'
+  button_down_long: '{{ actions_mapping[integration_id]["button_down_long"] }}'
+  button_down_release: '{{ actions_mapping[integration_id]["button_down_release"] }}'
+
+mode: restart
+max_exceeded: silent
+
+triggers:
+  # Zigbee2MQTT device action triggers (with ids for repeat-until usage)
+  - platform: device
+    device_id: !input controller_device
+    domain: mqtt
+    type: action
+    subtype: arrow_left_click
+    id: arrow_left_click
+  - platform: device
+    device_id: !input controller_device
+    domain: mqtt
+    type: action
+    subtype: arrow_left_hold
+    id: arrow_left_hold
+  - platform: device
+    device_id: !input controller_device
+    domain: mqtt
+    type: action
+    subtype: arrow_left_release
+    id: arrow_left_release
+  - platform: device
+    device_id: !input controller_device
+    domain: mqtt
+    type: action
+    subtype: arrow_right_click
+    id: arrow_right_click
+  - platform: device
+    device_id: !input controller_device
+    domain: mqtt
+    type: action
+    subtype: arrow_right_hold
+    id: arrow_right_hold
+  - platform: device
+    device_id: !input controller_device
+    domain: mqtt
+    type: action
+    subtype: arrow_right_release
+    id: arrow_right_release
+  - platform: device
+    device_id: !input controller_device
+    domain: mqtt
+    type: action
+    subtype: 'on'
+    id: button_on
+  - platform: device
+    device_id: !input controller_device
+    domain: mqtt
+    type: action
+    subtype: brightness_move_up
+    id: brightness_move_up
+  - platform: device
+    device_id: !input controller_device
+    domain: mqtt
+    type: action
+    subtype: brightness_stop
+    id: brightness_stop
+  - platform: device
+    device_id: !input controller_device
+    domain: mqtt
+    type: action
+    subtype: 'off'
+    id: button_off
+  - platform: device
+    device_id: !input controller_device
+    domain: mqtt
+    type: action
+    subtype: brightness_move_down
+    id: brightness_move_down
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_id: !input controller_device
+
+conditions:
+  - condition: template
+    value_template: >-
+      {%- set trigger_action -%}
+      {%- if integration_id == "zigbee2mqtt" -%}
+      {{ trigger.payload }}
+      {%- elif integration_id == "deconz" -%}
+      {{ trigger.event.data.event }}
+      {%- elif integration_id == "zha" -%}
+      {{ trigger.event.data.command }}{{"_" if trigger.event.data.args|length > 0}}{{ trigger.event.data.args|join("_") }}
+      {%- endif -%}
+      {%- endset -%}
+      {{ trigger_action not in ["","None","unknown"] }}
+
+actions:
+  - variables:
+      trigger_action: >-
+        {%- if integration_id == "zigbee2mqtt" -%}
+        {{ trigger.payload }}
+        {%- elif integration_id == "deconz" -%}
+        {{ trigger.event.data.event }}
+        {%- elif integration_id == "zha" -%}
+        {{ trigger.event.data.command }}{{"_" if trigger.event.data.args|length > 0}}{{ trigger.event.data.args|join("_") }}
+        {%- endif -%}
+      deserialized_state: '{{ (states(helper_last_controller_event) | from_json) if helper_last_controller_event is not none and (states(helper_last_controller_event) | regex_match("^\{\s*?((\"a\":\s*?\".*\"|\"t\":\s*?\d+\.\d+)(,\s*?)?){2}\s*?\}$")) else {} }}'
+      trigger_delta: '{{ (as_timestamp(now()) - (deserialized_state.t | default(0))) * 1000 }}'
+      last_controller_event: '{{ (deserialized_state.a | default("")) }}'
+
+  # update helper state (keeps compatibility with IKEA controller blueprint behaviour)
+  - action: input_text.set_value
+    data:
+      entity_id: !input helper_last_controller_event
+      value: '{{ {"a":trigger_action,"t":as_timestamp(now())} | to_json }}'
+
+  - choose:
+      # ON - Up Short
+      - conditions: '{{ trigger_action | string in button_up_short }}'
+        sequence:
+          - event: ahb_controller_event
+            event_data:
+              controller: '{{ controller_id }}'
+              action: button_up_short
+          - service: light.turn_on
+            target:
+              entity_id: '{{ target_light }}'
+      # OFF - Down Short
+      - conditions: '{{ trigger_action | string in button_down_short }}'
+        sequence:
+          - event: ahb_controller_event
+            event_data:
+              controller: '{{ controller_id }}'
+              action: button_down_short
+          - service: light.turn_off
+            target:
+              entity_id: '{{ target_light }}'
+
+      # Brightness Up - Long (hold)
+      - conditions: '{{ trigger_action | string in button_up_long }}'
+        sequence:
+          - event: ahb_controller_event
+            event_data:
+              controller: '{{ controller_id }}'
+              action: button_up_long
+          - choose:
+              - conditions: '{{ integration_id == "zigbee2mqtt" }}'
+                sequence:
+                  - repeat:
+                      sequence:
+                        - service: light.turn_on
+                          target:
+                            entity_id: '{{ target_light }}'
+                          data:
+                            brightness_step_pct: '{{ brightness_step | int }}'
+                            transition: '{{ transition_seconds }}'
+                        - delay:
+                            milliseconds: '{{ delay_ms }}'
+                      until:
+                        - condition: trigger
+                          id: brightness_stop
+              - conditions: '{{ button_up_long_loop }}'
+                sequence:
+                  - repeat:
+                      while: '{{ repeat.index < 500 }}'
+                      sequence:
+                        - service: light.turn_on
+                          target:
+                            entity_id: '{{ target_light }}'
+                          data:
+                            brightness_step_pct: '{{ brightness_step | int }}'
+                            transition: '{{ transition_seconds }}'
+                        - delay:
+                            milliseconds: '{{ delay_ms }}'
+              - conditions: []
+                sequence:
+                  - service: light.turn_on
+                    target:
+                      entity_id: '{{ target_light }}'
+                    data:
+                      brightness_step_pct: '{{ brightness_step | int }}'
+                      transition: '{{ transition_seconds }}'
+
+      # Brightness Down - Long (hold)
+      - conditions: '{{ trigger_action | string in button_down_long }}'
+        sequence:
+          - event: ahb_controller_event
+            event_data:
+              controller: '{{ controller_id }}'
+              action: button_down_long
+          - choose:
+              - conditions: '{{ integration_id == "zigbee2mqtt" }}'
+                sequence:
+                  - repeat:
+                      sequence:
+                        - service: light.turn_on
+                          target:
+                            entity_id: '{{ target_light }}'
+                          data:
+                            brightness_step_pct: '-{{ brightness_step | int }}'
+                            transition: '{{ transition_seconds }}'
+                        - delay:
+                            milliseconds: '{{ delay_ms }}'
+                      until:
+                        - condition: trigger
+                          id: brightness_stop
+              - conditions: '{{ button_down_long_loop }}'
+                sequence:
+                  - repeat:
+                      while: '{{ repeat.index < 500 }}'
+                      sequence:
+                        - service: light.turn_on
+                          target:
+                            entity_id: '{{ target_light }}'
+                          data:
+                            brightness_step_pct: '-{{ brightness_step | int }}'
+                            transition: '{{ transition_seconds }}'
+                        - delay:
+                            milliseconds: '{{ delay_ms }}'
+              - conditions: []
+                sequence:
+                  - service: light.turn_on
+                    target:
+                      entity_id: '{{ target_light }}'
+                    data:
+                      brightness_step_pct: '-{{ brightness_step | int }}'
+                      transition: '{{ transition_seconds }}'
+
+      # Color Temp Left (decrease) - Click
+      - conditions: '{{ trigger_action | string in button_left_short }}'
+        sequence:
+          - event: ahb_controller_event
+            event_data:
+              controller: '{{ controller_id }}'
+              action: button_left_short
+          - service: light.turn_on
+            target:
+              entity_id: '{{ target_light }}'
+            data:
+              color_temp_kelvin: "{{ state_attr(target_light, 'color_temp_kelvin') - color_temp_click_step }}"
+
+      # Color Temp Left - Hold
+      - conditions: '{{ trigger_action | string in button_left_long }}'
+        sequence:
+          - event: ahb_controller_event
+            event_data:
+              controller: '{{ controller_id }}'
+              action: button_left_long
+          - choose:
+              - conditions: '{{ integration_id == "zigbee2mqtt" }}'
+                sequence:
+                  - repeat:
+                      sequence:
+                        - service: light.turn_on
+                          target:
+                            entity_id: '{{ target_light }}'
+                          data:
+                            color_temp_kelvin: "{{ state_attr(target_light, 'color_temp_kelvin') - color_temp_hold_step }}"
+                        - delay:
+                            milliseconds: '{{ delay_ms }}'
+                      until:
+                        - condition: trigger
+                          id: arrow_left_release
+              - conditions: '{{ button_left_long_loop }}'
+                sequence:
+                  - repeat:
+                      while: '{{ repeat.index < 500 }}'
+                      sequence:
+                        - service: light.turn_on
+                          target:
+                            entity_id: '{{ target_light }}'
+                          data:
+                            color_temp_kelvin: "{{ state_attr(target_light, 'color_temp_kelvin') - color_temp_hold_step }}"
+                        - delay:
+                            milliseconds: '{{ delay_ms }}'
+              - conditions: []
+                sequence:
+                  - service: light.turn_on
+                    target:
+                      entity_id: '{{ target_light }}'
+                    data:
+                      color_temp_kelvin: "{{ state_attr(target_light, 'color_temp_kelvin') - color_temp_hold_step }}"
+
+      # Color Temp Right (increase) - Click
+      - conditions: '{{ trigger_action | string in button_right_short }}'
+        sequence:
+          - event: ahb_controller_event
+            event_data:
+              controller: '{{ controller_id }}'
+              action: button_right_short
+          - service: light.turn_on
+            target:
+              entity_id: '{{ target_light }}'
+            data:
+              color_temp_kelvin: "{{ state_attr(target_light, 'color_temp_kelvin') + color_temp_click_step }}"
+
+      # Color Temp Right - Hold
+      - conditions: '{{ trigger_action | string in button_right_long }}'
+        sequence:
+          - event: ahb_controller_event
+            event_data:
+              controller: '{{ controller_id }}'
+              action: button_right_long
+          - choose:
+              - conditions: '{{ integration_id == "zigbee2mqtt" }}'
+                sequence:
+                  - repeat:
+                      sequence:
+                        - service: light.turn_on
+                          target:
+                            entity_id: '{{ target_light }}'
+                          data:
+                            color_temp_kelvin: "{{ state_attr(target_light, 'color_temp_kelvin') + color_temp_hold_step }}"
+                        - delay:
+                            milliseconds: '{{ delay_ms }}'
+                      until:
+                        - condition: trigger
+                          id: arrow_right_release
+              - conditions: '{{ button_right_long_loop }}'
+                sequence:
+                  - repeat:
+                      while: '{{ repeat.index < 500 }}'
+                      sequence:
+                        - service: light.turn_on
+                          target:
+                            entity_id: '{{ target_light }}'
+                          data:
+                            color_temp_kelvin: "{{ state_attr(target_light, 'color_temp_kelvin') + color_temp_hold_step }}"
+                        - delay:
+                            milliseconds: '{{ delay_ms }}'
+              - conditions: []
+                sequence:
+                  - service: light.turn_on
+                    target:
+                      entity_id: '{{ target_light }}'
+                    data:
+                      color_temp_kelvin: "{{ state_attr(target_light, 'color_temp_kelvin') + color_temp_hold_step }}"

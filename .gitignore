@@ -1,4 +1,5 @@
 *.*
 !**/*.unused
 !**/*.template
+!**/home-assistant/blueprints/**
 !**/docker-compose.yml
