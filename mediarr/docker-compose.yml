@@ -389,7 +389,7 @@ services:
 
   tunarr: 
     container_name: tunarr
-    image: chrisbenincasa/tunarr:0.22.17
+    image: chrisbenincasa/tunarr:1.0.2
     restart: unless-stopped
     networks:
       - media
