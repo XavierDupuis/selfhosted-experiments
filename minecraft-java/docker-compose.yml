@@ -1,6 +1,6 @@
 services:
   minecraft-java:
-    image: itzg/minecraft-server:2025.1.0-java21
+    image: itzg/minecraft-server:2025.12.0-java21
     container_name: minecraft-java
     restart: unless-stopped
     ports:
