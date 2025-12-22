@@ -1,6 +1,6 @@
 services:
   tubearchivist:
-    image: bbilly1/tubearchivist:v0.5.8
+    image: bbilly1/tubearchivist:v0.5.8@sha256:83ccd1e372a654654e8cb3c0278256b6889653a4cf239c052bb532401c79daeb
     container_name: tubearchivist
     restart: unless-stopped
     ports:
@@ -42,7 +42,7 @@ services:
       - homepage.instance.internal.widget.key=${TA_TOKEN}
 
   archivist-redis:
-    image: redis/redis-stack-server:latest
+    image: redis/redis-stack-server:latest@sha256:798ab84d9f266936b034ab11c4d04a2b8e4b441884c5aa7d17ac951eefdf742a
     container_name: archivist-redis
     restart: unless-stopped
     expose:
@@ -53,7 +53,7 @@ services:
       - archivist-es
 
   archivist-es:
-    image: bbilly1/tubearchivist-es:latest         # only for amd64, or use official es 8.11.0
+    image: bbilly1/tubearchivist-es:latest@sha256:58007d1cf7a3b9f3ae4a8e0d2798b05d9c7dd768877b1fe908fd4142da4c68b6         # only for amd64, or use official es 8.11.0
     container_name: archivist-es
     restart: unless-stopped
     environment:

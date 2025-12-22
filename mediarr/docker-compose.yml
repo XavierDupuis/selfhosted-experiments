@@ -11,7 +11,7 @@ networks:
 services:
   # https://github.com/qdm12/gluetun/wiki
   gluetun:
-    image: qmcgaw/gluetun:v3.39.1 # >=3.40.0 not properly working 
+    image: qmcgaw/gluetun:v3.39.1@sha256:6a8058e626763cbf735ac2f78c774dbb24fec2490bd9d9f7d67e22592cb4a991 # >=3.40.0 not properly working 
     container_name: gluetun
     restart: unless-stopped
     devices:
@@ -74,7 +74,7 @@ services:
       retries: 1
 
   jellyfin:
-    image: jellyfin/jellyfin:10.11.4
+    image: jellyfin/jellyfin:10.11.4@sha256:aab0b50a3ce43a41621fc7040a379cc57174059aec8f9c17a90176649a0c1ab1
     container_name: jellyfin
     restart: unless-stopped
     ### WHEN VPN USED
@@ -124,7 +124,7 @@ services:
       - homepage.instance.internal.widget.enableNowPlaying=true  # optional, defaults to true
 
   jellyseerr:
-    image: fallenbagel/jellyseerr:2.7.3
+    image: fallenbagel/jellyseerr:2.7.3@sha256:4538137bc5af902dece165f2bf73776d9cf4eafb6dd714670724af8f3eb77764
     container_name: jellyseerr
     restart: unless-stopped
     ### WHEN VPN USED
@@ -161,7 +161,7 @@ services:
 
   qbittorrent:
     container_name: qbittorrent
-    image: lscr.io/linuxserver/qbittorrent:5.1.4
+    image: lscr.io/linuxserver/qbittorrent:5.1.4@sha256:a68c4cfb7b07c39cf3f13e7f1d23d333c1e4a60304d37bc1eec7af3eacfe12d5
     restart: unless-stopped
     ### WHEN VPN USED
     network_mode: service:gluetun
@@ -211,7 +211,7 @@ services:
 
   prowlarr:
     container_name: prowlarr
-    image: linuxserver/prowlarr:2.3.0
+    image: linuxserver/prowlarr:2.3.0@sha256:67a8aaedcfd6989f3030b937a6a07007310b1dfc7ee8df16d2cbfa48d1c1158c
     restart: unless-stopped
     ### WHEN VPN USED
     # network_mode: service:gluetun
@@ -245,7 +245,7 @@ services:
       - homepage.instance.internal.widget.key=${PROWLARR_API_KEY}
 
   sonarr:
-    image: lscr.io/linuxserver/sonarr:4.0.16
+    image: lscr.io/linuxserver/sonarr:4.0.16@sha256:8b9f2138ec50fc9e521960868f79d2ad0d529bc610aef19031ea8ff80b54c5e0
     container_name: sonarr
     restart: unless-stopped
     ### WHEN VPN USED
@@ -317,7 +317,7 @@ services:
       - homepage.instance.internal.widget.enableQueue=true # optional, defaults to false
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:2.14.5
+    image: lscr.io/linuxserver/lidarr:2.14.5@sha256:5e1235d00b5d1c1f60ca0d472e554a6611aef41aa7b5b6d88260214bf4809af0
     container_name: lidarr
     restart: unless-stopped
     ### WHEN VPN USED
@@ -352,7 +352,7 @@ services:
       - homepage.instance.internal.widget.key=${LIDARR_API_KEY}
 
   bazarr:
-    image: lscr.io/linuxserver/bazarr:1.5.3
+    image: lscr.io/linuxserver/bazarr:1.5.3@sha256:648f694532a3a53d8cf78bc888919ef538659bad41af4c680b0427ad1047d171
     container_name: bazarr
     restart: unless-stopped
     ### WHEN VPN USED
@@ -389,7 +389,7 @@ services:
 
   tunarr: 
     container_name: tunarr
-    image: chrisbenincasa/tunarr:0.22.17
+    image: chrisbenincasa/tunarr:0.22.17@sha256:06cfa90fdc62bf26ec3b782a8239958fb8dcdc0c70804f0200acd81664a1d04b
     restart: unless-stopped
     networks:
       - media

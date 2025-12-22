@@ -1,6 +1,6 @@
 services:
   planka:
-    image: ghcr.io/plankanban/planka:2.0.0-rc.3
+    image: ghcr.io/plankanban/planka:2.0.0-rc.3@sha256:5a2a69ec7159a2f9c6679c31698e4b5b17ccf254d5bfc6e9be43e411b6de0c3d
     restart: unless-stopped
     container_name: planka
     volumes:
@@ -123,7 +123,7 @@ services:
       - homepage.description=Elegant open source project tracking
 
   postgres:
-    image: postgres:16-alpine
+    image: postgres:16-alpine@sha256:6a388fba16e2a94d6d92bc3c435cdc2e20145add88547615b3d8fa545d703afe
     restart: unless-stopped
     container_name: planka-postgres
     volumes:

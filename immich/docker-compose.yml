@@ -40,12 +40,12 @@ services:
       - model-cache:/cache
 
   redis:
-    image: redis:6.2
+    image: redis:6.2@sha256:d338acf5e1c111dfdafc78fd2adf2d15a54d4f185611d5f7b6b75cf967f1c1b1
     container_name: immich_redis
     restart: unless-stopped
 
   database:
-    image: ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0@sha256:c570d9e1c2494f65d2a0a379a7f6df66e8441964254a30aa62cc58e8ebf1dee0
     container_name: immich_postgres
     restart: unless-stopped
     environment:

@@ -1,7 +1,7 @@
 services:
   # https://github.com/prometheus/node_exporter
   node-exporter:
-    image: prom/node-exporter:v1.10.2
+    image: prom/node-exporter:v1.10.2@sha256:3ac34ce007accad95afed72149e0d2b927b7e42fd1c866149b945b84737c62c3
     container_name: node_exporter
     restart: unless-stopped
     volumes:
@@ -18,7 +18,7 @@ services:
 
   # https://github.com/google/cadvisor
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.52.1
+    image: gcr.io/cadvisor/cadvisor:v0.52.1@sha256:f40e65878e25c2e78ea037f73a449527a0fb994e303dc3e34cb6b187b4b91435
     container_name: cadvisor
     restart: unless-stopped
     volumes:
