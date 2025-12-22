@@ -1,6 +1,6 @@
 services:
   socket-proxy:
-    image: 11notes/socket-proxy:2.1.6
+    image: 11notes/socket-proxy:2.1.6@sha256:2f4e605a5441b31389a95ef942af45927e8df4df4e974cfa271a388799d4f87b
     container_name: docker-socket-proxy
     restart: "unless-stopped"
     read_only: true

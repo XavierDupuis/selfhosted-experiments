@@ -1,6 +1,6 @@
 services:
   scrape-your-value:
-    image: ghcr.io/xavierdupuis/scrapeyourvalue:main
+    image: ghcr.io/xavierdupuis/scrapeyourvalue:main@sha256:88da91312bc609ae3666d15bf5859eab28bbd59a7196d571fb5f685a9179b346
     container_name: scrape-your-value
     restart: always
     environment:

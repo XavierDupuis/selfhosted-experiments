@@ -1,7 +1,7 @@
 services:
   # https://docs.miguelndecarvalho.pt/projects/speedtest-exporter/
   speedtest-exporter:
-    image: miguelndecarvalho/speedtest-exporter:v3.5.4
+    image: miguelndecarvalho/speedtest-exporter:v3.5.4@sha256:f1064d49124c7fc45faabb87c6c876a2fd04e92b3dc14d4b871301217ba30fed
     container_name: speedtest-exporter
     restart: unless-stopped
     ports:

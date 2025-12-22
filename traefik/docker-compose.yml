@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v3.6.5
+    image: traefik:v3.6.5@sha256:67622638cd88dbfcfba40159bc652ecf0aea0e032f8a3c7e3134ae7c037b9910
     container_name: traefik
     restart: unless-stopped
     network_mode: "host"
