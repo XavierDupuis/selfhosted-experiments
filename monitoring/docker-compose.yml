@@ -104,7 +104,7 @@ services:
 
   # https://docs.influxdata.com/influxdb/v2/install/?t=Docker
   influxdb:
-    image: influxdb:2.7.11@sha256:d92a10e9e75aff18eca38ff3a8f0b4a800706a5dd44d1b0ece264af04458525b
+    image: influxdb:2.8.0@sha256:38829bd08b47bbfb23ee8ef98fef45ac59abb78d4d7e451870b7499840e0f365
     container_name: influxdb
     restart: unless-stopped
     user: 1000:1000
