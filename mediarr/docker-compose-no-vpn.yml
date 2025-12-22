@@ -1,0 +1,311 @@
+networks:
+  media:
+    name: media
+    driver: bridge
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.11.4
+    container_name: jellyfin
+    restart: unless-stopped
+    networks:
+      - media
+    ports:
+      - ${JELLYFIN_WEB_PORT:-8096}:8096
+      - 7359:7359/udp
+      - 8920:8920
+      - 1900:1900/udp
+    # Optional - may be necessary for docker healthcheck to pass if running in host network mode
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+    environment:
+      # - JELLYFIN_PublishedServerUrl=${HOST_URL:-http://localhost} # Optional - alternative address used for autodiscovery
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+    volumes:
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/jellyfin/config:/config
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/jellyfin/cache:/cache
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/videos:/videos
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/youtube:/youtube:ro
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/series
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyfin.tls.certresolver=myresolver
+      - traefik.http.services.jellyfin.loadbalancer.server.port=8096
+      - homepage.group=Media
+      - homepage.name=Jellyfin
+      - homepage.icon=jellyfin.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
+      - homepage.instance.public.href=https://jellyfin.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.description=The Free Software Media System
+      - homepage.widget.type=jellyfin
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
+      - homepage.widget.key=${JELLYFIN_API_KEY}
+      - homepage.widget.enableBlocks=true      # optional, defaults to false
+      - homepage.widget.enableNowPlaying=true  # optional, defaults to true
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:2.7.3
+    container_name: jellyseerr
+    restart: unless-stopped
+    networks:
+      - media
+    ports:
+      - ${JELLYSEERR_WEB_PORT:-5055}:5055
+    environment:
+      - LOG_LEVEL=debug
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+    volumes:
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/jellyseerr/config:/app/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyseerr.tls.certresolver=myresolver
+      - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
+      - homepage.group=Media
+      - homepage.name=Jellyseerr
+      - homepage.icon=jellyseerr.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
+      - homepage.instance.public.href=https://jellyseerr.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.description=Request Management and Media Discovery Tool for the Jellyfin Ecosystem
+      - homepage.widget.type=jellyseerr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
+      - homepage.widget.key=${JELLYSEER_API_KEY}
+
+  qbittorrent:
+    container_name: gluetun
+    image: lscr.io/linuxserver/qbittorrent:5.1.4
+    restart: unless-stopped
+    networks:
+      - media
+    ports:
+      - ${QBITTORRENT_WEB_PORT:-3000}:${QBITTORRENT_WEB_PORT:-3000} # MAPPING MUST BE X:X
+      - ${QBITTORRENT_TCP_PORT:-6881}:6881/tcp
+      - ${QBITTORRENT_UDP_PORT:-6881}:6881/udp
+    environment:
+      - WEBUI_PORT=${QBITTORRENT_WEB_PORT:-3000}
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:qbittorrent
+      - TP_THEME=${TP_THEME:-nord}
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+    volumes:
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/qbittorrent/config:/config
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=${QBITTORRENT_WEB_PORT:-3000}
+      - homepage.group=Download
+      - homepage.name=Qbittorrent
+      - homepage.icon=qbittorrent.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
+      - homepage.instance.public.href=https://qbittorrent.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.description=Free and reliable P2P Bitorrent client
+      - homepage.widget.type=qbittorrent
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
+      - homepage.widget.username=${QBITTORRENT_USERNAME:?Missing variable QBITTORRENT_USERNAME}
+      - homepage.widget.password=${QBITTORRENT_PASSWORD:?Missing variable QBITTORRENT_PASSWORD}
+    healthcheck: # https://github.com/qdm12/gluetun/issues/641#issuecomment-933856220
+      test: "curl -sf https://example.com || exit 1"
+      interval: 1m
+      timeout: 10s
+      retries: 1
+      start_period: 30s
+
+  prowlarr:
+    container_name: prowlarr
+    image: linuxserver/prowlarr:2.3.0
+    restart: unless-stopped
+    networks:
+      - media
+    ports:
+      - ${PROWLARR_WEB_PORT:-9696}:9696
+    environment:
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:prowlarr
+      - TP_THEME=${TP_THEME:-nord}
+    volumes:
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/prowlarr/config:/config
+    labels:
+      - homepage.group=Servarr
+      - homepage.name=Prowlarr
+      - homepage.icon=prowlarr.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
+      - homepage.description=Ultimate Indexer Manager
+      - homepage.widget.type=prowlarr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${PROWLARR_WEB_PORT:-9696}
+      - homepage.widget.key=${PROWLARR_API_KEY}
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:4.0.16
+    container_name: sonarr
+    restart: unless-stopped
+    networks:
+      - media
+    ports:
+      - ${SONARR_WEB_PORT:-8989}:8989
+    environment:
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:sonarr
+      - TP_THEME=${TP_THEME:-nord}
+    volumes:
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/sonarr/config/:/config
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/tv
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
+    labels:
+      - homepage.group=Servarr
+      - homepage.name=Sonarr
+      - homepage.icon=sonarr.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
+      - homepage.description=Internet PVR for Usenet and Torrents
+      - homepage.widget.type=sonarr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${SONARR_WEB_PORT:-8989}
+      - homepage.widget.key=${SONARR_API_KEY}
+      - homepage.widget.enableQueue=true # optional, defaults to false
+
+  radarr:
+    container_name: radarr
+    image: lscr.io/linuxserver/radarr:6.0.4
+    restart: unless-stopped
+    networks:
+      - media
+    ports:
+      - ${RADARR_WEB_PORT:-7878}:7878
+    environment:
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:radarr
+      - TP_THEME=${TP_THEME:-nord}
+    volumes:
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/radarr/config:/config
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
+    labels:
+      - homepage.group=Servarr
+      - homepage.name=Radarr
+      - homepage.icon=radarr.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
+      - homepage.description=Movie collection manager for Usenet and BitTorrent
+      - homepage.widget.type=radarr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${RADARR_WEB_PORT:-7878}
+      - homepage.widget.key=${RADARR_API_KEY}
+      - homepage.widget.enableQueue=true # optional, defaults to false
+
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:2.14.5
+    container_name: lidarr
+    restart: unless-stopped
+    networks:
+      - media
+    ports:
+      - ${LIDARR_WEB_PORT:-8686}:8686
+    environment:
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:lidarr
+      - TP_THEME=${TP_THEME:-nord}
+    volumes:
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/lidarr/config:/config
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
+    labels:
+      - homepage.group=Servarr
+      - homepage.name=Lidarr
+      - homepage.icon=lidarr.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
+      - homepage.description=Music collection manager for Usenet and BitTorrent
+      - homepage.widget.type=lidarr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
+      - homepage.widget.key=${LIDARR_API_KEY}
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:1.5.3
+    container_name: bazarr
+    restart: unless-stopped
+    networks:
+      - media
+    ports:
+      - ${BAZARR_WEB_PORT:-6767}:6767
+    environment:
+      ### COMMON
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0002}
+      - TZ=${TIMEZONE:-UTC}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:bazarr
+      - TP_THEME=${TP_THEME:-nord}
+    volumes:
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/bazarr/config:/config
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/tv
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
+    labels:
+      - homepage.group=Servarr
+      - homepage.name=Bazarr
+      - homepage.icon=bazarr.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}
+      - homepage.description=Manages and downloads subtitles
+      - homepage.widget.type=bazarr
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${BAZARR_WEB_PORT:-6767}
+      - homepage.widget.key=${BAZARR_API_KEY}
+
+  tunarr: 
+    container_name: tunarr
+    image: chrisbenincasa/tunarr:0.22.17
+    restart: unless-stopped
+    networks:
+      - media
+    ports:
+      - ${TUNARR_WEB_PORT:-8000}:8000
+    environment:
+      - TZ=${TIMEZONE:-UTC}
+    volumes:
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/tunarr/config:/config
+    labels:
+      - homepage.instance.internal.group=Servarr
+      - homepage.instance.internal.name=Tunarr
+      - homepage.instance.internal.icon=tunarr.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${TUNARR_WEB_PORT:-8000}
+      - homepage.instance.internal.description=classic TV experience using your own media
+
+  # byparr:
+  #   container_name: byparr
+  #   image: ghcr.io/thephaseless/byparr:2.0.1
+  #   restart: unless-stopped
+  #   networks:
+  #     - media
+  #   ports:
+  #     - ${BYPARR_WEB_PORT:-8191}:8191
+  #   volumes:
+  #     - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/byparr/data:/app/screenshots
+  #   labels:
+  #     - homepage.instance.internal.group=Servarr
+  #     - homepage.instance.internal.name=Byparr
+  #     - homepage.instance.internal.icon=mdi-button-cursor
+  #     - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${BYPARR_WEB_PORT:-8191}
+  #     - homepage.instance.internal.description=FlareSolverr drop-in replacement with FastAPI and nodriver 
