@@ -1,6 +1,6 @@
 services:
   owncloud:
-    image: owncloud/server:10.15.2@sha256:b9fc2d5e0b6665fb8d2dbde3c4a5ab24e080f4a969d742ba8d835969b3bd42c3
+    image: owncloud/server:10.16.0@sha256:62c93574d2bd0f98d17ac1a541f703653822e4572a628dcf993a8e65b2400e97
     container_name: owncloud
     restart: unless-stopped
     ports:
