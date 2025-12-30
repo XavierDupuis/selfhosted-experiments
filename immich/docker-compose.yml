@@ -40,7 +40,7 @@ services:
       - model-cache:/cache
 
   redis:
-    image: redis:6.2@sha256:d338acf5e1c111dfdafc78fd2adf2d15a54d4f185611d5f7b6b75cf967f1c1b1
+    image: redis:6.2@sha256:b0637889625b89ff449612d5729da2b99adafeda9b2c16faa5428f2dbd310685
     container_name: immich_redis
     restart: unless-stopped
 
