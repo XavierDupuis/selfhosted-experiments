@@ -9,6 +9,9 @@
   ],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
+  "digest": {
+    "enabled": false
+  },
   "packageRules": [
     {
       "description": "Adds affected stack in production information message",
