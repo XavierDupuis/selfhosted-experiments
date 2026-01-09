@@ -58,6 +58,14 @@
         "ghcr.io/immich-app/immich-server",
         "ghcr.io/immich-app/immich-machine-learning"
       ]
+    },
+    {
+      "description": "Loose versioning for containers tags that do not follow semantic versioning",
+      "matchPackageNames": [
+        "ghcr.io/home-assistant/home-assistant"
+      ],
+      "versioning": "loose",
+      "rangeStrategy": "replace"
     }
   ]
 }
