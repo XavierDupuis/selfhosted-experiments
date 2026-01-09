@@ -33,7 +33,8 @@
         "tandoor/docker-compose.yml",
         "planka/docker-compose.yml",
         "tubearchivist/docker-compose.yml",
-        "rustdesk/docker-compose.yml"
+        "rustdesk/docker-compose.yml",
+        "homer-assistant/docker-compose.yml"
       ],
       "prBodyNotes": "<strong> ℹ️ This PR affects a stack in production. </strong> Merging this PR will automatically update and redeploy the stack in production."
     },
