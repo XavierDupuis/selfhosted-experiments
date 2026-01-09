@@ -63,6 +63,10 @@
     {
       "matchDepNames": "gcr.io/cadvisor/cadvisor",
       "changelogUrl": "https://github.com/google/cadvisor/releases"
+    },
+    {
+      "matchDepNames": "lscr.io/linuxserver/bazarr",
+      "changelogUrl": "https://github.com/morpheus65535/bazarr/releases"
     }
     // {
     //   "description": "Loose versioning for containers tags that do not follow semantic versioning",
