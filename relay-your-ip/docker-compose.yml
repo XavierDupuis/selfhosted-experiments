@@ -1,6 +1,6 @@
 services:
   relay-your-ip:
-    image: ghcr.io/xavierdupuis/relayyourip:v0.1.0
+    image: ghcr.io/xavierdupuis/relayyourip:v1.0.0@sha256:b14b32f88f31313f5eda57c38a0f9f69e624fa7724d3f2a3fc35c65fd979e72e
     container_name: relay-your-ip
     restart: always
     environment:
