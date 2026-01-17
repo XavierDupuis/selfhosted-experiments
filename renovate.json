@@ -67,6 +67,10 @@
     {
       "matchDepNames": "lscr.io/linuxserver/bazarr",
       "changelogUrl": "https://github.com/morpheus65535/bazarr/releases"
+    },
+    {
+      "matchDepNames": "rustdesk/rustdesk-server",
+      "changelogUrl": "https://github.com/rustdesk/rustdesk-server/releases/"
     }
     // {
     //   "description": "Loose versioning for containers tags that do not follow semantic versioning",
