@@ -1,6 +1,6 @@
 services:
   navidrome:
-    image: deluan/navidrome:pr-4890 // TODO REVERT TO OFFICIAL BUILD WHEN >0.59.0 released. See https://github.com/navidrome/navidrome/pull/4890
+    image: deluan/navidrome:pr-4890@sha256:1e81c316f1df6e8c3b4c9532c8a9499754214dc0dd2a8d1269a2873033f57cf8 // TODO REVERT TO OFFICIAL BUILD WHEN >0.59.0 released. See https://github.com/navidrome/navidrome/pull/4890
     container_name: navidrome
     restart: unless-stopped
     ports:
