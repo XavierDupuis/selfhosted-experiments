@@ -12,7 +12,7 @@ services:
     devices:
       - /dev/ttyACM0:/dev/ttyACM0
     ports:
-      - ${WEB_PORT:?-8123}:8123
+      - ${HA_WEB_PORT:?-8123}:8123
     labels:
       - traefik.enable=true
       - traefik.http.routers.home-assistant.tls.certresolver=myresolver
@@ -23,3 +23,20 @@ services:
       # - homepage.instance.public.href=https://homeassistant.${DOMAIN:?Missing variable DOMAIN}
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8123}
       - homepage.description=Open source home automation that puts local control and privacy first.
+
+  mqtt:
+    image: eclipse-mosquitto:2.0.22@sha256:6852da90a65dfff7aa3a1c8b249e92bb83c17ea8bbcce56bedff8707332a1a29
+    container_name: mqtt
+    restart: unless-stopped
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/mqtt/config:/mosquitto/config
+      - ${DIRECTORY:?Missing variable DIRECTORY}/mqtt/data:/mosquitto/data
+      - ${DIRECTORY:?Missing variable DIRECTORY}/mqtt/log:/mosquitto/log
+    ports:
+      - ${MQTT_PORT:?-1883}:1883
+    labels:
+      - homepage.group=Utilities
+      - homepage.name=MQTT
+      - homepage.icon=mqtt.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${MQTT_PORT:-1883}
+      - homepage.description=Open source message broker 
