@@ -40,3 +40,20 @@ services:
       - homepage.icon=mqtt.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${MQTT_PORT:-1883}
       - homepage.description=Open source message broker 
+
+  music-assistant:
+    image: ghcr.io/music-assistant/server:2.7.7@sha256:004ce2decfe074cb6b2fde7f0b98ad0b14055579172d9be1080d5331189f4e73
+    container_name: music-assistant
+    restart: unless-stopped
+    # Network mode must be set to host for MA to work correctly
+    # network_mode: host
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/music-assistant/data:/data
+    ports:
+      - ${MA_WEB_PORT:?-8095}:8095
+    labels:
+      - homepage.group=Utilities
+      - homepage.name=Music Assistant
+      - homepage.icon=music-assistant.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${MA_WEB_PORT:-8095}
+      - homepage.description=Music library manager for your offline and online music sources
