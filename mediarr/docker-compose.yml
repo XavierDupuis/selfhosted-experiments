@@ -113,6 +113,12 @@ services:
       - TZ=${TIMEZONE:-UTC}
     volumes:
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/seerr/config:/app/config
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
     labels:
       - traefik.enable=true
       - traefik.http.routers.seerr.tls.certresolver=myresolver
