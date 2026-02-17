@@ -26,7 +26,7 @@
         "wireguard/docker-compose.yml",
         "monitoree/monitoree-docker/docker-compose.yml",
         "monitoree/monitoree-network/docker-compose.yml",
-        "jellyfin-jellyseer-gluetun/docker-compose.yml",
+        "mediarr/docker-compose.yml",
         "uptime-kuma/docker-compose.yml",
         "monitoring/docker-compose.yml",
         "owncloud/docker-compose.yml",

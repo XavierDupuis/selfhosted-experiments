@@ -49,14 +49,14 @@ services:
       - homepage.widget.enableBlocks=true      # optional, defaults to false
       - homepage.widget.enableNowPlaying=true  # optional, defaults to true
 
-  jellyseerr:
-    image: fallenbagel/jellyseerr:2.7.3@sha256:4538137bc5af902dece165f2bf73776d9cf4eafb6dd714670724af8f3eb77764
-    container_name: jellyseerr
+  seerr:
+    image: ghcr.io/seerr-team/seerr:v3.0.1@sha256:1b5fc1ea825631d9d165364472663b817a4c58ef6aa1013f58d82c1570d7c866
+    container_name: seerr
     restart: unless-stopped
     networks:
       - media
     ports:
-      - ${JELLYSEERR_WEB_PORT:-5055}:5055
+      - ${SEERR_WEB_PORT:-5055}:5055
     environment:
       - LOG_LEVEL=debug
       ### COMMON
@@ -65,20 +65,20 @@ services:
       - UMASK=${UMASK:-0002}
       - TZ=${TIMEZONE:-UTC}
     volumes:
-      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/jellyseerr/config:/app/config
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/seerr/config:/app/config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jellyseerr.tls.certresolver=myresolver
-      - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
+      - traefik.http.routers.seerr.tls.certresolver=myresolver
+      - traefik.http.services.seerr.loadbalancer.server.port=5055
       - homepage.group=Media
-      - homepage.name=Jellyseerr
-      - homepage.icon=jellyseerr.png
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
-      - homepage.instance.public.href=https://jellyseerr.${DOMAIN:?Missing variable DOMAIN}
-      - homepage.description=Request Management and Media Discovery Tool for the Jellyfin Ecosystem
-      - homepage.widget.type=jellyseerr
-      - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYSEERR_WEB_PORT:-5055}
-      - homepage.widget.key=${JELLYSEER_API_KEY}
+      - homepage.name=Seerr
+      - homepage.icon=jellyseerr.png # Seerr icon not yet available
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${SEERR_WEB_PORT:-5055}
+      - homepage.instance.public.href=https://seerr.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.description=Open-source media request and discovery manager
+      - homepage.widget.type=jellyseerr # Seerr widget not yet available
+      - homepage.widget.url=${HOST_URL:-http://localhost}:${SEERR_WEB_PORT:-5055}
+      - homepage.widget.key=${SEERR_API_KEY}
 
   qbittorrent:
     container_name: gluetun
