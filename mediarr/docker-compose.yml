@@ -6,7 +6,7 @@ networks:
 services:
   # https://github.com/qdm12/gluetun/wiki
   gluetun:
-    image: qmcgaw/gluetun:v3.39.1@sha256:6a8058e626763cbf735ac2f78c774dbb24fec2490bd9d9f7d67e22592cb4a991 # >=3.40.0 not properly working 
+    image: qmcgaw/gluetun:v3.41.1@sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab # >=3.40.0 not properly working 
     container_name: gluetun
     restart: unless-stopped
     devices:
