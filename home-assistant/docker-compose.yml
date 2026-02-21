@@ -12,7 +12,7 @@ services:
     devices:
       - /dev/ttyACM0:/dev/ttyACM0
     ports:
-      - ${HA_WEB_PORT:?-8123}:8123
+      - ${HA_WEB_PORT:-8123}:8123
     labels:
       - traefik.enable=true
       - traefik.http.routers.home-assistant.tls.certresolver=myresolver
@@ -21,7 +21,7 @@ services:
       - homepage.name=Home Assistant
       - homepage.icon=home-assistant.png
       # - homepage.instance.public.href=https://homeassistant.${DOMAIN:?Missing variable DOMAIN}
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8123}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${HA_WEB_PORT:-8123}
       - homepage.description=Open source home automation that puts local control and privacy first.
 
   mqtt:
@@ -33,7 +33,7 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/mqtt/data:/mosquitto/data
       - ${DIRECTORY:?Missing variable DIRECTORY}/mqtt/log:/mosquitto/log
     ports:
-      - ${MQTT_PORT:?-1883}:1883
+      - ${MQTT_PORT:-1883}:1883
     labels:
       - homepage.group=Utilities
       - homepage.name=MQTT
@@ -50,7 +50,7 @@ services:
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/music-assistant/data:/data
     ports:
-      - ${MA_WEB_PORT:?-8095}:8095
+      - ${MA_WEB_PORT:-8095}:8095
     labels:
       - homepage.group=Utilities
       - homepage.name=Music Assistant
