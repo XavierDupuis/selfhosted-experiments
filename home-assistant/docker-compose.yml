@@ -42,7 +42,7 @@ services:
       - homepage.description=Open source message broker 
 
   music-assistant:
-    image: ghcr.io/music-assistant/server:2.7.7@sha256:004ce2decfe074cb6b2fde7f0b98ad0b14055579172d9be1080d5331189f4e73
+    image: ghcr.io/music-assistant/server:2.7.9@sha256:e69e01a503d3b74504295ecc390752235029455a287ebf97402a9ac68760dc72
     container_name: music-assistant
     restart: unless-stopped
     # Network mode must be set to host for MA to work correctly
