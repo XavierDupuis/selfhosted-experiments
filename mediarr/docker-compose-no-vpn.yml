@@ -282,7 +282,7 @@ services:
 
   tunarr: 
     container_name: tunarr
-    image: chrisbenincasa/tunarr:1.0.16@sha256:bf69953f2084de32504d2f92fd161631c89d85ab1b08cb57605ffbfc0cb61bff
+    image: chrisbenincasa/tunarr:1.1.18@sha256:ad9635417a6876c710eaef449df0bb434a87982e9f7b9249b5329cdb7937bbf2
     restart: unless-stopped
     networks:
       - media
