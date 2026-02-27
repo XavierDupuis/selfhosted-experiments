@@ -296,7 +296,7 @@ services:
       - homepage.instance.internal.widget.key=${LIDARR_API_KEY}
 
   bazarr:
-    image: lscr.io/linuxserver/bazarr:1.5.5@sha256:f01f718d73be5b468da1ba03e6740c5584769df9d3fedef9f4a3c7eaf90c243f
+    image: lscr.io/linuxserver/bazarr:1.5.6@sha256:b0bc617664dbca25845ac3b1bb6411b145b6a44a6d173071c9d2f426524fdd9f
     container_name: bazarr
     restart: unless-stopped
     networks:
