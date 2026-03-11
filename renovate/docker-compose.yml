@@ -1,6 +1,6 @@
 services:
   renovate:
-    image: ghcr.io/mend/renovate-ce:13.6.0@sha256:1d4ccee4a9cea7424862ca191701ede687542bdde75e89f29e2f24f26f734682
+    image: ghcr.io/mend/renovate-ce:14.1.1@sha256:9d0af49a7758d9453ceadbe3179760e308cbf81d3e40ee878a46298331cf63ca
     container_name: renovate
     restart: unless-stopped
     ports:
