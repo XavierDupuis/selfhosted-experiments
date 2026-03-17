@@ -14,9 +14,9 @@ services:
       - traefik.enable=true
       - traefik.http.routers.kiwix.tls.certresolver=myresolver
       - traefik.http.services.kiwix.loadbalancer.server.port=8080
-      - homepage.group=Archiving
-      - homepage.name=Kiwix
-      - homepage.icon=kiwix.png
-      - homepage.instance.public.href=https://kiwix.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.group=Archiving
+      - homepage.instance.internal.name=Kiwix
+      - homepage.instance.internal.icon=kiwix.png
+      # - homepage.instance.public.href=https://kiwix.${DOMAIN:?Missing variable DOMAIN}
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
-      - homepage.description=An offline reader for Wikipedia (& many other websites)
+      - homepage.instance.internal.description=An offline reader for Wikipedia (& many other websites)
