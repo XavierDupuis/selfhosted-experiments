@@ -17,12 +17,12 @@ services:
       - traefik.enable=true
       - traefik.http.routers.home-assistant.tls.certresolver=myresolver
       - traefik.http.services.home-assistant.loadbalancer.server.port=8123
-      - homepage.group=Utilities
-      - homepage.name=Home Assistant
-      - homepage.icon=home-assistant.png
+      - homepage.instance.internal.group=Utilities
+      - homepage.instance.internal.name=Home Assistant
+      - homepage.instance.internal.icon=home-assistant.png
       # - homepage.instance.public.href=https://homeassistant.${DOMAIN:?Missing variable DOMAIN}
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${HA_WEB_PORT:-8123}
-      - homepage.description=Open source home automation that puts local control and privacy first.
+      - homepage.instance.internal.description=Open source home automation that puts local control and privacy first.
 
   mqtt:
     image: eclipse-mosquitto:2.0.22@sha256:6852da90a65dfff7aa3a1c8b249e92bb83c17ea8bbcce56bedff8707332a1a29
@@ -35,11 +35,11 @@ services:
     ports:
       - ${MQTT_PORT:-1883}:1883
     labels:
-      - homepage.group=Utilities
-      - homepage.name=MQTT
-      - homepage.icon=mqtt.png
+      - homepage.instance.internal.group=Utilities
+      - homepage.instance.internal.name=MQTT
+      - homepage.instance.internal.icon=mqtt.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${MQTT_PORT:-1883}
-      - homepage.description=Open source message broker 
+      - homepage.instance.internal.description=Open source message broker 
 
   # music-assistant:
   #   image: ghcr.io/music-assistant/server:2.7.7@sha256:004ce2decfe074cb6b2fde7f0b98ad0b14055579172d9be1080d5331189f4e73
@@ -52,8 +52,8 @@ services:
   #   ports:
   #     - ${MA_WEB_PORT:-8095}:8095
   #   labels:
-  #     - homepage.group=Utilities
-  #     - homepage.name=Music Assistant
-  #     - homepage.icon=music-assistant.png
+  #     - homepage.instance.internal.group=Utilities
+  #     - homepage.instance.internal.name=Music Assistant
+  #     - homepage.instance.internal.icon=music-assistant.png
   #     - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${MA_WEB_PORT:-8095}
-  #     - homepage.description=Music library manager for your offline and online music sources
+  #     - homepage.instance.internal.description=Music library manager for your offline and online music sources
