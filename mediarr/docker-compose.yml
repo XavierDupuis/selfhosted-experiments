@@ -158,11 +158,10 @@ services:
       - traefik.enable=true
       - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
       - traefik.http.services.qbittorrent.loadbalancer.server.port=${QBITTORRENT_WEB_PORT:-3000}
-      - homepage.group=Download
-      - homepage.name=Qbittorrent
-      - homepage.icon=qbittorrent.png
-      - homepage.description=Free and reliable P2P Bitorrent client
-      - homepage.instance.public.href=https://qbittorrent.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.group=Download
+      - homepage.instance.internal.name=Qbittorrent
+      - homepage.instance.internal.icon=qbittorrent.png
+      - homepage.instance.internal.description=Free and reliable P2P Bitorrent client
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
       - homepage.instance.internal.widget.type=qbittorrent
       - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
