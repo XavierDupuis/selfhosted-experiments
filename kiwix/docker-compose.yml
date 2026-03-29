@@ -7,7 +7,7 @@ services:
       - ${WEB_PORT:-8080}:8080
     volumes:
       - /tmp/zim:/data
-      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/archives:/data
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/web-archives:/data
     command:
       - '*.zim'
     labels:
