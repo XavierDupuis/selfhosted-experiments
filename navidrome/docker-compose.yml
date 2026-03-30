@@ -13,8 +13,7 @@ services:
       # - ND_LASTFM_SECRET=${LASTFM_SECRET:-}
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/navidrome/data:/data
-      # - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
-      - truenas_nfs_music:/music
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
     labels:
       - traefik.enable=true
       - traefik.http.routers.navidrome.tls.certresolver=myresolver
@@ -30,11 +29,3 @@ services:
       - homepage.instance.internal.widget.user=${NAVIDROME_API_USER}
       - homepage.instance.internal.widget.token=${NAVIDROME_API_TOKEN}
       - homepage.instance.internal.widget.salt=${NAVIDROME_API_SALT}
-
-volumes:
-  truenas_nfs_music:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=${VOLUME_ADDRESS:?Missing variable VOLUME_ADDRESS},ro
-      device: ":${VOLUME_DEVICE:?Missing variable VOLUME_DEVICE}"
