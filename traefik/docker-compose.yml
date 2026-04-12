@@ -33,8 +33,6 @@ services:
       # Geo-block middleware configuration
       ## Only geoblock requests to HTTPS (443) so that HTTP (80) can still be redirected to HTTPS
       - --entrypoints.https.http.middlewares=geoblock
-      
-      - --entrypoints.https.http.middlewares.redirect
 
       # Enable a dns challenge named "myresolver"
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
