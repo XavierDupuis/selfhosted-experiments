@@ -48,8 +48,9 @@ services:
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/esphome/config:/config
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - ${ESPHOME_WEB_PORT:-6052}:6052
+    # ports:
+      # - ${ESPHOME_WEB_PORT:-6052}:6052
+    network_mode: host
     labels:
       - homepage.instance.internal.group=Utilities
       - homepage.instance.internal.name=ESPHome
