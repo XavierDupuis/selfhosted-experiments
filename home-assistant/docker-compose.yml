@@ -45,6 +45,8 @@ services:
     image: esphome/esphome:2026.3
     container_name: esphome
     restart: unless-stopped
+    environment:
+      - ESPHOME_DASHBOARD_USE_PING=true
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/esphome/config:/config
       - /etc/localtime:/etc/localtime:ro
