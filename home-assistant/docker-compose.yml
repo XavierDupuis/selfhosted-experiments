@@ -41,6 +41,22 @@ services:
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${MQTT_PORT:-1883}
       - homepage.instance.internal.description=Open source message broker 
 
+  esphome:
+    image: esphome/esphome:2026.3
+    container_name: esphome
+    restart: unless-stopped
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/esphome/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - ${ESPHOME_WEB_PORT:-6052}:6052
+    labels:
+      - homepage.instance.internal.group=Utilities
+      - homepage.instance.internal.name=ESPHome
+      - homepage.instance.internal.icon=esphome.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${ESPHOME_WEB_PORT:-6052}
+      - homepage.instance.internal.description=Turn your ESP32, ESP8266, BK72xx, RP2040, and other supported boards into powerful smart home devices with simple YAML configuration.
+
   # music-assistant:
   #   image: ghcr.io/music-assistant/server:2.7.7@sha256:004ce2decfe074cb6b2fde7f0b98ad0b14055579172d9be1080d5331189f4e73
   #   container_name: music-assistant
