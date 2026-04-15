@@ -42,7 +42,7 @@ services:
       - homepage.instance.internal.description=Open source message broker 
 
   esphome:
-    image: esphome/esphome:2026.3
+    image: esphome/esphome:2026.4@sha256:48e21a6760837a14ec1bdc940b431dcbb73786a15afe8ec45f791997c10612a3
     container_name: esphome
     restart: unless-stopped
     volumes:
