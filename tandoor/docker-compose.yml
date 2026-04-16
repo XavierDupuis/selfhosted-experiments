@@ -13,6 +13,7 @@ services:
       - POSTGRES_PORT=${POSTGRES_PORT:?Missing variable POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER:?Missing variable POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Missing variable POSTGRES_PASSWORD}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:?Missing variable ALLOWED_HOSTS}
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/tandoor/static:/opt/recipes/staticfiles
       - ${DIRECTORY:?Missing variable DIRECTORY}/tandoor/media:/opt/recipes/mediafiles
