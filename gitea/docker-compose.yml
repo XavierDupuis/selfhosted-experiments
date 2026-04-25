@@ -1,6 +1,6 @@
 services:
   gitea:
-    image: gitea/gitea:1.25.5@sha256:f846d26a4fc389c5806a580a765e00bfdd1fd181e6f2060da98ea2669d914472
+    image: gitea/gitea:1.26.1@sha256:d8667667b4ccbd1f67b86a376bffcc0a17b16cf71309ed04e3918231776d47dd
     container_name: gitea
     restart: unless-stopped
     environment:
