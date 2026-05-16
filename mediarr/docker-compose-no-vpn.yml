@@ -92,7 +92,7 @@ services:
 
   qbittorrent:
     container_name: gluetun
-    image: lscr.io/linuxserver/qbittorrent:5.1.4@sha256:a68c4cfb7b07c39cf3f13e7f1d23d333c1e4a60304d37bc1eec7af3eacfe12d5
+    image: lscr.io/linuxserver/qbittorrent:5.2.0@sha256:f76c4363cce0834df43b097682928d217f9f0e0fa1d13781c0934848d543e4ab
     restart: unless-stopped
     networks:
       - media
