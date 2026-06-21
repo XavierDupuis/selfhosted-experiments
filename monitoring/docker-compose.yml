@@ -7,7 +7,7 @@ services:
 
   # https://grafana.com/docs/grafana/latest/
   grafana:
-    image: grafana/grafana-oss:12.4.2@sha256:83749231c3835e390a3144e5e940203e42b9589761f20ef3169c716e734ad505
+    image: grafana/grafana-oss:12.4.3@sha256:2e986801428cd689c2358605289c90ab37d2b39e24808874971f54c99bcdc412
     container_name: grafana
     restart: unless-stopped
     user: 1000:1000
@@ -37,7 +37,7 @@ services:
 
   # https://prometheus.io/
   prometheus:
-    image: prom/prometheus:v3.11.2@sha256:5550dc63da361dc30f6fe02ac0e4dfc736ededfef3c8d12a634db04a67824d78
+    image: prom/prometheus:v3.12.0@sha256:69f5241418838263316593f7274a304b095c40bcf22e57272865da91bd60a8ac
     container_name: prometheus
     restart: unless-stopped
     user: 1000:1000
@@ -70,7 +70,7 @@ services:
 
   # https://grafana.com/docs/loki/latest/
   loki:
-    image: grafana/loki:3.7.1@sha256:73e905b51a7f917f7a1075e4be68759df30226e03dcb3cd2213b989cc0dc8eb4
+    image: grafana/loki:3.7.2@sha256:191d4fdfb7264f16989f0a57f320872620a5a7c2ceeec6229212c4190ec49b86
     container_name: loki
     restart: unless-stopped
     user: 1000:1000
@@ -87,7 +87,7 @@ services:
   
   # https://grafana.com/docs/loki/latest/send-data/promtail/
   promtail:
-    image: grafana/promtail:3.6.10@sha256:2a0f5e3e160ee5d549c585f6cc4f4e1c566ff783324a424bd75bc16503fc660e
+    image: grafana/promtail:3.6.11@sha256:a761cb834cfaeee29745440d4884d6748f0a08d8f68928db1d707018c1dcfbe9
     container_name: promtail
     restart: unless-stopped
     ports:
@@ -129,7 +129,7 @@ services:
       - homepage.instance.internal.description=Real-time insights from any time series data with a single, purpose-built database
 
   pve-exporter:
-    image: prompve/prometheus-pve-exporter:3.8.2@sha256:e3d501a82df58bc0dd0e3f1fb49f4c10d3069e71ddad68b1fbb773b65da0c177
+    image: prompve/prometheus-pve-exporter:3.9.0@sha256:78a58df7a31c9fbee94962cd06422672668529de6421892df9aed4b6cee0757f
     container_name: pve-exporter
     restart: unless-stopped
     environment:
