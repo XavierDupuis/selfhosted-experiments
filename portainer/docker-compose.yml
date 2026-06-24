@@ -1,6 +1,6 @@
 services:
   portainer:
-    image: portainer/portainer-ce:2.40.0@sha256:df76590a901e47010977ffe277473908350e13042ac304bbac0798649c63b937
+    image: portainer/portainer-ce:2.43.0@sha256:707366c811956fe077135a6633af67e698529612869711cdb24896c892b28feb
     container_name: portainer
     restart: unless-stopped
     security_opt:
