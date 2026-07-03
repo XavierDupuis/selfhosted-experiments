@@ -32,7 +32,7 @@ services:
       - homepage.instance.internal.widget.version=2 # >= v1.118
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:v3.0.1
+    image: ghcr.io/immich-app/immich-machine-learning:v3.0.1@sha256:cb2128c5cbc554fdaa2a036fb4419c808a9f3e0f27170e569dd9e727243da909
     container_name: immich_machine_learning
     restart: unless-stopped
     volumes:
