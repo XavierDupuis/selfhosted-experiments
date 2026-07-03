@@ -36,7 +36,7 @@ services:
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/videos:/videos
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/youtube:/youtube:ro
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/series
-      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
+      # - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
     labels:
       - traefik.enable=true
       - traefik.http.routers.jellyfin.tls.certresolver=myresolver
