@@ -139,7 +139,7 @@ services:
 
   qbittorrent:
     container_name: qbittorrent
-    image: lscr.io/linuxserver/qbittorrent:5.2.2@sha256:bca2cf536c00900f0b8fb62ca3dcbed8ee64293165d41c8240d2cc952d4ef048
+    image: ghcr.io/hotio/qbittorrent:release-5.2.2
     restart: unless-stopped
     network_mode: service:gluetun
     depends_on:
@@ -147,28 +147,27 @@ services:
         condition: service_healthy
         restart: true
     environment:
-      - WEBUI_PORT=${QBITTORRENT_WEB_PORT:-3000}
-      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:qbittorrent
-      - TP_THEME=${TP_THEME:-nord}
-      ### COMMON
+      - WEBUI_PORTS=${QBITTORRENT_WEB_PORT:-8080}
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
       - UMASK=${UMASK:-0002}
       - TZ=${TIMEZONE:-UTC}
     volumes:
-      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/qbittorrent/config:/config
-      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/qbittorrent/config:/config/config
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/qbittorrent/data:/config/data
+      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/qbittorrent/cache:/config/cache
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/app/qBittorrent/downloads
     labels:
       - traefik.enable=true
       - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
-      - traefik.http.services.qbittorrent.loadbalancer.server.port=${QBITTORRENT_WEB_PORT:-3000}
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=${QBITTORRENT_WEB_PORT:-8080}
       - homepage.instance.internal.group=Download
       - homepage.instance.internal.name=Qbittorrent
       - homepage.instance.internal.icon=qbittorrent.png
       - homepage.instance.internal.description=Free and reliable P2P Bitorrent client
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-8080}
       - homepage.instance.internal.widget.type=qbittorrent
-      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-3000}
+      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${QBITTORRENT_WEB_PORT:-8080}
       - homepage.instance.internal.widget.username=${QBITTORRENT_USERNAME:?Missing variable QBITTORRENT_USERNAME}
       - homepage.instance.internal.widget.password=${QBITTORRENT_PASSWORD:?Missing variable QBITTORRENT_PASSWORD}
     healthcheck: # https://github.com/qdm12/gluetun/issues/641#issuecomment-933856220
@@ -225,7 +224,7 @@ services:
     volumes:
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/sonarr/config/:/config
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/tv
-      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/app/qBittorrent/downloads # Container path must be the same as qBittorrent 
     labels:
       - homepage.instance.internal.group=Servarr
       - homepage.instance.internal.name=Sonarr
@@ -256,7 +255,7 @@ services:
     volumes:
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/radarr/config:/config
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
-      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/app/qBittorrent/downloads # Container path must be the same as qBittorrent 
     labels:
       - homepage.instance.internal.group=Servarr
       - homepage.instance.internal.name=Radarr
@@ -268,35 +267,35 @@ services:
       - homepage.instance.internal.widget.key=${RADARR_API_KEY}
       - homepage.instance.internal.widget.enableQueue=true # optional, defaults to false
 
-  lidarr:
-    image: lscr.io/linuxserver/lidarr:2.14.5@sha256:5e1235d00b5d1c1f60ca0d472e554a6611aef41aa7b5b6d88260214bf4809af0
-    container_name: lidarr
-    restart: unless-stopped
-    networks:
-      - media
-    ports:
-      - ${LIDARR_WEB_PORT:-8686}:8686
-    environment:
-      ### COMMON
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - UMASK=${UMASK:-0002}
-      - TZ=${TIMEZONE:-UTC}
-      - DOCKER_MODS=ghcr.io/gilbn/theme.park:lidarr
-      - TP_THEME=${TP_THEME:-nord}
-    volumes:
-      - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/lidarr/config:/config
-      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
-      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
-    labels:
-      - homepage.instance.internal.group=Servarr
-      - homepage.instance.internal.name=Lidarr
-      - homepage.instance.internal.icon=lidarr.png
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
-      - homepage.instance.internal.description=Music collection manager for Usenet and BitTorrent
-      - homepage.instance.internal.widget.type=lidarr
-      - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
-      - homepage.instance.internal.widget.key=${LIDARR_API_KEY}
+  # lidarr:
+  #   image: lscr.io/linuxserver/lidarr:2.14.5@sha256:5e1235d00b5d1c1f60ca0d472e554a6611aef41aa7b5b6d88260214bf4809af0
+  #   container_name: lidarr
+  #   restart: unless-stopped
+  #   networks:
+  #     - media
+  #   ports:
+  #     - ${LIDARR_WEB_PORT:-8686}:8686
+  #   environment:
+  #     ### COMMON
+  #     - PUID=${PUID:-1000}
+  #     - PGID=${PGID:-1000}
+  #     - UMASK=${UMASK:-0002}
+  #     - TZ=${TIMEZONE:-UTC}
+  #     - DOCKER_MODS=ghcr.io/gilbn/theme.park:lidarr
+  #     - TP_THEME=${TP_THEME:-nord}
+  #   volumes:
+  #     - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/lidarr/config:/config
+  #     - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/music:/music
+  #     - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/app/qBittorrent/downloads # Container path must be the same as qBittorrent 
+  #   labels:
+  #     - homepage.instance.internal.group=Servarr
+  #     - homepage.instance.internal.name=Lidarr
+  #     - homepage.instance.internal.icon=lidarr.png
+  #     - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
+  #     - homepage.instance.internal.description=Music collection manager for Usenet and BitTorrent
+  #     - homepage.instance.internal.widget.type=lidarr
+  #     - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${LIDARR_WEB_PORT:-8686}
+  #     - homepage.instance.internal.widget.key=${LIDARR_API_KEY}
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:1.5.6@sha256:b0bc617664dbca25845ac3b1bb6411b145b6a44a6d173071c9d2f426524fdd9f
@@ -318,7 +317,7 @@ services:
       - ${MEDIA_DIRECTORY:?Missing variable MEDIA_DIRECTORY}/bazarr/config:/config
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/movies:/movies
       - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/series:/tv
-      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/downloads
+      - ${LIBRARY_DIRECTORY:?Missing variable LIBRARY_DIRECTORY}/downloads:/app/qBittorrent/downloads # Container path must be the same as qBittorrent 
     labels:
       - homepage.instance.internal.group=Servarr
       - homepage.instance.internal.name=Bazarr
@@ -364,4 +363,3 @@ services:
   #     - homepage.instance.internal.icon=mdi-button-cursor
   #     - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${BYPARR_WEB_PORT:-8191}
   #     - homepage.instance.internal.description=FlareSolverr drop-in replacement with FastAPI and nodriver 
-
