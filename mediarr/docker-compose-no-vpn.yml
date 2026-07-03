@@ -92,7 +92,7 @@ services:
 
   qbittorrent:
     container_name: gluetun
-    image: ghcr.io/hotio/qbittorrent:release-5.2.2
+    image: ghcr.io/hotio/qbittorrent:release-5.2.2@sha256:65dfa06797315b3d1e5b502c5f5a4c76a058441e94d6769fee18d57de27c08ef
     restart: unless-stopped
     networks:
       - media
