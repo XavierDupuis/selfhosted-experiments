@@ -1,6 +1,6 @@
 services:
   wireguard:
-    image: lscr.io/linuxserver/wireguard:1.0.20250521@sha256:d3e46bc7a1510142afb30b4f5375c7d4470c75ed89483e798813c1acd6e7c1cb
+    image: lscr.io/linuxserver/wireguard:1.0.20260223@sha256:34197b6d2731468a0e77eeb31723af07faf342878be66c1e861e287ec3600b3c
     container_name: wireguard
     restart: unless-stopped
     cap_add:
