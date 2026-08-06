@@ -1,6 +1,6 @@
 services:
   samba:
-    image: dockurr/samba:4.23.8@sha256:660d15a568e0c04bc9c2b49df09183ab2bf22b129e6541fda6f823875e0a8500
+    image: dockurr/samba:4.23.10@sha256:6164872d767ead51d4a6ee9f6449b0a3577f875cefcc85525f9e184dbd5da16d
     container_name: samba
     restart: unless-stopped
     environment:
