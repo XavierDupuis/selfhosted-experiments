@@ -50,6 +50,7 @@ services:
       - homepage.widget.type=jellyfin
       - homepage.widget.url=${HOST_URL:-http://localhost}:${JELLYFIN_WEB_PORT:-8096}
       - homepage.widget.key=${JELLYFIN_API_KEY}
+      - homepage.instance.internal.widget.version=2
       - homepage.widget.enableBlocks=true      # optional, defaults to false
       - homepage.widget.enableNowPlaying=true  # optional, defaults to true
 
