@@ -42,7 +42,8 @@
     {
       "description": "Adds unaffected stack in production information message",
       "matchFileNames": [
-        "dockhand/docker-compose.yml"
+        "dockhand/dockhand/docker-compose.yml",
+        "dockhand/hawser/docker-compose.yml"
       ],
       "prBodyNotes": "<strong> ⚠️ Manual action required. </strong> Merging this PR will NOT automatically update and redeploy the stack in production."
     },
