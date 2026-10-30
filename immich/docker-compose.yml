@@ -1,6 +1,6 @@
 services:
   immich:
-    image: ghcr.io/immich-app/immich-server:v3.2.4@sha256:d317916b28090c33eb36b308464ea391f8b7df1d850fcfea227a39ec879718c2
+    image: ghcr.io/immich-app/immich-server:v3.3.5@sha256:485d546a2e31d6a8b4db8423fcba5c109de8c218d93410af115fd1ccfc4352a6
     container_name: immich_server
     restart: unless-stopped
     volumes:
@@ -32,7 +32,7 @@ services:
       - homepage.instance.internal.widget.version=2 # >= v1.118
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:v3.2.2@sha256:60dfcf266a9ef3b7376f5678e8c980d4fb61db5fc48c078fe8a326ab1535d60d
+    image: ghcr.io/immich-app/immich-machine-learning:v3.3.5@sha256:5b28c9352c8374b8a1ed96fbdd8d6755fea6e43510ec43fdf6538aa02ea40f56
     container_name: immich_machine_learning
     restart: unless-stopped
     volumes:
