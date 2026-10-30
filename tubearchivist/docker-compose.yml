@@ -51,7 +51,7 @@ services:
       - archivist-es
 
   archivist-es:
-    image: bbilly1/tubearchivist-es:9.5.5@sha256:sha256:9513a22cd332402cb6fd6ef69844f4f78717190ba9e2e08cb72b3288839d84fa
+    image: bbilly1/tubearchivist-es:9.5.5@sha256:9513a22cd332402cb6fd6ef69844f4f78717190ba9e2e08cb72b3288839d84fa
     container_name: archivist-es
     restart: unless-stopped
     environment:
