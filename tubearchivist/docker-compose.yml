@@ -11,8 +11,6 @@ services:
     environment:
       - ES_URL=http://archivist-es:9200         # needs protocol e.g. http and port
       - REDIS_CON=redis://archivist-redis:6379
-      - HOST_UID=1000
-      - HOST_GID=1000
       - TA_HOST=${TA_HOST:-http://localhost}                                      # set your host name
       - TA_USERNAME=${TA_USERNAME?:Missing variable TA_USERNAME}                  # your initial TA credentials
       - TA_PASSWORD=${TA_PASSWORD?:Missing variable TA_PASSWORD}                  # your initial TA credentials
@@ -53,7 +51,7 @@ services:
       - archivist-es
 
   archivist-es:
-    image: bbilly1/tubearchivist-es:latest@sha256:58007d1cf7a3b9f3ae4a8e0d2798b05d9c7dd768877b1fe908fd4142da4c68b6         # only for amd64, or use official es 8.11.0
+    image: bbilly1/tubearchivist-es:9.5.5@sha256:sha256:9513a22cd332402cb6fd6ef69844f4f78717190ba9e2e08cb72b3288839d84fa
     container_name: archivist-es
     restart: unless-stopped
     environment:
