@@ -1,7 +1,7 @@
 services:
-  home:
+  homepage:
     image: ghcr.io/gethomepage/homepage:v2.7.0@sha256:19c5c09184458a41b7b5915e71463a39f36cd33540f41bdbed008791b8182d5f
-    container_name: homepage_public
+    container_name: homepage
     restart: unless-stopped
     environment:
       - PUID=${PUID:-1000}
@@ -25,7 +25,7 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/public/settings.yaml:/app/config/settings.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/public/logs:/app/config/logs
     ports:
-      - "${PUBLIC_WEB_PORT:-3000}:3000"
+      - "${WEB_PORT:-3000}:3000"
     labels:
       - traefik.enable=true
       - traefik.http.routers.homepage.tls.certresolver=myresolver
@@ -34,17 +34,17 @@ services:
       - homepage.name=Homepage
       - homepage.icon=homepage.png
       - homepage.instance.public.href=https://${FQDN:?Missing variable FQDN}
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${PUBLIC_WEB_PORT:-3000}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3000}
       - homepage.description=Highly customizable homepage with Docker and service API integrations.
 
-  home_internal:
+  homepage_internal:
     image: ghcr.io/gethomepage/homepage:v2.7.0@sha256:19c5c09184458a41b7b5915e71463a39f36cd33540f41bdbed008791b8182d5f
     container_name: homepage_internal
     restart: unless-stopped
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
-      - HOMEPAGE_ALLOWED_HOSTS=${MACHINE_IP:?Missing variable MACHINE_IP}:${PRIVATE_WEB_PORT:-3000}
+      - HOMEPAGE_ALLOWED_HOSTS=${MACHINE_IP:?Missing variable MACHINE_IP}:${INTERNAL_WEB_PORT:-3000}
     volumes:
       # DOCKER (optional) For docker integrations
       # - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -63,10 +63,10 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/internal/settings.yaml:/app/config/settings.yaml:ro
       - ${DIRECTORY:?Missing variable DIRECTORY}/homepage/internal/logs:/app/config/logs
     ports:
-      - "${PRIVATE_WEB_PORT:-3000}:3000"
+      - "${INTERNAL_WEB_PORT:-3000}:3000"
     labels:
       - homepage.group=Utilities
       - homepage.name=Homepage (internal)
       - homepage.icon=homepage.png
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${PRIVATE_WEB_PORT:-3000}
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${INTERNAL_WEB_PORT:-3000}
       - homepage.description=Highly customizable homepage with Docker and service API integrations.
