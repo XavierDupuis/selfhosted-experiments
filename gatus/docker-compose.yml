@@ -6,7 +6,7 @@ services:
     ports:
       - ${WEB_PORT:-8080}:8080
     volumes:
-      - ${DIRECTORY:?Missing variable DIRECTORY}/gatus/config:/config
+      - ${DIRECTORY:?Missing variable DIRECTORY}/gatus/public/config:/config
     environment:
       - DOMAIN=${DOMAIN:?Missing variable DOMAIN}
     labels:
@@ -21,3 +21,20 @@ services:
       - homepage.description=Automated developer-oriented status page
       - homepage.widget.type=gatus
       - homepage.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
+
+  gatus_internal:
+    image: ghcr.io/twin/gatus:v5.38.0@sha256:085ed63da963728965d00a3c78aa6167e3bf135218485b893201758e079e8415
+    container_name: gatus_internal
+    restart: unless-stopped
+    ports:
+      - ${INTERNAL_WEB_PORT:-8080}:8080
+    environment:
+      - INTERNAL_DOMAIN=${INTERNAL_DOMAIN:?Missing variable INTERNAL_DOMAIN}
+    volumes:
+      - ${DIRECTORY:?Missing variable DIRECTORY}/gatus/internal/config:/config
+    labels:
+     - homepage.group=Monitoring
+      - homepage.name=Gatus (internal)
+      - homepage.icon=gatus.png
+      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${INTERNAL_WEB_PORT:-8080}
+      - homepage.description=Automated developer-oriented status page
