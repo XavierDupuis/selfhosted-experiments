@@ -32,9 +32,8 @@ services:
       - homepage.group=Download
       - homepage.name=TubeArchivist
       - homepage.icon=tube-archivist.png
-      - homepage.instance.public.href=https://tubearchivist.${DOMAIN:?Missing variable DOMAIN}
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8000}
-      - homepage.description=Your self hosted YouTube media server
+      - homepage.instance.internal.description=Your self hosted YouTube media server
       - homepage.instance.internal.widget.type=tubearchivist
       - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-8000}
       - homepage.instance.internal.widget.key=${TA_TOKEN}
