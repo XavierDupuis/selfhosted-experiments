@@ -34,7 +34,7 @@ services:
       - ${DIRECTORY:?Missing variable DIRECTORY}/gatus/internal/config:/config
     labels:
      - homepage.group=Monitoring
-      - homepage.name=Gatus (internal)
-      - homepage.icon=gatus.png
-      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${INTERNAL_WEB_PORT:-8080}
-      - homepage.description=Automated developer-oriented status page
+     - homepage.name=Gatus (internal)
+     - homepage.icon=gatus.png
+     - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${INTERNAL_WEB_PORT:-8080}
+     - homepage.description=Automated developer-oriented status page
