@@ -6,7 +6,7 @@ services:
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
-      - HOMEPAGE_ALLOWED_HOSTS=${FQDN:?Missing variable FQDN} 
+      - HOMEPAGE_ALLOWED_HOSTS=${FQDN:?Missing variable FQDN},${MACHINE_IP:?Missing variable MACHINE_IP}:${WEB_PORT:-3000}
     volumes:
       # DOCKER (optional) For docker integrations
       # - /var/run/docker.sock:/var/run/docker.sock:ro
