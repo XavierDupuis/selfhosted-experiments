@@ -33,10 +33,16 @@ services:
       # Geo-block middleware configuration
       ## Only geoblock requests to HTTPS (443) so that HTTP (80) can still be redirected to HTTPS
       - --entrypoints.https.http.middlewares=geoblock
+      
+      # Enable TLS for HTTPS entrypoint
+      - --entrypoints.https.http.tls=true
+      - --entrypoints.https.http.tls.certResolver=myresolver
       # Create wildcard certificate, otherwise Traefik will create a certificate for each subdomain
       - --entrypoints.https.http.tls.domains[0].main=${DOMAIN:?Missing variable DOMAIN}
       - --entrypoints.https.http.tls.domains[0].sans=*.${DOMAIN:?Missing variable DOMAIN}
-      
+      ## NOTE : Entrypoint http.tls settings apply only when a router does not define its own tls section.
+      ## Defining a router tls section means Traefik does not merge that configuration with the entrypoint defaults for that router. 
+
       # Enable a dns challenge named "myresolver"
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
       # DNS provider for the challenge
