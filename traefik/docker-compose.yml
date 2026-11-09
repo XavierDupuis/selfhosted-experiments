@@ -6,9 +6,9 @@ services:
     network_mode: "host"
     command:
       - --global.sendanonymoususage=false
-      - --log.level=WARN
+      - --log.level=DEBUG
       - --log.filePath=/logs/debug.log
-      # - --api.insecure=true
+      - --api.insecure=true
 
       # Enable docker provider
       # - --providers.docker=true
