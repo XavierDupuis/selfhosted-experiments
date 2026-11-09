@@ -34,8 +34,8 @@ services:
       ## Only geoblock requests to HTTPS (443) so that HTTP (80) can still be redirected to HTTPS
       - --entrypoints.https.http.middlewares=geoblock
       # Create wildcard certificate, otherwise Traefik will create a certificate for each subdomain
-      - --entrypoints.websecure.http.tls.domains[0].main=${DOMAIN:?Missing variable DOMAIN}
-      - --entrypoints.websecure.http.tls.domains[0].sans=*.${DOMAIN:?Missing variable DOMAIN}
+      - --entrypoints.https.http.tls.domains[0].main=${DOMAIN:?Missing variable DOMAIN}
+      - --entrypoints.https.http.tls.domains[0].sans=*.${DOMAIN:?Missing variable DOMAIN}
       
       # Enable a dns challenge named "myresolver"
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
