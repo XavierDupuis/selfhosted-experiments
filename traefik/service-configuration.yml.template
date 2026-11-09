@@ -9,8 +9,6 @@ http:
        - my-basic-auth
       service: my-public-service
       rule: "Host(`service.example.com`)"
-      tls:
-        certResolver: myresolver
     my-internal-router:
       entryPoints:
         - http
@@ -19,8 +17,6 @@ http:
       service: my-internal-service
       middlewares:
         - only-internal
-      tls:
-        certResolver: myresolver
 
   middlewares:
     my-basic-auth:
