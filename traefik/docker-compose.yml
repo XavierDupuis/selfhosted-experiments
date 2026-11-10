@@ -23,7 +23,9 @@ services:
       ### NOTE : Entrypoint http.tls settings apply only when a router does not define its own tls section.
       ### Defining a router tls section means Traefik does not merge that configuration with the entrypoint defaults for that router. 
       - --entrypoints.https.http.tls.domains[0].main=${DOMAIN:?Missing variable DOMAIN}
-      - --entrypoints.https.http.tls.domains[0].sans[0]=*.${DOMAIN:?Missing variable DOMAIN}
+      - --entrypoints.https.http.tls.domains[0].sans=*.${DOMAIN:?Missing variable DOMAIN}
+      - --entrypoints.https.http.tls.domains[1].main=${INTERNAL_DOMAIN:-}
+      - --entrypoints.https.http.tls.domains[1].sans=*.${INTERNAL_DOMAIN:-}
 
       # Certificate resolver
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
