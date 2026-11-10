@@ -6,78 +6,63 @@ services:
     network_mode: "host"
     command:
       - --global.sendanonymoususage=false
-      - --log.level=WARN
-      - --log.filePath=/logs/debug.log
       # - --api.insecure=true
-
-      # Enable docker provider
-      # - --providers.docker=true
-      # Docker containers not exposed by default
-      # - --providers.docker.exposedbydefault=false
-      # Docker provider default rule
-      # - --providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN:?Missing variable DOMAIN}`)
-
-      # Enable file provider
-      - --providers.file=true
-      # File provider directory
-      - --providers.file.directory=/etc/traefik/config
-      # Enable watch for manual configuration
-      - --providers.file.watch=true
 
       # Entrypoints
       - --entrypoints.https.address=:443
       - --entrypoints.http.address=:80
-      # Redirect http to https
+      ## Redirect http to https
       - --entrypoints.http.http.redirections.entryPoint.to=https
       - --entrypoints.http.http.redirections.entryPoint.scheme=https
-      # Geo-block middleware configuration
       ## Only geoblock requests to HTTPS (443) so that HTTP (80) can still be redirected to HTTPS
       - --entrypoints.https.http.middlewares=geoblock
-      
-      # Enable TLS for HTTPS entrypoint
+      ## TLS for HTTPS entrypoint
       - --entrypoints.https.http.tls=true
       - --entrypoints.https.http.tls.certResolver=myresolver
-      # Create wildcard certificate, otherwise Traefik will create a certificate for each subdomain
+      ## Create wildcard certificate, otherwise Traefik will create a certificate for each subdomain
+      ### NOTE : Entrypoint http.tls settings apply only when a router does not define its own tls section.
+      ### Defining a router tls section means Traefik does not merge that configuration with the entrypoint defaults for that router. 
       - --entrypoints.https.http.tls.domains[0].main=${DOMAIN:?Missing variable DOMAIN}
       - --entrypoints.https.http.tls.domains[0].sans[0]=*.${DOMAIN:?Missing variable DOMAIN}
       - --entrypoints.https.http.tls.domains[0].sans[1]=*.internal.${DOMAIN:?Missing variable DOMAIN}
 
-      ## NOTE : Entrypoint http.tls settings apply only when a router does not define its own tls section.
-      ## Defining a router tls section means Traefik does not merge that configuration with the entrypoint defaults for that router. 
-
-      # Enable a dns challenge named "myresolver"
+      # Certificate resolver
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
-      # DNS provider for the challenge
       - --certificatesresolvers.myresolver.acme.dnschallenge.provider=duckdns
-      # Disable the propagation check that occurs before the certificate is issued by the acme provider
       - --certificatesresolvers.myresolver.acme.dnschallenge.propagation.disableChecks=true
-      # Delay the check of the propagation of the DNS record before to check the DNS challenge (seconds)
       - --certificatesresolvers.myresolver.acme.dnschallenge.propagation.delayBeforeChecks=60
-      
-      # File or key used for certificates storage.
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
-      # Email address used for registration.
       - --certificatesresolvers.myresolver.acme.email=${ACME_EMAIL:?Missing variable ACME_EMAIL}
 
-      # Enable prometheus metrics
+      # Metrics
       - --metrics.prometheus=true
-      # Expose prometheus metrics on port ${METRICS_PORT:-8081}
       - --entryPoints.metrics.address=:${METRICS_PORT:-8081}
-      # Enable the prometheus metrics endpoint
       - --metrics.prometheus.entryPoint=metrics
 
-      # Enable access logs
+      # Logs
+      - --log.level=WARN
+      - --log.filePath=/logs/debug.log
+      ## Access logs
       - --accesslog=true
-      # Access logs file
       - --accesslog.filepath=/logs/access.log
-      # Access logs format
       - --accesslog.format=json
-      # Access logs buffering size
       - --accesslog.bufferingsize=100
 
       # Plugins
+      ## Geoblock
       - --experimental.plugins.geoblock.moduleName=github.com/PascalMinder/geoblock
       - --experimental.plugins.geoblock.version=v0.3.3
+
+      # Dynamic Configuration
+      ## Docker provider
+      # - --providers.docker=true
+      # - --providers.docker.exposedbydefault=false
+      # - --providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN:?Missing variable DOMAIN}`)
+
+      ## File provider
+      - --providers.file=true
+      - --providers.file.directory=/etc/traefik/config
+      - --providers.file.watch=true
 
     # ports:
     #   - 80:80
