@@ -24,7 +24,6 @@ services:
       ### Defining a router tls section means Traefik does not merge that configuration with the entrypoint defaults for that router. 
       - --entrypoints.https.http.tls.domains[0].main=${DOMAIN:?Missing variable DOMAIN}
       - --entrypoints.https.http.tls.domains[0].sans[0]=*.${DOMAIN:?Missing variable DOMAIN}
-      - --entrypoints.https.http.tls.domains[0].sans[1]=*.internal.${DOMAIN:?Missing variable DOMAIN}
 
       # Certificate resolver
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
@@ -40,7 +39,7 @@ services:
       - --metrics.prometheus.entryPoint=metrics
 
       # Logs
-      - --log.level=DEBUG
+      - --log.level=WARN
       - --log.filePath=/logs/debug.log
       ## Access logs
       - --accesslog=true
