@@ -40,7 +40,7 @@ services:
       - --metrics.prometheus.entryPoint=metrics
 
       # Logs
-      - --log.level=WARN
+      - --log.level=DEBUG
       - --log.filePath=/logs/debug.log
       ## Access logs
       - --accesslog=true
