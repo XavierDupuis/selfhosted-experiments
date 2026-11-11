@@ -13,7 +13,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.gatus.tls.certresolver=myresolver
       - traefik.http.services.gatus.loadbalancer.server.port=8080
-      - homepage.instance.internal.group=Monitoring
+      - homepage.group=Monitoring
       - homepage.name=Gatus
       - homepage.icon=gatus.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}

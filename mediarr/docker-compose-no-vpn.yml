@@ -41,7 +41,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.jellyfin.tls.certresolver=myresolver
       - traefik.http.services.jellyfin.loadbalancer.server.port=8096
-      - homepage.instance.internal.group=Media
+      - homepage.group=Media
       - homepage.name=Jellyfin
       - homepage.icon=jellyfin.png
       - homepage.description=The Free Software Media System

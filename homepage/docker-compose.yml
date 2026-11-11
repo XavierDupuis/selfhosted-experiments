@@ -30,7 +30,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.homepage.tls.certresolver=myresolver
       - traefik.http.services.homepage.loadbalancer.server.port=3000
-      - homepage.instance.internal.group=Monitoring
+      - homepage.group=Monitoring
       - homepage.name=Homepage
       - homepage.icon=homepage.png
       - homepage.instance.public.href=https://${URL:?Missing variable URL}
