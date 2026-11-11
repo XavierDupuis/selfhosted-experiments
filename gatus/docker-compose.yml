@@ -38,3 +38,5 @@ services:
      - homepage.instance.internal.icon=gatus.png
      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${INTERNAL_WEB_PORT:-8080}
      - homepage.instance.internal.description=Automated developer-oriented status page
+     - homepage.instance.internal.widget.type=gatus
+     - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${INTERNAL_WEB_PORT:-8080}
