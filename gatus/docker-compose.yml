@@ -13,7 +13,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.gatus.tls.certresolver=myresolver
       - traefik.http.services.gatus.loadbalancer.server.port=8080
-      - homepage.group=Monitoring
+      - homepage.instance.internal.group=Monitoring
       - homepage.name=Gatus
       - homepage.icon=gatus.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
@@ -33,8 +33,8 @@ services:
     volumes:
       - ${DIRECTORY:?Missing variable DIRECTORY}/gatus/internal/config:/config
     labels:
-     - homepage.group=Monitoring
-     - homepage.name=Gatus (internal)
-     - homepage.icon=gatus.png
+     - homepage.instance.internal.group=Monitoring
+     - homepage.instance.internal.name=Gatus (internal)
+     - homepage.instance.internal.icon=gatus.png
      - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${INTERNAL_WEB_PORT:-8080}
-     - homepage.description=Automated developer-oriented status page
+     - homepage.instance.internal.description=Automated developer-oriented status page

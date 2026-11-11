@@ -6,13 +6,6 @@ services:
     environment:
       - USER_UID=1000
       - USER_GID=1000
-      - GITEA__mailer__ENABLED=${GITEA__mailer__ENABLED:?Missing variable GITEA__mailer__ENABLED}
-      - GITEA__mailer__FROM=${GITEA__mailer__FROM:?Missing variable GITEA__mailer__FROM}
-      - GITEA__mailer__PROTOCOL=${GITEA__mailer__PROTOCOL:?Missing variable GITEA__mailer__PROTOCOL}
-      - GITEA__mailer__SMTP_ADDR=${GITEA__mailer__SMTP_ADDR:?Missing variable GITEA__mailer__SMTP_ADDR}
-      - GITEA__mailer__SMTP_PORT=${GITEA__mailer__SMTP_PORT:?Missing variable GITEA__mailer__SMTP_PORT}
-      - GITEA__mailer__USER=${GITEA__mailer__USER:?Missing variable GITEA__mailer__USER}
-      - GITEA__mailer__PASSWD=${GITEA__mailer__PASSWD:?Missing variable GITEA__mailer__PASSWD}
       - GITEA__security__SECRET_KEY=${GITEA__security__SECRET_KEY:?Missing variable GITEA__security__SECRET_KEY}
       - GITEA__security__INTERNAL_TOKEN=${GITEA__security__INTERNAL_TOKEN:?Missing variable GITEA__security__INTERNAL_TOKEN}
     volumes:
@@ -26,9 +19,8 @@ services:
       - traefik.enable=true
       - traefik.http.routers.gitea.tls.certresolver=myresolver
       - traefik.http.services.gitea.loadbalancer.server.port=3000
-      - homepage.group=Development
-      - homepage.name=Gitea
-      - homepage.icon=gitea.png
+      - homepage.instance.internal.group=Development
+      - homepage.instance.internal.name=Gitea
+      - homepage.instance.internal.icon=gitea.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-3000}
-      - homepage.instance.public.href=https://gitea.${DOMAIN:?Missing variable DOMAIN}
-      - homepage.description=Git with a cup of tea
+      - homepage.instance.internal.description=Git with a cup of tea

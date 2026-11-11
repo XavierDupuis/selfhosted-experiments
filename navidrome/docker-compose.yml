@@ -18,7 +18,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.navidrome.tls.certresolver=myresolver
       - traefik.http.services.navidrome.loadbalancer.server.port=4533
-      - homepage.group=Media
+      - homepage.instance.internal.group=Media
       - homepage.name=Navidrome
       - homepage.icon=navidrome.png
       - homepage.instance.public.href=https://navidrome.${DOMAIN:?Missing variable DOMAIN}

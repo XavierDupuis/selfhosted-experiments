@@ -88,7 +88,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.jellyfin.tls.certresolver=myresolver
       - traefik.http.services.jellyfin.loadbalancer.server.port=8096
-      - homepage.group=Media
+      - homepage.instance.internal.group=Media
       - homepage.name=Jellyfin
       - homepage.icon=jellyfin.png
       - homepage.description=The Free Software Media System
@@ -128,13 +128,12 @@ services:
       - traefik.enable=true
       - traefik.http.routers.seerr.tls.certresolver=myresolver
       - traefik.http.services.seerr.loadbalancer.server.port=5055
-      - homepage.group=Media
-      - homepage.name=Seerr
-      - homepage.icon=jellyseerr.png # Seerr icon not yet available
-      - homepage.description=Open-source media request and discovery manager
-      - homepage.instance.public.href=https://seerr.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.group=Media
+      - homepage.instance.internal.name=Seerr
+      - homepage.instance.internal.icon=seerr.png
+      - homepage.instance.internal.description=Open-source media request and discovery manager
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${SEERR_WEB_PORT:-5055}
-      - homepage.instance.internal.widget.type=jellyseerr # Seerr widget not yet available
+      - homepage.instance.internal.widget.type=seerr
       - homepage.instance.internal.widget.url=${HOST_URL:-http://localhost}:${SEERR_WEB_PORT:-5055}
       - homepage.instance.internal.widget.key=${SEERR_API_KEY}
 

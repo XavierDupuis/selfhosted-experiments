@@ -30,7 +30,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.homepage.tls.certresolver=myresolver
       - traefik.http.services.homepage.loadbalancer.server.port=3000
-      - homepage.group=Monitoring
+      - homepage.instance.internal.group=Monitoring
       - homepage.name=Homepage
       - homepage.icon=homepage.png
       - homepage.instance.public.href=https://${URL:?Missing variable URL}
@@ -65,8 +65,8 @@ services:
     ports:
       - "${INTERNAL_WEB_PORT:-3000}:3000"
     labels:
-      - homepage.group=Utilities
-      - homepage.name=Homepage (internal)
-      - homepage.icon=homepage.png
+      - homepage.instance.internal.group=Utilities
+      - homepage.instance.internal.name=Homepage (internal)
+      - homepage.instance.internal.icon=homepage.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${INTERNAL_WEB_PORT:-3000}
-      - homepage.description=Highly customizable homepage with Docker and service API integrations.
+      - homepage.instance.internal.description=Highly customizable homepage with Docker and service API integrations.

@@ -20,7 +20,6 @@ services:
       - homepage.instance.internal.group=Utilities
       - homepage.instance.internal.name=Home Assistant
       - homepage.instance.internal.icon=home-assistant.png
-      # - homepage.instance.public.href=https://homeassistant.${DOMAIN:?Missing variable DOMAIN}
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${HA_WEB_PORT:-8123}
       - homepage.instance.internal.description=Open source home automation that puts local control and privacy first.
 

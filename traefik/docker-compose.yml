@@ -82,10 +82,10 @@ services:
       - TZ=${TZ:-Etc/UTC}
       - DUCKDNS_TOKEN=${DUCKDNS_TOKEN:?Missing variable DUCKDNS_TOKEN}
     labels:
-      - homepage.group=Network
-      - homepage.name=Traefik
-      - homepage.icon=traefik.png
+      - homepage.instance.internal.group=Network
+      - homepage.instance.internal.name=Traefik
+      - homepage.instance.internal.icon=traefik.png
       - homepage.instance.internal.href=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}
-      - homepage.description=Cloud Native Application Proxy
+      - homepage.instance.internal.description=Cloud Native Application Proxy
       # - homepage.widget.type=traefik # requires "api.insecure=true"
       # - homepage.widget.url=${HOST_URL:-http://localhost}:${WEB_PORT:-8080}

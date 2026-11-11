@@ -115,12 +115,11 @@ services:
       - traefik.enable=true
       - traefik.http.routers.planka.tls.certresolver=myresolver
       - traefik.http.services.planka.loadbalancer.server.port=1337
-      - homepage.group=Development
-      - homepage.name=Planka
-      - homepage.icon=planka.png
-      - homepage.instance.public.href=https://planka.${DOMAIN:?Missing variable DOMAIN}
+      - homepage.instance.internal.group=Development
+      - homepage.instance.internal.name=Planka
+      - homepage.instance.internal.icon=planka.png
       - homepage.instance.internal.href=${HOST_URL:-https://localhost}:${WEB_PORT:-1337}
-      - homepage.description=Elegant open source project tracking
+      - homepage.instance.internal.description=Elegant open source project tracking
 
   postgres:
     image: postgres:16-alpine@sha256:6a388fba16e2a94d6d92bc3c435cdc2e20145add88547615b3d8fa545d703afe
