@@ -1,7 +1,7 @@
 services:
   hawser:
     container_name: hawser
-    image: ghcr.io/finsys/hawser:0.2.50@sha256:a612335ba17f1ad06304faa3df3b340f086bbc5c57f44ddaea4a79db9b13a3ef 
+    image: ghcr.io/finsys/hawser:0.2.53@sha256:bbeebc96c2d03b2721c6bfc88e1b250eb852c66ed3914335a6fe8ced4218f059 
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
