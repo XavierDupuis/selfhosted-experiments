@@ -129,7 +129,7 @@ services:
       - homepage.instance.internal.description=Real-time insights from any time series data with a single, purpose-built database
 
   pve-exporter:
-    image: prompve/prometheus-pve-exporter:3.10.2@sha256:7ed5dbff1b145e62e94003cb78d70226d9a7c4d4d1c928b3c7daed21ae9a84d8
+    image: prompve/prometheus-pve-exporter:3.11.0@sha256:290756c34fd13e1d9972b8e64344d49a15ab99dd0053b29d9716f1ca4ae4c069
     container_name: pve-exporter
     restart: unless-stopped
     environment:
