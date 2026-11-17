@@ -24,7 +24,7 @@ services:
       - homepage.instance.internal.description=Open source home automation that puts local control and privacy first.
 
   mqtt:
-    image: eclipse-mosquitto:2.0.22@sha256:6852da90a65dfff7aa3a1c8b249e92bb83c17ea8bbcce56bedff8707332a1a29
+    image: eclipse-mosquitto:2.0.23@sha256:6a332cc7a8dbe011cbc076180cbb76b37c6f0f55809682ea08e7980ef0112ad9
     container_name: mqtt
     restart: unless-stopped
     volumes:
