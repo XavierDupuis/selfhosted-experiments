@@ -1,6 +1,6 @@
 services:
   tandoor:
-    image: vabene1111/recipes:2.6.9@sha256:969c5b3552ffbf18a6f82b3ad5babbae89bfbd30ab6e3195fd3c158bcf3062ed
+    image: vabene1111/recipes:2.7.6@sha256:6c467bf484044a0305ff39bed5badb48b58bb963d4276fc248e101921151895b
     container_name: tandoor_web
     restart: unless-stopped
     environment:
