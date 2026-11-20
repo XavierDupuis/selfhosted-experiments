@@ -32,7 +32,7 @@ services:
       - homepage.instance.internal.description=Managing recipes, planning meals, building shopping lists.
 
   db_recipes:
-    image: postgres:15-alpine@sha256:b3968e348b48f1198cc6de6611d055dbad91cd561b7990c406c3fc28d7095b21
+    image: postgres:19-alpine@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
     container_name: tandoor_db
     restart: unless-stopped
     volumes:
