@@ -122,7 +122,7 @@ services:
       - homepage.instance.internal.description=Elegant open source project tracking
 
   postgres:
-    image: postgres:16-alpine@sha256:6a388fba16e2a94d6d92bc3c435cdc2e20145add88547615b3d8fa545d703afe
+    image: postgres:19-alpine@sha256:cac45fb483caee3668946088a1c0532db89d5285c28dbfeac889b4068296e06f
     restart: unless-stopped
     container_name: planka-postgres
     volumes:
