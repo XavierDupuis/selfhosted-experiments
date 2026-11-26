@@ -1,6 +1,6 @@
 services:
   octoprint:
-    image: octoprint/octoprint:1.11.7@sha256:49bea4ebfd0cefa9289f058574e7eda6d2de201f1b74309e0c10019e5ec58f04
+    image: octoprint/octoprint:2.0.2@sha256:8966e455ba4f4b17ab7cd7d7430c78329f141cab228e6d5194da593df8802aa8
     container_name: octoprint
     restart: unless-stopped
     ports:
