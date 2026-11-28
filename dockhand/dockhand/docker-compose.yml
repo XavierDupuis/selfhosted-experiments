@@ -1,6 +1,6 @@
 services:
   dockhand:
-    image: fnsys/dockhand:v1.0.50@sha256:aeb119a8ad1082e112396b9fad60e83419318dfe6bd84ecccf99f6339a169cfc
+    image: fnsys/dockhand:v1.0.60@sha256:b8aed678af7563680d561db297fe513857c9adc263cc39e373c3434f0d1532e2
     container_name: dockhand
     restart: unless-stopped
     ports:
